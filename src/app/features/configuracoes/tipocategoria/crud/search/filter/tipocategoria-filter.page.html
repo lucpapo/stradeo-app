@@ -1,18 +1,35 @@
-<form [formGroup]="form" (ngSubmit)="onApply()" class="row g-2 align-items-end">
-  <div class="col-md-6">
-    <label class="form-label" for="descricao">Descrição</label>
-    <input class="form-control" formControlName="descricao" placeholder="Buscar por descrição..." />
-  </div>
-  <div class="col-md-3">
-    <label class="form-label" for="status_delecao">Status</label>
-    <select class="form-select" formControlName="status_delecao" title="Status do Tipo de Categoria">
-      <option value="">Todos</option>
-      <option value="0">Ativo</option>
-      <option value="1">Inativo</option>
-    </select>
-  </div>
-  <div class="col-md-3 d-flex gap-2">
-    <button type="submit" class="btn btn-primary">Aplicar</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="onClear()">Limpar</button>
+<form [formGroup]="gerenciador.form" (ngSubmit)="onApply()" class="container-fluid p-3 border rounded bg-light">
+  <div class="row g-3 align-items-end">
+    <!-- Campo de Descrição -->
+    <div class="col-sm-12 col-md">
+      <label for="descricao" class="form-label">Descrição</label>
+      <input id="descricao" type="text" formControlName="descricao" class="form-control" placeholder="Filtrar por descrição...">
+      <div *ngIf="gerenciador.form.get('descricao')?.invalid && gerenciador.form.get('descricao')?.touched" class="form-text text-danger mt-1">
+        Este campo é obrigatório.
+      </div>
+      <div *ngIf="gerenciador.form.get('descricao')?.hasError('maxlength') && gerenciador.form.get('descricao')?.touched" class="form-text text-danger mt-1">
+        O campo não pode ter mais de 20 caracteres.
+      </div>
+    </div>
+
+    <!-- Campo de Status -->
+    <div class="col-sm-6 col-md-auto">
+      <label for="status" class="form-label">Status</label>
+      <select id="status" formControlName="status_delecao" class="form-select">
+        <option value="">Todos</option>
+        <option value="0">Ativo</option>
+        <option value="1">Inativo</option>
+      </select>
+    </div>
+
+    <!-- Botões de Ação -->
+    <div class="col-sm-6 col-md-auto d-flex gap-2">
+      <button type="button" (click)="onClear()" class="btn btn-outline-secondary w-100">
+        Limpar
+      </button>
+      <button type="submit" [disabled]="gerenciador.form.invalid" class="btn btn-primary w-100">
+        Aplicar
+      </button>
+    </div>
   </div>
 </form>

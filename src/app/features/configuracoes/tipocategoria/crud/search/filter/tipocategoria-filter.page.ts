@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-
+import { Component } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms'; // 1. Importar Validators
+import { BaseFiltroDirective, ConfiguracaoFormulario } from '@pcode/ui/filter/BaseFiltroDirective';
+ 
 export type TipocategoriaFilterValue = {
   descricao: string;
   status_delecao: '' | '0' | '1';
@@ -13,39 +14,23 @@ export type TipocategoriaFilterValue = {
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './tipocategoria-filter.page.html',
   styleUrls: ['./tipocategoria-filter.page.scss'],
- 
- 
 })
- 
-export class TipocategoriaFilterPage {
-  private readonly fb = inject(FormBuilder);
+export class TipocategoriaFilterPage extends BaseFiltroDirective<TipocategoriaFilterValue> {
+  
+  /**
+   * Implementa o método abstrato da classe base.
+   * Aqui definimos a estrutura completa do formulário, incluindo valores
+   * iniciais e validadores para cada campo.
+   */
+  protected criarConfiguracaoFormulario(): ConfiguracaoFormulario<TipocategoriaFilterValue> {
+    return {
+      // 2. Para este campo, adicionamos um validador 'required'.
+      // A sintaxe é: [valorInicial, validadorOuArrayDeValidadores]
+     descricao: ['', []], //[Validators.required, Validators.maxLength(20)]],
 
-  // 👇 NÃO use genérico aqui. Use nonNullable.group para não ter null.
-  form = this.fb.nonNullable.group({
-    descricao: '',
-    status_delecao: '' as '' | '0' | '1',
-  });
-
-  @Input() set value(v: Partial<TipocategoriaFilterValue> | null) {
-    if (v) {
-      this.form.patchValue({
-        descricao: v.descricao ?? '',
-        status_delecao: (v.status_delecao ?? '') as '' | '0' | '1',
-      }, { emitEvent: false });
-    }
-  }
-
-  @Output() apply = new EventEmitter<TipocategoriaFilterValue>();
-  @Output() clear = new EventEmitter<void>();
-
-  onApply() {
-    // 👇 getRawValue() devolve o VALUE (string, 'A'|'I'…), não os controles.
-    this.apply.emit(this.form.getRawValue());
-    
-  }
-
-  onClear() {
-    this.form.reset({ descricao: '', status_delecao: '' }, { emitEvent: false });
-    this.clear.emit();
+      // 3. Para este campo, definimos apenas o valor inicial, sem validadores.
+      status_delecao: '0',
+    };
   }
 }
+
