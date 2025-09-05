@@ -1,0 +1,16 @@
+<div class="card monthly-chart invoices">
+    <div class="card-header pb-0">
+        <div class="header-top">
+            <h4>Invoices</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div id="client">
+            <apx-chart [series]="invoices.series" [chart]="invoices.chart" [stroke]="invoices.stroke"
+                [colors]="invoices.colors" [fill]="invoices.fill" [dataLabels]="invoices.dataLabels"
+                [tooltip]="invoices.tooltip" [markers]="invoices.markers" [responsive]="invoices.responsive">
+            </apx-chart>
+        </div>
+    </div>
+</div>

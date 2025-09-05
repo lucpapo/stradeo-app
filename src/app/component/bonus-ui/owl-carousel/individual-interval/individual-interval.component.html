@@ -1,0 +1,19 @@
+<div class="card height-equal">
+    <div class="card-header pb-0">
+        <h4>Individual Carousel-Item Interval</h4>
+        <p class="f-m-light mt-1"></p>Add <code>data-bs-interval=""</code> to a<code> .carousel-item</code> to change
+        the amount of time to delay between automatically cycling to the next item.
+    </div>
+    <div class="card-body">
+        <div class="carousel slide">
+            <div class="carousel-inner">
+                <owl-carousel-o [options]="individualOptions">
+                    @for (slideData of individual; track slideData) {
+                    <ng-template carouselSlide class="carousel-item">
+                        <img class="d-block w-100" [src]="slideData.img" alt="">
+                    </ng-template>
+                    }
+                </owl-carousel-o>
+            </div>
+        </div>
+    </div>

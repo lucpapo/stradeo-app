@@ -1,0 +1,25 @@
+<div class="card online-order">
+  <div class="card-header offline-order">
+    <div class="d-flex">
+      <div class="order" [class]="data.icon_class"><span></span>
+        <app-common-svg-icons [icon]="data.icon"></app-common-svg-icons>
+      </div>
+      <div class="arrow-chart">
+        <app-common-svg-icons [icon]="data.arrow_icon"></app-common-svg-icons>
+        <span [class]="data.arrow_class">{{data.value}}%</span>
+      </div>
+    </div>
+    <div class="online"><span>{{data.title}}</span>
+      <h2>{{data.price}}</h2>
+    </div>
+  </div>
+  <div class="card-body pt-0 ps-2 pe-2">
+     <div [class]="data.chart_class">
+       <apx-chart [series]="data.chart.series" [chart]="data.chart.chart" [plotOptions]="data.chart.plotOptions"
+       [dataLabels]="data.chart.dataLabels" [grid]="data.chart.grid" [xaxis]="data.chart.xaxis"
+       [legend]="data.chart.legend" [yaxis]="data.chart.yaxis" [colors]="data.chart.colors" [fill]="data.chart.fill"
+       [stroke]="data.chart.stroke" [markers]="data.chart.markers" [responsive]="data.chart.responsive">
+      </apx-chart>
+    </div>
+  </div>
+</div>

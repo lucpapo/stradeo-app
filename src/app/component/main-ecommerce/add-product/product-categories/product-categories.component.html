@@ -1,0 +1,115 @@
+<form novalidate [formGroup]="myForm">
+    <div class="row g-lg-4 g-3">
+        <div class="col-12">
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <label class="form-label m-0" for="validationServer01">Add Category</label>
+                        </div>
+                        <div class="col-12">
+                            <select class="form-select" id="validationDefault04" formControlName="product" required=""
+                                [ngClass]="{ 'is-invalid' : (myForm.controls['product'].touched || validate) && myForm.controls['product'].errors , 'is-valid' : !myForm.controls['product'].errors}">
+                                <option selected="" value="">Toys & games</option>
+                                <option>Sportswear </option>
+                                <option>Jewellery </option>
+                                <option>Furniture and Decor</option>
+                                <option>Health, Personal Care, and Beauty</option>
+                                <option>Auto and Parts </option>
+                                <option>Baby Care Products</option>
+                            </select>
+                            @if(!myForm.controls['product'].touched && myForm.controls['product'].errors?.['required']){
+                            <div class="valid-feedback">Looks good!</div>
+                            }
+                            @else{
+                            <div class="invalid-feedback">A product name is required and recommended to be unique.</div>
+                            }
+                            <p class="f-light">A product can be added to a category</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row g-2 product-tag">
+                        <div class="col-12">
+                            <label class="form-label d-block m-0" for="validationServer01">Add Tag</label>
+                        </div>
+                        <div class="col-12">
+                            <tag-input [editable]="true" formControlName="addTag" name="add_Tag" class="form-control"
+                                [ngClass]="{ 'is-invalid' : (myForm.controls['addTag'].touched || validate) && myForm.controls['addTag'].errors, 'is-valid' : !myForm.controls['addTag'].errors}"></tag-input>
+                            @if(!myForm.controls['addTag'].touched && myForm.controls['addTag'].errors?.['required']){
+                            <div class="valid-feedback">Looks good!</div>
+                            }
+                            @else{
+                            <div class="invalid-feedback">A Add Tag is required and recommended to be unique.</div>
+                            }
+                            <p class="f-light">Products can be tagged</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="category-buton">
+                        <a class="btn button-primary bg-light-primary font-primary" (click)="newCategories()"><i
+                                class="me-2 fa fa-plus">
+                            </i>Create New Category </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="validationServer01">Publish Status</label>
+                            <select class="form-select" id="validationDefault04" formControlName="productStatus"
+                                required=""
+                                [ngClass]="{ 'is-invalid' : (myForm.controls['productStatus'].touched || validate) && myForm.controls['productStatus'].errors, 'is-valid' : !myForm.controls['productStatus'].errors}">
+                                <option selected="" value="">Publish</option>
+                                <option>Drafts</option>
+                                <option>Unpublish</option>
+                            </select>
+                            @if(!myForm.controls['productStatus'].touched &&
+                            myForm.controls['productStatus'].errors?.['required']){
+                            <div class="valid-feedback">Looks good!</div>
+                            }
+                            @else{
+                            <div class="invalid-feedback">A Publish Status is required and recommended to be unique.
+                            </div>
+                            }
+                            <p class="f-light">Choose the status</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="validationServer01">Publish Date & Time</label>
+                            <div class="input-group flatpicker-calender product-date">
+                                <input class="form-control" id="datetime-local1" type="date" formControlName="date"
+                                    [ngClass]="{ 'is-invalid' : (myForm.controls['date'].touched || validate) && myForm.controls['date'].errors, 'is-valid' : !myForm.controls['date'].errors}">
+                            </div>
+                            @if(!myForm.controls['date'].touched && myForm.controls['date'].errors?.['required']){
+                            <div class="valid-feedback">Looks good!</div>
+                            }
+                            @else{
+                            <div class="invalid-feedback">A Publish Date is required and recommended to be unique.</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-buttons">
+        <div class="btn me-2" (click)="previous()">
+            <div class="d-flex align-items-center gap-sm-2 gap-1"> <svg>
+                    <use href="assets/svg/icon-sprite.svg#back-arrow"></use>
+                </svg>Previous</div>
+        </div>
+        <div class="btn" (click)="next(myForm)">
+            <div class="d-flex align-items-center gap-sm-2 gap-1">Next<svg>
+                    <use href="assets/svg/icon-sprite.svg#front-arrow"></use>
+                </svg></div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,19 @@
+<div class="card height-equal" style="min-height: 260.734px;">
+    <div class="card-header pb-0">
+        <h4>Large Progress Bars</h4>
+        <p class="f-m-light mt-1">Use <code> .lg-progress-bar</code> class to change progress size to large:</p>
+    </div>
+    <div class="card-body">
+        <div class="progress-showcase row">
+            <div class="col">
+                @for(item of largeProgressData; track item){
+                <div class="progress lg-progress-bar">
+                    <div class="progress-bar" [class]="item.class" [ngStyle]="{'width':item.value}">
+                        {{item.text}}
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

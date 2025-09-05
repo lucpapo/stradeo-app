@@ -1,0 +1,30 @@
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-12">
+            <app-knowledgeBase-top-data></app-knowledgeBase-top-data>
+        </div>
+        @for (item of knowledgeBaseData; track item) {
+        <div [class]="item.colClass">
+            <div class="card articles-cards">
+                <div class="card-body">
+                    <div class="d-flex faq-widgets">
+                        <div class="flex-grow-1">
+                            <h4>{{item.title}}</h4>
+                            <p>{{item.desc}}</p>
+                        </div><app-feather-icon [icon]="item.icon"></app-feather-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        <div class="col-sm-12">
+            <app-browse-article-categories></app-browse-article-categories>
+        </div>
+        <div class="col-lg-12">
+            <app-featured-tutorials [data]="featuredTutorialData"></app-featured-tutorials>
+        </div>
+        <div class="col-lg-12">
+            <app-latest-article-videos [data]="articlesAndVideosData"></app-latest-article-videos>
+        </div>
+    </div>
+</div>

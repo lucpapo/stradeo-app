@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h3>Alerts With Icons and Text Actions</h3>
+        <p class="f-m-light mt-1">Use the <code>.dismiss-text</code> class to add dismiss text instead of icon</p>
+    </div>
+    <div class="card-body dark-txt">
+        @for(iconTextItem of iconTextData; track iconTextItem){
+        <div class="alert" [class]="iconTextItem.class1">
+            <div class="alert-arrow {{iconTextItem.class2}}">
+                <i [class]="iconTextItem.icon"></i>
+            </div>
+            <p>{{iconTextItem.text}} <strong class="txt-dark">{{iconTextItem.info}}</strong>{{iconTextItem.text2}}</p>
+            <button class="p-0 border-0 me-2 ms-auto" type="button">
+                <span [class]="iconTextItem.color"
+                    (click)="close(iconTextItem)">{{iconTextItem.buttontext}}
+                </span>
+            </button>
+        </div>
+        }
+    </div>
+</div>

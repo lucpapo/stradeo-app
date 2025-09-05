@@ -1,0 +1,32 @@
+<div class="card notifications-tabs">
+  <div class="card-header card-no-border pb-0">
+    <div class="header-top">
+      <h4>Information</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex header-tab">
+      <ul class="nav nav-tabs border-tab mb-0" ngbNav #nav="ngbNav" [(activeId)]="active" id="bottom-tab">
+        <li class="nav-item" [ngbNavItem]="1"><a class="nav-link nav-border tab-primary" ngbNavLink>All<span
+              class="ms-2 bg-primary">3</span></a>
+          <ng-template ngbNavContent>
+            <app-all></app-all>
+          </ng-template>
+        </li>
+        <li class="nav-item" [ngbNavItem]="2"><a class="nav-link nav-border tab-primary" ngbNavLink>Following</a>
+          <ng-template ngbNavContent>
+            <app-following></app-following>
+          </ng-template>
+        </li>
+        <li class="nav-item" [ngbNavItem]="3"><a class="nav-link nav-border tab-primary" ngbNavLink>Archive</a>
+          <ng-template ngbNavContent>
+            <app-archive></app-archive>
+          </ng-template>
+        </li>
+      </ul>
+      <h6>Mark all as read</h6>
+    </div>
+    <div class="tab-content content-tab" [ngbNavOutlet]="nav"></div>
+  </div>
+</div>

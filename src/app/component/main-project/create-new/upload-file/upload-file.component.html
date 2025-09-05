@@ -1,0 +1,10 @@
+<div class="col">
+    <div class="mb-3">
+        <label>Upload project file</label>
+        <form>
+            <dropzone [className]="'custom-drop-zone'" [config]="galleryConfig" [message]="gallery"
+                (error)="onUploadErrorGallery($event)" (success)="onUploadSuccessGallery($event)">
+            </dropzone>
+        </form>
+    </div>
+</div>

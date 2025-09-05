@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <h4>Lists With Radios</h4>
+        <p class="f-m-light mt-1">
+            Use the <code>.form-check-input </code>to check your radio buttons.</p>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            @for(radiosItem of listRadiosData; track radiosItem){
+            <li class="list-group-item">
+                <input class="form-check-input me-1" [class]="radiosItem.class" [id]="radiosItem.id" type="radio"
+                    name="listGroupRadio" [checked]="radiosItem.value">
+                <label class="form-check-label mb-0" [for]="radiosItem.id">{{radiosItem.list}}</label>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

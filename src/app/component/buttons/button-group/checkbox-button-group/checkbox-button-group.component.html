@@ -1,0 +1,24 @@
+<div class="card custom-box-button">
+    <div class="card-header card-no-border pb-0">
+         <h4>Check Box button group</h4><span>Add <code>.active</code> for active state and <code>.disabled</code> class
+             or <code>disabled="disabled"</code> attribute</span>
+    </div>
+    <div class="card-body btn-group-showcase">
+        <div class="row">
+            @for(checkboxItems of  checkBox; track checkboxItems){
+                <div class="col-xl-6 col-sm-12"> 
+                    <div class="btn-group btn-option"> 
+                        @for(checkboxData of  checkboxItems.item; track checkboxData){
+                            <div [class]="checkboxData.class">
+                                <div [class]="checkboxData.check">
+                                    <input [id]="checkboxData.id" type="checkbox"> 
+                                    <label [for]="checkboxData.id">{{checkboxData.text}}</label>
+                                </div>
+                            </div>
+                          }
+                    </div>
+                </div>
+             }
+        </div>
+    </div>
+</div> 

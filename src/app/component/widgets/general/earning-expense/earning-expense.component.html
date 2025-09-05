@@ -1,0 +1,22 @@
+<div class="card total-earning">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-7 box-col-7">
+        <div class="d-flex">
+          <h3 class="font-primary">{{data.title}}</h3>
+        </div>
+        <h5>${{data.currentPrice}}</h5><span>+ {{data.subTitle}}</span>
+      </div>
+      <div class="col-sm-5 box-col-5 p-0">
+        <div id="income-chart-1">
+          <apx-chart [series]="data.chart.series" [colors]="data.chart.colors" [chart]="data.chart.chart"
+            [dataLabels]="data.chart.dataLabels" [stroke]="data.chart.stroke" [plotOptions]="data.chart.plotOptions"
+            [responsive]="data.chart.responsive" [fill]="data.chart.fill" [tooltip]="data.chart.tooltip" [grid]="data.chart.grid"
+            [xaxis]="data.chart.xaxis" [yaxis]="data.chart.yaxis" [markers]="data.chart.markers"
+            >
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

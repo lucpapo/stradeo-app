@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <div class="header-top">
+            <h4>Project Deliveries</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div id="company-viewchart">
+            <apx-chart [series]="chartData.series" [chart]="chartData.chart" [dataLabels]="chartData.dataLabels" [stroke]="chartData.stroke"
+            [colors]="chartData.colors" [markers]="chartData.markers" [xaxis]="chartData.xaxis" [yaxis]="chartData.yaxis"
+            [fill]="chartData.fill" [grid]="chartData.grid" [legend]="chartData.legend">
+          </apx-chart>
+        </div>
+    </div>
+</div>

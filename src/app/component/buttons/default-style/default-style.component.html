@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            @for(defaultItem of defaultStyleData; track defaultItem){
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h4>{{defaultItem.head_title}}</h4>
+                    <span [innerHtml]="defaultItem.title"></span>
+                </div>
+                <div class="card-body">
+                    <div class="btn-showcase">
+                        @for( defaultStyleItem of defaultItem.items; track defaultStyleItem){
+                            <button class="btn" [class]="defaultStyleItem.class" type="button">{{defaultStyleItem.text}}</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            @for(styleItem of styleButtonData; track styleItem){
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h4>{{styleItem.head_title}}</h4>
+                    <span [innerHtml]="styleItem.title"></span>
+                </div>
+                <div class="card-body common-flex">
+                    @for(buttonStyleItem of styleItem.items; track buttonStyleItem ){
+                    <button class="btn" [class]="buttonStyleItem.class" type="button">{{buttonStyleItem.text}}</button>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <h4>Scrollable Lists </h4>
+        <p class="f-m-light mt-1">
+            Use the property <code>overflow:auto </code>through scrollable lists.</p>
+    </div>
+    <div class="card-body pt-0">
+        <div class="list-group main-lists-content scrollbar-wrapper custom-scrollbar">
+            @for( scrollableItem of scrollableData; track scrollableItem;let i = $index){
+            <a class="list-group-item list-group-item-action" [class]="scrollableItem.class" href="javascript:void(0)">
+                <div class="list-wrapper gap-0">
+                    <img class="list-img" [src]="scrollableItem.img" alt="profile">
+                    <div class="list-content">
+                        <h4 [class.text-white]="i === 0">{{scrollableItem.name}}</h4>
+                        <p>{{scrollableItem.email}}</p>
+                        <small>{{scrollableItem.time}}</small>
+                    </div>
+                </div>
+            </a>
+            }
+        </div>
+    </div>
+</div>

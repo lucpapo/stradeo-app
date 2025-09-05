@@ -1,0 +1,41 @@
+ <div class="card">
+     <div class="card-header">
+         <h4>Breckpoint Specific</h4><span>Use <code>.table-responsive.custom-scrollbar"❴-sm|-md|-lg|-xl|-xxl❵"</code>
+             functions like a heading for a table. It helps users with screen readers to find a table and understand
+             what it’s
+             about and decide if they want to read it.</span>
+     </div>
+     <div class="card-block row">
+         <div class="col-sm-12 col-lg-12 col-xl-12">
+             <div class="table-responsive custom-scrollbar">
+                 <table class="table table-responsive custom-scrollbar-sm">
+                     <thead>
+                         <tr>
+                             <th scope="col">Id</th>
+                             <th scope="col">Name</th>
+                             <th scope="col">Order Id </th>
+                             <th scope="col">Price</th>
+                             <th scope="col">Quantity</th>
+                             <th scope="col">Total</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                        @for(item of breakpointData; track item){
+                            <tr>
+                                <th scope="row">{{item.id}}</th>
+                                @for(items of item.data; track items){
+                                  <td>{{items.name}}</td>
+                                  <td>{{items.id}}</td>
+                                  <td>{{items.price}}</td>
+                                  <td>{{items.quantity}}</td>
+                                  <td>{{items.total}}</td>
+                                  
+                                }
+                            </tr>
+                      }
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+ </div>

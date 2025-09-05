@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Badges As Part Buttons</h4>
+        <p class="f-m-light mt-1"> <code>.badge</code> can be used as part of <code>.btn</code> to provide a icons.</p>
+    </div>
+    <div class="card-body">
+        <div class="badge-spacing flex-column align-items-start">
+            @for(item of buttonsPartData; track item){
+            <button class="btn btn-{{item.color}} d-flex align-items-center"
+                type="button">{{item.text}}<span
+                    class="badge rounded-circle btn-p-space badge-light text-dark ms-2">
+                    <app-feather-icon [icon]="item.icon"></app-feather-icon>
+                </span>
+            </button>
+            }
+        </div>
+    </div>
+</div>

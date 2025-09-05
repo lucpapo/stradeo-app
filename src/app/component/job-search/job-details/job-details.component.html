@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xxl-3 col-xl-4">
+      <app-job-filter></app-job-filter>
+    </div>
+    <div class="col-xxl-9 col-xl-8 box-col-12">
+      <div class="card">
+        <div class="job-search">
+          <div class="card-body">
+            <div class="d-flex"><img class="img-40 img-fluid m-r-20" src="assets/images/job-search/1.png" alt="">
+              <div class="flex-grow-1">
+                <h6 class="f-w-600"><a href="javascript:void(0)">Product Designer (UI/UX
+                    Designer)</a><span class="pull-right">
+                    <button class="btn btn-primary" type="button">Apply</button></span></h6>
+                <p>Endless - United States<span>
+                    <i class="fa fa-star font-warning"></i>
+                    <i class="fa fa-star font-warning"></i>
+                    <i class="fa fa-star font-warning"></i>
+                    <i class="fa fa-star font-warning-half-o"></i>
+                    <i class="fa fa-star font-warning-o"></i>
+                  </span>
+                </p>
+              </div>
+            </div>
+            @for(allData of jobDetail | slice:0:4; track allData){
+            <div class="job-description">
+              <h3 class="pb-2">{{ allData.title }}</h3>
+              <p>{{ allData.description }}</p>
+              <ul>
+                @for(data of allData.data; track data){
+                <li>{{ data.description }}</li>
+                }
+              </ul>
+            </div>
+            }
+            <div class="job-description">
+              <button class="btn btn-primary" type="button" style="margin-right: 4px;"><span><i
+                    class="fa fa-check"></i></span> Save this job</button>
+              <button class="btn btn-primary" type="button"><span><i class="fa fa-share-alt"></i></span>
+                Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-faq">
+        <h3 class="mb-0 f-w-600">Similar jobs</h3>
+      </div>
+      <div class="row">
+        <app-job-similar></app-job-similar>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="card budget-card">
+    <div class="card-header pb-0">
+        <div class="header-top">
+            <h4>Budget</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body pb-0">
+        <div class="budget-spent"><span>Budget Spent</span>
+            <h2>$ 65,847.00</h2>
+        </div>
+        @for (item of learningListItem; track item) {
+        <a [routerLink]="['/learning/learning-list']">
+            <div class="d-flex">
+                <div class="design-score" [class]="item.backgroundClass">
+                    <app-common-svg-icons [icon]="item.icon"></app-common-svg-icons>
+                </div>
+                <div class="flex-grow-1">
+                    <h6>{{item.title}}</h6><span>{{item.amount}}</span>
+                </div>
+                <div class="flex-shrink-0">
+                    <div class="design-menu"> <i class="fa fa-angle-right"></i></div>
+                </div>
+            </div>
+        </a>
+        }
+    </div>
+    <div class="card-body p-0">
+        <div class="budget-chart" id="budget-chart-1">
+            <apx-chart [series]="budgetChart.series" [chart]="budgetChart.chart" [colors]="budgetChart.colors"
+                [fill]="budgetChart.fill" [dataLabels]="budgetChart.dataLabels" [grid]="budgetChart.grid"
+                [xaxis]="budgetChart.xaxis" [yaxis]="budgetChart.yaxis" [stroke]="budgetChart.stroke"
+                [markers]="budgetChart.markers">
+            </apx-chart>
+        </div>
+    </div>
+</div>

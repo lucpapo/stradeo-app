@@ -1,0 +1,24 @@
+@for(badgesData of data; track data){
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>{{badgesData.mainTitle}}</h4>
+        <p class="f-m-light mt-1" [innerHTML]="badgesData.title"></p>
+    </div>
+    <div class="card-body">
+        <div class="badge-spacing">
+            @for(item of badgesData.item; track item){
+            @if(item.icon_enable == false){
+            <span class="badge" [class]="item.class">
+                {{item.text}}
+            </span>
+            }
+            @else{
+            <a class="badge" [class]="item.class">
+                <app-feather-icon [icon]="item.icon"></app-feather-icon>
+            </a>
+            }
+            }
+        </div>
+    </div>
+</div>
+}

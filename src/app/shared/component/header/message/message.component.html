@@ -1,0 +1,40 @@
+<div class="message" (click)="isMessage =!isMessage">
+  <app-common-svg-icons [icon]="'Message'"></app-common-svg-icons>
+  <span class="rounded-pill badge-secondary"> </span>
+</div>
+<div class="onhover-show-div message-dropdown" [class.active]="isMessage">
+  <h4 class="f-18 mb-0 dropdown-title">Message </h4>
+  <ul>
+    <li class="px-0 pt-0">
+      <div class="d-flex align-items-start">
+        <div class="message-img bg-light-primary"><img src="assets/images/user/3.jpg" alt=""></div>
+        <div class="flex-grow-1">
+          <h5 class="mb-1"><a [routerLink]="['/letter-box']">Helen Walter</a></h5>
+          <p>Do you want to go see movie?</p>
+        </div>
+        <div class="notification-right"><app-feather-icon [icon]="'x'"></app-feather-icon></div>
+      </div>
+    </li>
+    <li class="px-0">
+      <div class="d-flex align-items-start">
+        <div class="message-img bg-light-primary"><img src="assets/images/user/6.jpg" alt=""></div>
+        <div class="flex-grow-1">
+          <h5 class="mb-1"><a [routerLink]="['/letter-box']">Jason Borne</a></h5>
+          <p>Thank you for rating us.</p>
+        </div>
+        <div class="notification-right"><app-feather-icon [icon]="'x'"></app-feather-icon></div>
+      </div>
+    </li>
+    <li class="px-0">
+      <div class="d-flex align-items-start">
+        <div class="message-img bg-light-primary"><img src="assets/images/user/10.jpg" alt=""></div>
+        <div class="flex-grow-1">
+          <h5 class="mb-1"><a [routerLink]="['/letter-box']">Sarah Loren</a></h5>
+          <p>What`s the project report update?</p>
+        </div>
+        <div class="notification-right"><app-feather-icon [icon]="'x'"></app-feather-icon></div>
+      </div>
+    </li>
+    <li><a class="f-w-700" [routerLink]="['/ecommerce/cart']">Check all</a></li>
+  </ul>
+</div>

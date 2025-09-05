@@ -1,0 +1,68 @@
+<div class="container-fluid search-page">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <form class="theme-form">
+                        <div class="input-group m-0 flex-nowrap">
+                            <input class="form-control-plaintext" type="search" placeholder="Search...">
+                            <div class="btn btn-primary">
+                                <app-feather-icon [icon]="'search'" [class]="' search-icon'"></app-feather-icon>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <ul class="nav nav-tabs search-list" ngbNav #nav="ngbNav" [(activeId)]="active">
+                            <li class="nav-item" [ngbNavItem]="1">
+                                <a class="nav-link" ngbNavLink>
+                                    <i class="icon-target"></i>All</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-all></app-all>
+                                </ng-template>
+                            </li>
+                            <li class="nav-item" [ngbNavItem]="2">
+                                <a class="nav-link" ngbNavLink><i class="icon-image"></i>Images</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-images></app-images>
+                                </ng-template>
+                            </li>
+                            <li class="nav-item" [ngbNavItem]="3">
+                                <a class="nav-link" ngbNavLink><i class="icon-video-clapper"></i>Videos</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-videos></app-videos>
+                                </ng-template>
+                            </li>
+                            <li class="nav-item" [ngbNavItem]="4">
+                                <a class="nav-link" ngbNavLink><i class="icon-map-alt"></i>AUDIOS</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-audios></app-audios>
+                                </ng-template>
+                            </li>
+                            <li class="nav-item" [ngbNavItem]="5">
+                                <a class="nav-link" ngbNavLink>Settings</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-settings></app-settings>
+                                </ng-template>
+                            </li>
+                            <li class="nav-item" [ngbNavItem]="6">
+                                <a class="nav-link" ngbNavLink>TOOLS</a>
+                                <div class="material-border"></div>
+                                <ng-template ngbNavContent>
+                                    <app-tools></app-tools>
+                                </ng-template>
+                            </li>
+                        </ul>
+                        <div [ngbNavOutlet]="nav"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

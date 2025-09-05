@@ -1,0 +1,81 @@
+<div class="table-responsive custom-scrollbar">
+  <div id="basic-6_wrapper" class="dataTables_wrapper">
+    <form>
+      <div class="d-flex justify-content-between mt-3 mb-3">
+        <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option> 
+        </select>
+        <div class="mb-3 row justify-content-end mx-0">
+          @if(service.loading$ | async){
+          <span class="col col-form-label text-end">Loading...</span>
+          }
+          <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Search:</label>
+          <div class="col-xs-3 col-sm-auto">
+            <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
+              [(ngModel)]="service.searchTerm" autocomplete="off">
+          </div> 
+        </div>
+      </div>
+    </form>
+      <table class="display border dataTable">
+        <thead>
+          <tr>
+            <th rowspan="2" [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'"  sortable="name" (sort)="onSort($event)" style="cursor: pointer;"
+              style="width: 256px;">Name</th>
+            <th colspan="2" rowspan="1">HR Information</th>
+            <th colspan="4" rowspan="1">Contact</th>
+          </tr>
+          <tr>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="position" (sort)="onSort($event)" style="cursor: pointer;">Position</th>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="salary" (sort)="onSort($event)" style="cursor: pointer;">Salary</th>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="office" (sort)="onSort($event)" style="cursor: pointer;">Office</th>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="skill" (sort)="onSort($event)" style="cursor: pointer;">Skill</th>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="ext" (sort)="onSort($event)" style="cursor: pointer;">ext.</th>
+            <th [ngClass]="direction === 'asc' ?'sorting_asc':'sorting_desc'" sortable="email" (sort)="onSort($event)" style="cursor: pointer;">E-mail</th>
+            <th>Action</th>
+          </tr> 
+        </thead>
+        <tbody>
+          @for(data of countries$ | async; track data;let i = $index){
+          <tr [ngClass]="i % 2 ?'odd':'even'">
+            <td>  
+              <div class="d-flex">
+                <img class="rounded-1 img-30 me-3" [src]="data.img" alt="Generic placeholder image">
+                <div class="flex-grow-1 align-self-center">
+                  <div >{{ data.name }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ data.position }}</td>
+            <td>${{ data.salary | number }}</td>
+            <td>{{ data.office }}</td>
+            <td>
+              <div class="progress-showcase">
+                <div class="progress sm-progress-bar">
+                  <div class="progress-bar bg-{{data.skill}}" role="progressbar" [style.width]="data.progress" ></div>
+                </div>
+              </div>
+            </td>
+            <td>{{ data.ext }}</td>
+            <td>{{ data.email }}</td>
+            <td>
+              <i class="fa fa-eye font-primary pe-2"></i>
+              <i class="icofont icofont-close-circled font-danger ps-2"></i>
+            </td>
+          </tr>
+          }
+          @if(!Data.length){
+          <tr class="odd">
+            <td colspan="8" class="dataTables_empty" style="text-align: center;">No records found</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    <ngb-pagination class="mx-3 mt-3 pagination-primary pagin-border-primary justify-content-end d-flex" [collectionSize]="(total$ | async)!" [(page)]="service.page"
+      [pageSize]="service.pageSize">
+    </ngb-pagination> 
+  </div>
+</div>

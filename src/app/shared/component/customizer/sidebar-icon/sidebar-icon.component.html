@@ -1,0 +1,22 @@
+<ul class="sidebar-setting layout-grid">
+    <li [class.active]="icon == 'stroke-svg'" (click)="svgIcon('stroke-svg')">
+        <div class="header bg-light">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="body bg-light"><span class="badge badge-primary">Stroke</span></div>
+    </li>
+    <li [class.active]="icon == 'fill-svg'" (click)="svgIcon('fill-svg')">
+        <div class="header bg-light">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="body bg-light"><span class="badge badge-primary">Fill</span></div>
+    </li>
+</ul>

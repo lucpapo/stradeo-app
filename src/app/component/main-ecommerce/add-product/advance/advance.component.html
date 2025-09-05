@@ -1,0 +1,43 @@
+<div class="sidebar-body advance-options">
+    <ul class="nav nav-tabs border-tab mb-0" ngbNav #nav="ngbNav" [(activeId)]="active">
+        <li class="nav-item" [ngbNavItem]="1">
+            <a class="nav-link" ngbNavLink>Inventory</a>
+            <ng-template ngbNavContent>
+                <div class="meta-body">
+                    <form id="advance-tab">
+                        <app-inventory></app-inventory>
+                        <div class="product-buttons">
+                            <div class="btn me-2">
+                                <div class="d-flex align-items-center gap-sm-2 gap-1" (click)="previous()">
+                                    <svg>
+                                        <use href="assets/svg/icon-sprite.svg#back-arrow"></use>
+                                    </svg>Previous
+                                </div>
+                            </div>
+                            <div class="btn">
+                                <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                                    <svg>
+                                        <use href="assets/svg/icon-sprite.svg#front-arrow"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
+        </li>
+        <li class="nav-item" [ngbNavItem]="2">
+            <a class="nav-link" ngbNavLink>Additional Options</a>
+            <ng-template ngbNavContent>
+                <app-additional-options></app-additional-options>
+            </ng-template>
+        </li>
+        <li class="nav-item" [ngbNavItem]="3">
+            <a class="nav-link" ngbNavLink>Shipping</a>
+            <ng-template ngbNavContent>
+                <app-shipping></app-shipping>
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div>

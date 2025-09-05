@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <h4>Default Lists </h4>
+        <p class="f-m-light mt-1">
+            Use the <code>.list-group </code>define the list of items. and used <code>.list-group-item </code>to
+            indicate the current content.</p>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            @for(defaultItem of defaultListData; track defaultItem){
+            <li class="list-group-item">
+                <i class="icofont icofont-arrow-right"></i>{{defaultItem.list}}
+            </li>
+            }
+        </ul>
+    </div>
+</div>

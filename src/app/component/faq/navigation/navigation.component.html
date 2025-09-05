@@ -1,0 +1,38 @@
+<div class="card card-mb-faq">
+  <div class="card-header faq-header  pb-0">
+    <h4>Navigation</h4>
+    <app-feather-icon [icon]="'settings'"></app-feather-icon>
+  </div>
+  <div class="card-body faq-body">
+    <div class="navigation-btn">
+      <a class="btn btn-primary" href="javascript:void(0)">
+        <app-feather-icon [icon]="'message-square'" [class]="'m-r-10'"></app-feather-icon>
+        Ask Question
+      </a>
+    </div>
+    <div class="navigation-option">
+      <ul>
+        @for( data of navigationData1; track data){
+        <li>
+          <a href="javascript:void(0)">
+            <app-feather-icon [icon]="data.icon"></app-feather-icon>{{ data.title }}
+            @if(data.count){
+            <span class="badge badge-primary rounded-pill pull-right">{{ data.count }}</span>
+            }
+          </a>
+        </li>
+        }
+      </ul>
+      <hr>
+      <ul>
+        @for( data of navigationData2; track data){
+        <li>
+          <a href="javascript:void(0)">
+            <app-feather-icon [icon]="data.icon"></app-feather-icon>{{ data.title}}
+          </a>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

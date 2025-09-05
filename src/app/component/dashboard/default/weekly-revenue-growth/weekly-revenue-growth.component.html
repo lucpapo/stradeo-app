@@ -1,0 +1,50 @@
+<div class="card monthly-growth">
+  <div class="card-header card-no-border pb-0">
+    <h4>Weekly Revenue growth</h4>
+  </div>
+  <div class="card-body pt-0">
+    <div id="monthlyChart">
+       <apx-chart
+       [series]="chartData.series"
+       [colors]="chartData.colors"
+       [chart]="chartData.chart"
+       [plotOptions]="chartData.plotOptions"
+       [grid]="chartData.grid"
+       [dataLabels]="chartData.dataLabels"
+       [stroke]="chartData.stroke"
+       [tooltip]="chartData.tooltip"
+       [yaxis]="chartData.yaxis"
+       [xaxis]="chartData.xaxis"
+       [legend]="chartData.legend"
+       ></apx-chart>
+    </div>
+    <ul class="d-flex">
+      <li>
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <h3>$ 4,485</h3><span>Current User</span>
+          </div>
+          <div class="flex-shrink-0">
+            <h4>1,00,00</h4><span>45% goal reached</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar bg-primary" [style.width.%]="70"></div>
+        </div>
+      </li>
+      <li>
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <h3>$ 9,660</h3><span>Net Tax</span>
+          </div>
+          <div class="flex-shrink-0">
+            <h4>1,00,00</h4><span>85% goal reached</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar bg-secondary" [style.width.%]="70"></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

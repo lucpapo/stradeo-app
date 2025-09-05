@@ -1,0 +1,36 @@
+<div class="sidebar-body" [formGroup]="myForm" (ngSubmit)="next(myForm)">
+    <div class="product-upload">
+        <p>Product Image </p>
+        <form>
+            <dropzone [message]="image" [className]="'custom-drop-zone'" [config]="imageConfig"
+                (error)="onUploadError($event)" (success)="onUploadSuccess($event)">
+            </dropzone>
+        </form>
+    </div>
+    <div class="product-upload">    
+        <p>Product Gallery</p>
+        <form>
+            <div class="dz-message needsclick">
+                <dropzone [className]="'custom-drop-zone'" [config]="galleryConfig" [message]="gallery"
+                    (error)="onUploadErrorGallery($event)" (success)="onUploadSuccessGallery($event)">
+                </dropzone>
+            </div>
+        </form>
+    </div>
+    <div class="product-buttons">
+        <div class="btn me-2" (click)="previous()">
+            <div class="d-flex align-items-center gap-sm-2 gap-1">
+                <svg>
+                    <use href="assets/svg/icon-sprite.svg#back-arrow"></use>
+                </svg>Previous
+            </div>
+        </div>
+        <div class="btn" type="submit" (click)="next(myForm)">
+            <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                <svg>
+                    <use href="assets/svg/icon-sprite.svg#front-arrow"> </use>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>

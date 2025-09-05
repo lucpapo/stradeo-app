@@ -1,0 +1,87 @@
+<div class="customizer-links" [class.open]="layoutService.isOpen">
+    <div class="nav flex-column nac-pills">
+        <a class="nav-link"><span>Check layouts</span></a>
+        <a class="nav-link" (click)="layoutService.isOpen = true">
+            <div class="settings">
+                <img class="img-fluid" src="assets/images/customizer/1.png" alt="nft">
+            </div>
+            <span>Quick option</span>
+        </a>
+        <a class="nav-link" target="_blank"
+            href="https://support.pixelstrap.com/agent/pixelstrap/pixelstrap/tickets/list/open-cases">
+            <div><img class="img-fluid" src="assets/images/customizer/2.png" alt=""></div><span>Support</span>
+        </a>
+        <a class="nav-link" target="_blank" href="https://docs.pixelstrap.net/angular/kabul/document/">
+            <div><img class="img-fluid" src="assets/images/customizer/3.png" alt=""></div><span>Document</span>
+        </a>
+        <a class="nav-link" target="_blank" href="https://landing.pixelstrap.net/angular/kabul/template/">
+            <div><img class="img-fluid" src="assets/images/customizer/4.png" alt=""></div><span>Check features</span>
+        </a>
+        <a class="nav-link" target="_blank" href="https://themeforest.net/user/pixelstrap/portfolio">
+            <div><img class="img-fluid" src="assets/images/customizer/5.png" alt=""></div><span>Buy now</span>
+        </a>
+    </div>
+</div>
+<div class="customizer-contain" [class.open]="layoutService.isOpen">
+    <div class="tab-content">
+        <div class="customizer-header" (click)="layoutService.isOpen = false"><i class="icofont-close icon-close"></i>
+            <h5 class="f-w-700">Preview Customization</h5>
+            <p class="mb-0">Try It Real Time <i class="fa fa-thumbs-o-up txt-primary"></i></p>
+            <button class="btn btn-primary plus-popup mt-2" (click)="openModal(popup)">Configuration</button>
+            <ng-template #popup let-modal>
+                <div class="modal-header modal-copy-header">
+                    <h5 class="headerTitle mb-0">Customizer configuration</h5>
+                    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body config-popup">
+                        <div class="row">
+                            <p>To replace our design with your desired theme. Please do configuration as mention </p>
+                            <p> <b> Path : src>app>shared>service>layout.service.ts </b> </p>
+                            <div>
+                                <pre>
+<code>
+   public config = &#123;  
+      settings&#58; &#123;
+         layout_type&#58; '{{layoutService.config.settings.layout_type}}',
+         mix_layout&#58; '{{layoutService.config.settings.mix_layout}}',
+         sidebar_type&#58; '{{layoutService.config.settings.sidebar_type}}',
+         icon&#58; '{{layoutService.config.settings.icon}}',
+      &#125;,
+      color&#58; &#123;
+         primary_color&#58; '{{layoutService.config.color.primary_color}}',
+         secondary_color&#58; '{{layoutService.config.color.secondary_color}}'
+      &#125;
+   &#125;
+</code>
+                     </pre>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-2 me-2" (click)="copyText(this.layoutService.config)">Copy
+                        Json</button>
+                    <button class="btn btn-primary mt-2" (click)="modal.dismiss('Cross click')">Close</button>
+                </div>
+            </ng-template> 
+        </div>
+        <div class="customizer-body custom-scrollbar">
+            <div class="tab-pane fade show active">
+                <h6>Layout Type</h6>
+                <app-layout-type></app-layout-type>
+                <h6>Sidebar Type</h6>
+                <app-sidebar-type></app-sidebar-type>
+                <h6>Sidebar Icon</h6>
+                <app-sidebar-icon></app-sidebar-icon>
+                <h6>Unlimited Color</h6>
+                <app-color-layout></app-color-layout>
+                <h6>Light layout</h6>
+                <app-light-layout></app-light-layout>
+                <h6>Dark Layout</h6>
+                <app-dark-layout></app-dark-layout>
+                <h6>Mix Layout</h6>
+                <app-mix-layout></app-mix-layout>
+            </div>
+        </div>
+    </div>
+</div>

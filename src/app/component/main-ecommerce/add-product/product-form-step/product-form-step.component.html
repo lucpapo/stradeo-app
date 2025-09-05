@@ -1,0 +1,17 @@
+<ul class="sidebar-left-icons nav nav-pills">
+  @for(item of stepsData; track item){
+    <li class="nav-item"> 
+        <a class="nav-link" [class.active]="activeSteps == item.stepNumber">
+        <div class="nav-rounded">
+          <div class="product-icons">
+             <app-common-svg-icons [class]="'stroke-icon'" [icon]="item.icon"></app-common-svg-icons>
+           </div>
+         </div>
+         <div class="product-tab-content">
+          <h5>{{item.mainTitle}}</h5>
+          <p>{{item.subTitle}}</p>
+        </div>
+      </a>
+   </li>
+  }
+</ul> 

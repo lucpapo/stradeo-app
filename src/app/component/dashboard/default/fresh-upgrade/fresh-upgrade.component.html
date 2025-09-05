@@ -1,0 +1,25 @@
+<div class="card notification main-timeline">
+  <div class="card-header card-no-border pb-0">
+    <div class="header-top">
+      <h4>Fresh & Upgrade</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="dark-timeline">
+      <ul>
+        @for (item of freshUpgrade; track item) {
+        <li class="d-flex">
+          <div class="activity-dot-{{item.type}}"></div>
+          <div class="flex-grow-1"><span class="f-w-600 d-block">{{item.title}}</span>
+            <p class="mb-0">{{item.description}}</p>
+          </div>
+          @if (item.dot) {
+          <i class="fa fa-circle circle-dot-{{item.type}}"></i>
+          }
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

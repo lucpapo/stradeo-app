@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h4>Masonry Gallery With Description</h4>
+                </div>
+                <div class="card-body">
+                    <div class="my-gallery row grid gallery-with-description" gallerize>
+                        <ngx-masonry [options]="masonryOptions" style="width: 100%;" [ordered]="true">
+                            @for(image of masonryImages; track image;let i = $index){
+                            <div class="grid-item col-xl-3 col-sm-6 pb-4" ngxMasonryItem style="width: 355px;">
+                                <a href="javascript:void(0)">
+                                    <img [src]="image[1]" width="100%" class="img-thumbnail" alt="Image description">
+                                    <div itemprop="caption">
+                                        @if(i === 0){
+                                        <h4>Portfolio Title 1</h4>
+                                        } @else {
+                                        <h4>Portfolio Title</h4>
+                                        }
+                                        @if(i === 0){
+                                        <p>Here is simply dummy text of the printing and typesetting industry. Lorem
+                                            Ipsum has been the industry's standard dummy.</p>
+                                        } @else {
+                                        <p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                            has been the industry's standard dummy.</p>
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                            }
+                        </ngx-masonry>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

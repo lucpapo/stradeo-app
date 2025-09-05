@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Variations Of Right Ribbons</h4>
+        <p class="f-m-light mt-1">Use the class of
+            <code>.ribbon-*</code>[ribbon-right/ribbon-clip-right/ribbon-vertical-right/ribbon-bookmark/ribbon-clip-bottom-right/ribbon-vertical-right]
+            through create ribbons and all ribbon colors are available.<code>[.ribbon-*]</code>
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @for(rightRibbonsItem of rightRibbonsData; track rightRibbonsItem){
+            <div class="col-sm-6 col-xl-4" >
+                <div [class]="rightRibbonsItem.class" [ngStyle]="{'min-height': rightRibbonsItem.icon === 'Cashback 10%' ? 'auto' : '166px'}">
+                    <div [class]="rightRibbonsItem.color">
+                        @if(rightRibbonsItem.icon){
+                        <i [class]="rightRibbonsItem.icon"></i>
+                        }
+                        {{rightRibbonsItem.info}}
+                    </div>
+                    <p [innerHTML]="rightRibbonsItem.dis"></p>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+ <table style="width: 100%; border-spacing:0;">
+     <thead>
+         <tr style="background: var(--theme-default);">
+             <th style="padding: 18px 15px;text-align: left; position: relative; border-top-left-radius: 10px;">
+                 <span style="color: #fff; font-size: 18px; font-weight: 600;">Description</span>
+             </th>
+             <th style="padding: 18px 15px;text-align: center"><span
+                     style="color: #fff; font-size: 18px; font-weight: 600;">Unite Price</span></th>
+             <th style="padding: 18px 15px;text-align: center"><span
+                     style="color: #fff; font-size: 18px; font-weight: 600;">Quantity</span></th>
+             <th style="padding: 18px 15px;text-align: center;position: relative; border-top-right-radius: 10px;">
+                 <span style="color: #fff; font-size: 18px; font-weight: 600;">Subtotal</span></th>
+         </tr>
+     </thead>
+     <tbody>
+        @for(Data of invoice4Data; track Data){
+             <tr>
+                 <td style="padding: 30px;">
+                     <h4 style="font-weight:600; margin:4px 0px; font-size: 18px; color: var(--theme-default);">
+                         {{Data.description}}</h4><span style="opacity: 0.8; font-size: 16px;">Regular License</span>
+                 </td>
+                 <td style="width: 12%; text-align: center;"><span style="opacity: 0.8;"> {{Data.rate}}</span>
+                 </td>
+                 <td style="width: 12%; text-align: center;"> <span style="opacity: 0.8;">{{Data.qty}}</span></td>
+                 <td style="width: 12%; text-align: center;"> <span
+                         style="color: var(--theme-default); font-weight: 600;opacity: 0.9;"> {{Data.total}}</span>
+                 </td>
+             </tr>
+        }
+     </tbody>
+ </table>

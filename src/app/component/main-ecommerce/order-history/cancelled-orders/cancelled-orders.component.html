@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Cancelled Orders</h4>
+    </div>
+    <div class="card-body">
+        <div class="row g-sm-4 g-3">
+            @for(item of cancelled; track item){
+            <div class="col-xxl-4 col-md-6">
+                <div class="prooduct-details-box">
+                    <div class="d-flex"><img class="align-self-center img-fluid img-60" [src]="item.img"
+                            alt="products">
+                        <div class="flex-grow-1 ms-3">
+                            <div class="product-name">
+                                <h6><a href="javascript:void(0)">{{item.name}}</a></h6>
+                            </div>
+                            <div class="rating">
+                                <ngb-rating [rate]="rating" class="font-warning"></ngb-rating>
+                            </div>
+                            <div class="price d-flex p-0 border-0">
+                                <div class="text-muted me-2">Price</div>: 210$
+                            </div>
+                            <div class="avaiabilty">
+                                <div class="text-success">In stock</div>
+                            </div><a class="badge badge-light-danger txt-danger" href="javascript:void(0)">Cancelled</a>
+                            <app-feather-icon [icon]="'x'" [class]="'close'" (click)="close(item)"></app-feather-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+@for (items of item; track item) {
+<div class="card">
+  <div class="card-header card-no-border pb-0">
+    <div class="header-top daily-revenue-card">
+      <h4>{{items.title}}</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body pb-0" [class]="items.class">
+    <div class="d-flex align-items-center gap-3">
+      <div class="flex-shrink-0">
+        <img [src]="items.image" alt="icon">
+      </div>
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-center gap-2">
+          <h2>{{items.price}}</h2>
+          <div class="d-flex total-icon">
+            <p class="mb-0 up-arrow bg-light-{{items.color}}">
+              <i class="fa fa-arrow-up text-{{items.color}}"></i>
+            </p>
+            <span class="f-w-500 font-{{items.color}}">{{items.persentage}}</span>
+          </div>
+        </div>
+        <p class="text-truncate">Compared to {{items.complatedTo}}</p>
+      </div>
+    </div>
+    <div>
+      <apx-chart [series]="chartData.series" [chart]="chartData.chart" [stroke]="chartData.stroke" [grid]="chartData.grid"
+        [fill]="chartData.fill" [dataLabels]="chartData.dataLabels" [colors]="chartData.colors" [xaxis]="chartData.xaxis"
+        [yaxis]="chartData.yaxis" [legend]="chartData.legend">
+      </apx-chart>
+    </div>
+  </div>
+</div>
+}

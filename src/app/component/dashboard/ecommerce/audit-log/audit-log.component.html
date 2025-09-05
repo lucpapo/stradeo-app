@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <div class="header-top">
+            <h4>Audit log </h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body py-0">
+        <ul class="message-box custom-scrollbar">
+            @for (item of data; track $index) {
+            <li>
+                <div class="d-flex">
+                    <div class="flex-shrink-0" [class]="item.backgroundClass">
+                        <i [class]="item.icon"></i>
+                    </div>
+                    <div class="flex-grow-1"> <a [routerLink]="['/tasks']">
+                            <h5>{{item.title}}</h5>
+                            <p>{{item.user}} </p>
+                        </a>
+                    </div>
+                    <span>{{item.timeAgo}}</span>
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

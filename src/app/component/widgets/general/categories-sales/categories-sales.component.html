@@ -1,0 +1,53 @@
+<div class="card categories-chart">
+  <div class="card-header pb-0">
+    <div class="header-top">
+      <h4>Categories by Sales</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+    <div class="row mt-2">
+      <div class="col-6 p-0">
+        <div id="Categories-chart-1">
+          <apx-chart [series]="categoriesSales.series" [chart]="categoriesSales.chart" [dataLabels]="categoriesSales.dataLabels"
+            [legend]="categoriesSales.legend" [responsive]="categoriesSales.responsive" [plotOptions]="categoriesSales.plotOptions"
+            [yaxis]="categoriesSales.yaxis" [colors]="categoriesSales.colors">
+          </apx-chart>
+        </div>
+      </div>
+      <div class="col-6 categories-sales">
+        <div class="d-flex gap-2">
+          <div class="flex-shrink-0"><span class="bg-primary"> </span></div>
+          <div class="flex-grow-1">
+            <h6>Income</h6>
+          </div>
+          <h5>$21,654</h5>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="flex-shrink-0"><span class="bg-secondary"> </span></div>
+          <div class="flex-grow-1">
+            <h6>Visitors</h6>
+          </div>
+          <h5>$62,842</h5>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="flex-shrink-0"><span class="bg-danger"> </span></div>
+          <div class="flex-grow-1">
+            <h6>Expense</h6>
+          </div>
+          <h5>$37,210</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="total-earn">
+      <h2>$3,512,201</h2>
+      <h6>Total Earned</h6>
+    </div>
+    <div class="earned" id="Earned-chart-1">
+      <apx-chart [series]="totalEarned.series" [chart]="totalEarned.chart" [colors]="totalEarned.colors"
+        [fill]="totalEarned.fill" [dataLabels]="totalEarned.dataLabels" [grid]="totalEarned.grid" [xaxis]="totalEarned.xaxis"
+        [yaxis]="totalEarned.yaxis" [stroke]="totalEarned.stroke">
+      </apx-chart>
+    </div>
+  </div>
+</div>

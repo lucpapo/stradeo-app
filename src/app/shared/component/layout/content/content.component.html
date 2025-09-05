@@ -1,0 +1,26 @@
+<div class="page-wrapper" [class]="layoutService.config.settings.sidebar_type">
+    <div class="page-header" [class.close_icon]="navigationService.collapseSidebar"
+        [ngStyle]="{'display' :hideScrollNavServices.headerFixed ?'none':'block'}">
+        <app-header></app-header>
+    </div>
+    <div class="page-body-wrapper" [class.scorlled]="hideScrollNavServices.headerFixed">
+        <div class="sidebar-wrapper" [class.close_icon]="navigationService.collapseSidebar">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <router-outlet></router-outlet>
+            <app-loader></app-loader>
+        </div>
+        <footer class="footer" [class.footer-dark]="footerDark" [class.footer-light]="footerLight"
+            [class.footer-fix]="footerFix">
+            <app-footer></app-footer>
+        </footer>
+    </div>
+</div>
+@if (false) { 
+ <app-customizer></app-customizer>
+}
+ 

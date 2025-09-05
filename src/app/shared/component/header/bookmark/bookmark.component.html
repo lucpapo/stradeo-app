@@ -1,0 +1,68 @@
+<span (click)="isBookmark =!isBookmark">
+  <app-common-svg-icons [icon]="'Star'"></app-common-svg-icons>
+</span>
+<div class="onhover-show-div bookmark-flip" [class.active]="isBookmark">
+  <div class="flip-card">
+    <div class="flip-card-inner" [class.flipped]="bookmarkFlip">
+      <div class="front">
+        <h4 class="f-18 mb-0 dropdown-title">Bookmark</h4>
+        <ul class="bookmark-dropdown">
+          <li class="pt-0">
+            <div class="row custom-scrollbar">
+              @for(item of bookmarkItems; track item){
+              <div class="col-4 text-center">
+                <a [routerLink]="item.path">
+                  <div class="bookmark-content">
+                    <div class="bookmark-icon">
+                      <app-svg-icon [icon]="item.icon"></app-svg-icon>
+                    </div><span>{{ item.title }}</span>
+                  </div>
+                </a>
+              </div>
+              }
+            </div>
+          </li>
+          <li class="text-center" (click)="bookmarkFlip =!bookmarkFlip">
+            <a class="flip-btn f-w-700" href="javascript:void(0)">Add New Bookmark</a>
+          </li>
+        </ul>
+      </div>
+      <div class="back">
+        <ul>
+          <li>
+            <div class="bookmark-dropdown flip-back-content">
+              <input type="text" placeholder="search..." [(ngModel)]="text" (keyup)="searchTerm(text)">
+              @if(filterBookmark.length){
+              <div class="Typeahead-menu custom-scrollbar" [class.is-open]="searchResult">
+                @for(item of filterBookmark | slice : 0 : 8; track item){
+                <div class="ProfileCard u-cf">
+                  <div class="ProfileCard-avatar">
+                    <app-svg-icon [icon]="item.icon"></app-svg-icon>
+                  </div>
+                  <div class="ProfileCard-details">
+                    <div class="ProfileCard-realName d-flex">
+                      <a [routerLink]="item.path" (click)="removeFix()">{{ item.title }}</a>
+                      <span class="pull-right ms-auto" (click)="addToBookmark(item)">
+                        <a>
+                          <i class="fa fa-star-o f-18" [class.starred]="item.bookmark"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+              }
+              <div class="Typeahead-menu is-open" [class.is-open]="searchResultEmpty">
+                <div class="tt-dataset tt-dataset-0">
+                  <div class="EmptyMessage">Opps!! There are no result found.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li><a class="f-w-700 d-block flip-back" href="javascript:void(0)" (click)="bookmarkFlip =!bookmarkFlip">Back</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="dropdown icon-dropdown" ngbDropdown>
+    <button class="btn dropdown-toggle" type="button" ngbDropdownToggle><i class="icon-more-alt"></i></button>
+    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+         @for (item of data; track item) {
+             <a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>{{item}}</a>
+         }
+    </div>
+</div>

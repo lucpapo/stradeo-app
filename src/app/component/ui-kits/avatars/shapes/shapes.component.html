@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Shapes</h4>
+        <p class="mb-0 mt-1">Using the<code>.b-r-* (8/30/35/25)</code> class you can set the shapes of avatar.</p>
+    </div>
+    <div class="card-body avatar-showcase">
+        <div class="avatars">
+            @for( item of shapesData; track item){
+                <div class="avatar"><img [class]="item.class" [src]="item.Image" alt="shapesimg"></div>
+             }
+        </div>
+    </div>
+</div>

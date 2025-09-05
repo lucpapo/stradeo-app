@@ -1,0 +1,64 @@
+<div class="card">
+    <div class="card-body">
+        <form class="table-responsive custom-scrollbar">
+            <div class="mb-3 row mx-3">
+                <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+                <div class="col-xs-3 col-sm-auto">
+                    <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
+                        [(ngModel)]="service.searchTerm" autocomplete="off" />
+                </div>
+                @if(service.loading$ | async){
+                    <span class="col col-form-label">Loading...</span>
+                }
+            </div>
+            <table class="table table-striped data-striped">
+                <thead>
+                  <tr>
+                    <th sortable="name" (sort)="onSort($event)">Name</th>
+                    <th sortable="position" (sort)="onSort($event)">position</th>
+                    <th sortable="office" (sort)="onSort($event)">Office</th>
+                    <th sortable="age" (sort)="onSort($event)">Age</th>
+                    <th sortable="startDate" (sort)="onSort($event)">Start Date</th>
+                    <th sortable="salary" (sort)="onSort($event)">Salary</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of basicDataTable$ | async; track item) {
+                  <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.position}}</td>
+                    <td>{{item.office}}</td>
+                    <td>{{item.age}}</td>
+                    <td>{{item.startDate}}</td>
+                    <td>{{item.salary}}</td>
+                    <td>
+                      <ul class="action">
+                        <i class="fa fa-eye font-primary pe-2"></i>
+                        <i class="icofont icofont-close-circled font-danger ps-2"
+                            (click)=" removeItem(item.id)"></i>
+                    </ul>
+                    </td>
+                  </tr>
+                  }
+                  @if (basicData.length === 0) {
+                    <tr class="odd">
+                      <td colspan="8" class="dataTables_empty" style="text-align: center;">No records found</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            <div class="d-flex justify-content-between p-2">
+                <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                    <option [ngValue]="2">2 items per page</option>
+                    <option [ngValue]="4">4 items per page</option>
+                    <option [ngValue]="6">6 items per page</option>
+                    <option [ngValue]="10">10 items per page</option>
+                </select>
+                <ngb-pagination class="ms-3 pagination-primary pagin-border-primary" [collectionSize]="( total$ | async)!" [(page)]="service.page"
+                    [pageSize]="service.pageSize">
+                </ngb-pagination> 
+            </div>
+        </form>
+    </div>
+</div>

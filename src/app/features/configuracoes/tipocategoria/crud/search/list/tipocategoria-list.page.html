@@ -1,0 +1,54 @@
+<div class="header d-flex align-items-center justify-content-between mb-3">
+  <h2 class="m-0">Tipos de Categoria</h2>
+  <button class="btn btn-success" (click)="goNew()">Novo</button>
+</div>
+
+<!-- Filtro -->
+<app-tipocategoria-filter [value]="filterValue()" (apply)="onApplyFilter($event)" (clear)="onClearFilter()"></app-tipocategoria-filter>
+
+<!-- Estados -->
+<div *ngIf="loading()" class="alert alert-info py-2 my-2">Carregando…</div>
+<div *ngIf="error()" class="alert alert-danger py-2 my-2">{{ error() }}</div>
+
+<!-- Lista -->
+<div class="table-responsive" *ngIf="!loading() && rows().length">
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th style="width: 100px">ID</th>
+        <th>Descrição</th>
+        <th style="width: 120px">Status</th>
+        <th style="width: 220px">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of rows()">
+        <td class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-primary" (click)="view(r)">Ver</button>
+          <button class="btn btn-sm btn-primary" (click)="edit(r)">Editar</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="remove(r)">Excluir</button>
+        </td>
+        <td>{{ r.id }}</td>
+        <td>{{ r.descricao }}</td>
+        <td>
+          <span class="badge" [class.bg-success]="r.status_delecao==='0'" [class.bg-secondary]="r.status_delecao==='1'">
+            {{ r.status_delecao==='0' ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Sem dados -->
+<div *ngIf="!loading() && !rows().length" class="alert alert-warning my-2">Nenhum registro encontrado.</div>
+
+<!-- Paginação -->
+<div class="d-flex align-items-center justify-content-between mt-3">
+  <small>{{ showingRange() }}</small>
+  <div class="btn-group">
+    <button class="btn btn-outline-secondary" (click)="prevPage()" [disabled]="query().page <= 1">Anterior</button>
+    <button class="btn btn-outline-secondary" (click)="nextPage()" [disabled]="query().page >= maxPage()">Próxima</button>
+  </div>
+</div>

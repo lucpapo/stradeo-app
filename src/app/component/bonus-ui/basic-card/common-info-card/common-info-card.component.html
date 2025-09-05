@@ -1,0 +1,18 @@
+<div class="row">
+    @for(cardData of basicData; track cardData){
+    <div class="col-xl-4" [ngClass]="cardData.heading === 'Info Color Footer' ?'col-12':'col-sm-6'">
+        <div class="card height-equal">
+            <div class="card-header" [class]="cardData.headerClass">
+                <h4 [class]="cardData.headingClass">{{ cardData.heading }}</h4>
+            </div>
+            <div class="card-body" [class]="cardData.bodyClass">
+                <h4 class="pb-2" [class.text-light]="cardData.title === 'UX Designer'"> {{ cardData.title }} </h4>
+                <p class="mb-0">{{ cardData.desc }}</p>
+            </div>
+            <div class="card-footer" [class]="cardData.footerClass">
+                <h4 class="mb-0 text-end" [class.text-white]="cardData.heading === 'Info Color Footer'">Kabul Theme</h4>
+            </div>
+        </div>
+    </div>
+    }
+</div>

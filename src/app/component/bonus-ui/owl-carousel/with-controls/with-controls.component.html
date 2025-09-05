@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>With Controls</h4>
+        <p class="f-m-light mt-1">Use the <code>.carousel-control-prev</code> & <code>.carousel-control-next</code>
+            through previous and next controls. We recommend using <code>&lt;button&gt;</code> elements, but you can
+            also use <code>&lt;a&gt;</code> elements with <code>role="button".</code></p>
+    </div>
+    <div class="card-body">
+        <owl-carousel-o [options]="withControlsOptions" class="carousel slide">
+            @for(fadeItem of withControls; track fadeItem){
+            <ng-template carouselSlide class="carousel-inner">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img class="d-block w-100" [src]="fadeItem.img" 
+                        alt="drawing-room">
+                    </div>
+                </div>
+            </ng-template>
+            }
+        </owl-carousel-o>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <h4>Basic button group</h4>
+    </div>
+    <div class="card-body btn-group-showcase">
+        <div class="row">
+            @for(button of basicGroundData; track button){
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @for(buttonsItem of button.item; track buttonsItem){
+                            <button class="btn" [class]="buttonsItem.class" type="button">{{ buttonsItem.text }}</button>
+                          }
+                    </div>
+                </div>  
+             }
+        </div>
+    </div>
+</div>

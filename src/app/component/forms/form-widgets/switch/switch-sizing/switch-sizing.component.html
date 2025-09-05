@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Switch sizing</h4>
+        <p class="f-m-light mt-1">
+            Use the <code>.switch-sm</code> and <code>.switch-lg </code>class through defined switch sizing.</p>
+    </div>
+    <div class="card-body common-flex switch-wrapper">
+        @for(item of sizingData; track item){
+        <div class="d-flex">
+            <label class="col-form-label m-r-10">{{item.text}}</label>
+            <div class="flex-grow-1" [class]="item.class">
+                <label class="switch">
+                    <input type="checkbox" [checked]="item.value" [disabled]="item.disable"><span
+                        class="switch-state"></span>
+                </label>
+            </div>
+        </div>
+    }
+    </div>
+</div>

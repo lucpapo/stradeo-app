@@ -1,0 +1,14 @@
+<div class="card height-equal">
+    <div class="card-header pb-0">
+        <h4>Dismissing Light Alerts</h4>
+        <p class="f-m-light mt-1"></p>Use the <code>.alert-dismissible</code> utility class to quickly remove the
+        alerts.
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning alert-dismissible fade " [ngClass]="alerts2 ?'show':'hide'">
+            <app-feather-icon [icon]="'bell'" class="me-3"></app-feather-icon>
+            <p>Hidden content You should check in on some of those fields below.</p>
+            <button class="btn-close" type="button" (click)="close2()"></button>
+        </div>
+    </div>
+</div>

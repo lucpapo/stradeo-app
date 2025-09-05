@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <div class="header-top">
+            <h4>Sales Overview</h4>
+            <div class="card-header-right-icon">
+                <app-dropdown [data]="dropdownList"></app-dropdown>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="chart-container progress-chart">
+            <div id="sales-overview-2">
+                <apx-chart [series]="SaleOverViewChart.series" [chart]="SaleOverViewChart.chart"
+                    [labels]="SaleOverViewChart.labels" [legend]="SaleOverViewChart.legend"
+                    [colors]="SaleOverViewChart.colors" [fill]="SaleOverViewChart.fill"
+                    [tooltip]="SaleOverViewChart.tooltip" [grid]="SaleOverViewChart.grid"
+                    [xaxis]="SaleOverViewChart.xaxis" [yaxis]="SaleOverViewChart.yaxis"
+                    [markers]="SaleOverViewChart.markers" [stroke]="SaleOverViewChart.stroke"
+                    [responsive]="SaleOverViewChart.responsive">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+</div>

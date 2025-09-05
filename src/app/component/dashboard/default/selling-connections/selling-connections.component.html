@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header card-no-border">
+    <div class="header-top">
+      <h4>Selling Connections</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body pt-2 pb-0">
+    <div class="product-heading">
+      <h3>4629 Views<span>( Your selling item connections )</span></h3>
+    </div>
+    <div id="orderoverview">
+      <apx-chart
+         [series]="chartData.series"
+         [chart]="chartData.chart"
+         [stroke]="chartData.stroke"
+         [grid]="chartData.grid"
+         [colors]="chartData.colors"
+         [fill]="chartData.fill"
+         [labels]="chartData.labels"
+         [markers]="chartData.markers"
+         [xaxis]="chartData.xaxis"
+         [legend]="chartData.legend"
+         [yaxis]="chartData.yaxis"
+         [tooltip]="chartData.tooltip"
+         [responsive]="chartData.responsive"
+         ></apx-chart>
+    </div>
+  </div>
+</div>

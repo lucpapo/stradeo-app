@@ -1,0 +1,45 @@
+<div class="card web-card">
+  <div class="card-body">
+    <div class="d-flex">
+      <div class="header-top">
+        <div class="mobile-app" [class]="data.header.iconClass"><span></span>
+          <app-common-svg-icons [icon]="data.header.iconHref"></app-common-svg-icons>
+        </div>
+        <div class="flex-grow-1">
+          <h4>{{data.header.title}}</h4><span>{{data.header.subtitle}}</span>
+        </div>
+      </div>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+    <div class="comment">
+      <ul>
+        <li>
+          <app-common-svg-icons [icon]="'calendar'"></app-common-svg-icons>
+          <span>{{data.comment.date}}</span>
+        </li>
+        <li>
+          <app-common-svg-icons [icon]="'message'"></app-common-svg-icons>
+          <span>{{data.comment.messages}}</span>
+        </li>
+        <li>
+          <app-common-svg-icons [icon]="'link'"></app-common-svg-icons>
+          <span>{{data.comment.links}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="flex-shrink-0">
+      <div class="user-details customers">
+        <ul>
+          @for (item of data.users; track item) {
+          <li class="d-inline-block"><img [src]="item" alt="user"></li>
+          }
+        </ul>
+      </div>
+      <div class="progress-value"> <span>Progress<span>{{data.progress.value}}%</span></span>
+        <div class="progress bg-light-{{data.progress.type}}">
+          <div class="progress-bar bg-{{data.progress.type}}" role="progressbar" [style.width.%]="data.progress.value"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

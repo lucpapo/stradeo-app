@@ -1,0 +1,38 @@
+<div class="card order-overview">
+    <div class="card-header pb-0">
+        <div class="header-top">
+            <h4>Order Overview</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex">
+            <h2 class="me-2">($3,512,201)</h2>
+            <h6>Total Revenue</h6>
+        </div>
+        <div class="total-revenue">
+            <div class="d-flex">
+                <h5 class="me-2">40</h5><span>(Online Order)</span>
+            </div>
+            <div class="progress bg-light-primary">
+                <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="50"></div>
+              </div>
+        </div>
+        <div class="total-revenue">
+            <div class="d-flex">
+                <h5 class="me-2">60</h5><span>(Offline Order)</span>
+            </div>
+            <div class="progress bg-light-secondary">
+                <div class="progress-bar bg-secondary" role="progressbar" [style.width.%]="70"></div>
+              </div>
+        </div>
+        <div class="total-revenue">
+            <div class="d-flex">
+                <h5 class="me-2">20</h5><span>(Cash On delivery)</span>
+            </div>
+            <div class="progress bg-light-success">
+                <div class="progress-bar bg-success" role="progressbar" [style.width.%]="30"></div>
+              </div>
+        </div>
+    </div>
+</div>

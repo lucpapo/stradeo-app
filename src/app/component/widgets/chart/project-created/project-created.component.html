@@ -1,0 +1,29 @@
+<div class="card" (clickOutside)="clickOutside()">
+    <div class="card-header pb-0">
+        <div class="header-top">
+            <h4>Project Created</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div id="revenuegrowth">
+            <apx-chart 
+            [series]="projectCreatedChart.series" 
+            [chart]="projectCreatedChart.chart"
+            [stroke]="projectCreatedChart.stroke"
+            [plotOptions]="projectCreatedChart.plotOptions"
+            [colors]="projectCreatedChart.colors"
+            [fill]="projectCreatedChart.fill"
+            [grid]="projectCreatedChart.grid" 
+            [xaxis]="projectCreatedChart.xaxis"
+            [dataLabels]="projectCreatedChart.dataLabels"
+            [yaxis]="projectCreatedChart.yaxis"
+            [legend]="projectCreatedChart.legend" 
+            [tooltip]="projectCreatedChart.tooltip" 
+            [dataLabels]="projectCreatedChart.dataLabels"
+                >
+            </apx-chart>
+        </div>
+    </div>
+</div>

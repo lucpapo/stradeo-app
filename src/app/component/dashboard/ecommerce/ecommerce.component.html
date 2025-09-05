@@ -1,0 +1,37 @@
+<div class="container-fluid dashboard_ecommerce">
+    <div class="row">
+        <div class="col-xl-3 col-sm-6">
+            <app-common-chart [item]="totalSells" [chartData]="TotalSellsChart"></app-common-chart>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <app-common-chart [item]="dailyOrders" [chartData]="dailyOrdersChart"></app-common-chart>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <app-common-chart [item]="ordersValue" [chartData]="ordersValueChart"></app-common-chart>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <app-common-chart [item]="dailyRevenue" [chartData]="dailyRevenueChart"></app-common-chart>
+        </div>
+        <div class="col-xxl-7 col-lg-12 box-col-12">
+            <app-total-revenue></app-total-revenue>
+        </div>
+        <div class="col-xxl-5 col-lg-12 col-md-6 box-col-6">
+            <app-total-order></app-total-order>
+        </div>
+        <div class="col-xl-5 col-xxl-4 col-md-6 box-col-6">
+            <app-total-appointment></app-total-appointment>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 box-col-6">
+            <app-user-by-country></app-user-by-country>
+        </div>
+        <div class="col-xl-3 col-xxl-4 col-sm-12 col-md-6 box-col-6">
+             <app-over-all-rating></app-over-all-rating>
+        </div>
+        <div class="col-xl-7 col-lg-6 box-col-6">
+              <app-project-deliveries></app-project-deliveries>
+        </div>
+        <div class="col-xl-5 col-lg-12 box-col-6 pre-order">
+          <app-audit-log></app-audit-log>
+        </div>
+    </div>
+</div>

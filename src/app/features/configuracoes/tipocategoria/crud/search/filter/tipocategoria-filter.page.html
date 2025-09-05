@@ -1,0 +1,18 @@
+<form [formGroup]="form" (ngSubmit)="onApply()" class="row g-2 align-items-end">
+  <div class="col-md-6">
+    <label class="form-label" for="descricao">Descrição</label>
+    <input class="form-control" formControlName="descricao" placeholder="Buscar por descrição..." />
+  </div>
+  <div class="col-md-3">
+    <label class="form-label" for="status_delecao">Status</label>
+    <select class="form-select" formControlName="status_delecao" title="Status do Tipo de Categoria">
+      <option value="">Todos</option>
+      <option value="0">Ativo</option>
+      <option value="1">Inativo</option>
+    </select>
+  </div>
+  <div class="col-md-3 d-flex gap-2">
+    <button type="submit" class="btn btn-primary">Aplicar</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="onClear()">Limpar</button>
+  </div>
+</form>

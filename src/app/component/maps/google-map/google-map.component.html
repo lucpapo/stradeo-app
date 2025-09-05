@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-header card-no-border pb-0">
+          <h4>MultiLanguage Map</h4>
+        </div>
+        <div class="card-body">
+          <google-map height="500px" width="100%" [zoom]="zoom">
+            @for(marker of markers; track marker){
+            <map-marker #markerElem [position]="marker.position" [label]="marker.label" [title]="marker.title"
+              [options]="marker.options">
+            </map-marker>
+            }
+          </google-map>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-header card-no-border pb-0">
+          <h4>Street View</h4>
+        </div>
+        <div class="card-body">
+          <google-map height="500px" width="100%"></google-map>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

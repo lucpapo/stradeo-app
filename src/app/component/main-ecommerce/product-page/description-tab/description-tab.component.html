@@ -1,0 +1,58 @@
+<div class="row product-page-main">
+    <div class="col-sm-12">
+        <ul class="nav nav-pills nav-primary mb-0" ngbNav #nav="ngbNav" [(activeId)]="active">
+            <li class="nav-item" [ngbNavItem]="1">
+                <a class="nav-link" ngbNavLink>
+                    Febric
+                </a>
+                <div class="material-border"></div>
+                <ng-template ngbNavContent>
+                    <p class="mb-0 m-t-20">Refresh your wardrobe with this chic top. With an eye-catching square neck,
+                        this
+                        top also features pretty puff sleeves. Stunning pink colour Classic solid pattern Square neck
+                        Elasticated puff sleeves Belt included, Polyester fabric, machine wash.."</p>
+                    <p class="mb-0 m-t-20">Tee Stores is an Indian contemporary clothing brand. The product pages
+                        display a
+                        fine quality fabric with colorful description. We offer many vivid designs, art, styles
+                        that"combine
+                        heritage with modernity, simplicity, playfulness and street style"."</p>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="2">
+                <a class="nav-link" ngbNavLink>
+                    Video
+                </a>
+                <div class="material-border"></div>
+                <ng-template ngbNavContent>
+                    <p class="mb-0 m-t-20">Lorate Solid Men's Fashion Full Sleeves Latest Jacket for Men With Button
+                        Closure
+                        Long Sleeve Casual Torn Lycra Denim Jacket.</p>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="3">
+                <a class="nav-link" ngbNavLink>
+                    Details
+                </a>
+                <div class="material-border"></div>
+                <ng-template ngbNavContent>
+                    <p class="mb-0 m-t-20">
+                        Rock Paper Scissors Various Dots Half Sleeves Girl’s Regular Fit T-Shirt I 100%
+                        Cotton T Shirt with Half Sleeve Round Neck I Regular Wear Solid Kids Tees and Black Sleeve.
+                    </p>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="4">
+                <a class="nav-link" ngbNavLink>
+                    Brand
+                </a>
+                <div class="material-border"></div>
+                <ng-template ngbNavContent>
+                    <p class="mb-0 m-t-20">Lorate Solid Men's Fashion Full Sleeves Latest Jacket for Men With Button
+                        Closure
+                        Long Sleeve Casual Torn Lycra Denim Jacket.</p>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+    </div>
+</div>

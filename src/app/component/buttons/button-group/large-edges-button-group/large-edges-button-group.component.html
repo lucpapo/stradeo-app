@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-header card-no-border pb-0">
+        <h4>large Edges Button group</h4>
+    </div>
+    <div class="card-body btn-group-showcase">
+        <div class="row">
+            @for(button of largeButtonGroup; track button){
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <div class="btn-group btn-group-pill" role="group" aria-label="Basic example">
+                        @for(item of button.item; track item){
+                            <button class="btn btn-lg" [class]="item.class" type="button">{{item.text}}</button>
+                    }
+                    </div>
+                </div>
+        }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,75 @@
+<div class="container-fluid general-widget">
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-sm-6">
+      <app-top-chart [data]="WebMobile"></app-top-chart>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-sm-6">
+      <app-top-chart [data]="nftWebsite"></app-top-chart>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-sm-6">
+      <app-top-chart [data]="categoriesSales"></app-top-chart>
+    </div>
+    <div class="col-xl-3 col-xl-50 col-sm-6 box-col-6">
+      <app-categories-sales></app-categories-sales>
+    </div>
+    <div class="col-xl-6 col-lg-6">
+      <app-project-created></app-project-created>
+    </div>
+    <div class="col-xl-3 col-xl-40 col-lg-4 col-md-12 box-col-4">
+      <app-budget></app-budget>
+    </div>
+    <div class="col-xl-6 col-xl-70 box-col-8e">
+      <div class="row">
+        <div class="col-md-7">
+          <app-order-overview></app-order-overview>
+        </div>
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+              <app-monthly-sale></app-monthly-sale>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+              <app-invoices></app-invoices>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-xl-100 box-col-12">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+              <app-customers></app-customers>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+              <app-revenue></app-revenue>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <app-offer-carousle></app-offer-carousle>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="row">
+        <div class="col-12 col-lg-12 col-sm-6 box-col-12">
+          <app-earning-expense [data]="totalEarning"></app-earning-expense>
+        </div>
+        <div class="col-12 col-lg-12 col-sm-6 box-col-12">
+          <app-earning-expense [data]="totalExpense"></app-earning-expense>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-xl-40 col-md-6 box-col-4">
+      <app-active-task></app-active-task>
+    </div>
+    <div class="col-xl-2 col-xl-30 col-sm-6 box-col-4">
+      <app-online-offline-order [data]="online"></app-online-offline-order>
+    </div>
+    <div class="col-xl-2 col-xl-33 col-sm-6 box-col-4 offline-card">
+      <app-online-offline-order [data]="offline"></app-online-offline-order>
+    </div>
+  </div>
+</div>

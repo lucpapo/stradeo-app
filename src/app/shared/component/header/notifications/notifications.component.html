@@ -1,0 +1,22 @@
+<div class="notification-box" (click)="isNotification =!isNotification">
+    <app-common-svg-icons [icon]="'Bell'"></app-common-svg-icons>
+    <span class="badge rounded-pill badge-primary">4 </span>
+  </div>
+  <div class="onhover-show-div notification-dropdown" [class.active]="isNotification">
+    <h4 class="f-18 mb-0 dropdown-title">Notifications</h4>
+    <ul>
+      <li class="b-l-primary bg-light-primary border-4">
+        <p class="font-primary">Delivery processing <span class="font-primary">10 min.</span></p>
+      </li>
+      <li class="b-l-secondary bg-light-secondary border-4 mt-3">
+        <p class="font-secondary">Order Complete<span class="font-secondary">1 hr</span></p>
+      </li>
+      <li class="b-l-success bg-light-success border-4 mt-3">
+        <p class="font-success">Tickets Generated<span class="font-success">3 hr</span></p>
+      </li>
+      <li class="b-l-info bg-light-info border-4 mt-3">
+        <p class="font-info">Delivery Complete<span class="font-info">6 hr</span></p>
+      </li>
+      <li><a class="f-w-700" [routerLink]="['/chat/private-chat']">Check all</a></li>
+    </ul>
+  </div>

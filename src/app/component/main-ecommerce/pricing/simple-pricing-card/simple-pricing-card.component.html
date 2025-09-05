@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Simple Pricing Card</h4>
+    </div>
+    <div class="card-body pricing-content">
+        <div class="row g-sm-4 g-3">
+            @for(data of simplePricing; track data){
+            <div class="col-lg-3 col-sm-6 box-col-6">
+                <div class="card text-center pricing-simple">
+                    <div class="card-body">
+                        <h4>{{data.title}}</h4>
+                        <h5>${{data.rate}}</h5>
+                        <h6 class="mb-0">{{data. subTitle}}</h6>
+                    </div><a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">Purchase</a>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>

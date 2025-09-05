@@ -1,0 +1,130 @@
+import { Routes } from '@angular/router';
+import { AccordionComponent } from './accordion/accordion.component';
+import { AlertComponent } from './alert/alert.component';
+import { AvatarsComponent } from './avatars/avatars.component';
+import { DropdownComponent } from './dropdown/dropdown.component';
+import { GridComponent } from './grid/grid.component';
+import { HelperClassesComponent } from './helper-classes/helper-classes.component';
+import { ListsComponent } from './lists/lists.component';
+import { ModalComponent } from './modal/modal.component';
+import { PopoverComponent } from './popover/popover.component';
+import { ProgressComponent } from './progress/progress.component';
+import { TabsComponent } from './tabs/tabs.component';
+import { TagPillsComponent } from './tag-pills/tag-pills.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { TypographyComponent } from './typography/typography.component';
+
+export default  [
+      {
+        path: 'typography',
+        component: TypographyComponent,
+        data: {
+          title: "Typography",
+          breadcrumb: "Typography",
+        }
+      },
+      {
+        path: 'avatars',
+        component: AvatarsComponent,
+        data: {
+          title: "Avatars",
+          breadcrumb: "Avatars",
+        }
+      },
+      {
+        path: 'helper-classes',
+        component: HelperClassesComponent,
+        data: {
+          title: "Helper Classes",
+          breadcrumb: "Helper Classes",
+        }
+      },
+      {
+        path: 'grid',
+        component: GridComponent,
+        data: {
+          title: "Grid",
+          breadcrumb: "Grid",
+        }
+      },
+      {
+        path: 'tag-pills',
+        component: TagPillsComponent,
+        data: {
+          title: "Tag & Pills",
+          breadcrumb: "Tag & Pills",
+        }
+      },
+      {
+        path: 'progress-bar',
+        component: ProgressComponent,
+        data: {
+          title: "Progress",
+          breadcrumb: "Progress",
+        }
+      },
+      {
+        path: 'modal',
+        component: ModalComponent,
+        data: {
+          title: "Modal",
+          breadcrumb: "Modal",
+        }
+      },
+      {
+        path: 'alert',
+        component: AlertComponent,
+        data: {
+          title: "Alert",
+          breadcrumb: "Alert",
+        }
+      },
+      {
+        path: 'popover',
+        component: PopoverComponent,
+        data: {
+          title: "Popover",
+          breadcrumb: "Popover",
+        }
+      },
+      {
+        path: 'tooltip',
+        component: TooltipComponent,
+        data: {
+          title: "Tooltip",
+          breadcrumb: "Tooltip",
+        }
+      },
+      {
+        path: 'dropdown',
+        component: DropdownComponent,
+        data: {
+          title: "Dropdown",
+          breadcrumb: "Dropdown",
+        }
+      },
+      {
+        path: 'according',
+        component: AccordionComponent,
+        data: {
+          title: "Accordion",
+          breadcrumb: "Accordion",
+        }
+      },
+      {
+        path: 'tabs',
+        component: TabsComponent,
+        data: {
+          title: "Bootstrap Tabs",
+          breadcrumb: "Bootstrap Tabs",
+        }
+      },
+      {
+        path: 'lists',
+        component: ListsComponent,
+        data: {
+          title: "Lists",
+          breadcrumb: "Lists",
+        }
+      },
+] as Routes; 

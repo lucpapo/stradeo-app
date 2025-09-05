@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Become member</h4>
+    </div>
+    <div class="card-body pricing-content">
+        <div class="row pricing-col gy-4">
+            @for(data of becomeMemberData; track data){
+            <div class="col-lg-3 col-sm-6 box-col-6">
+                <div class="pricingtable">
+                    <div class="pricingtable-header">
+                        <h4 class="title">{{data.title}}</h4>
+                    </div>
+                    <div class="price-value"><span class="currency">$</span><span class="amount">{{data.
+                            price}}</span><span class="duration">/mo</span></div>
+                    <ul class="pricing-content">
+                        @for(item of data.item; track item){
+                            <li>{{item.list}}</li>
+                        }
+                    </ul>
+                    <div class="pricingtable-signup"><a class="btn btn-primary btn-lg" href="javascript:void(0)">Sign
+                            Up</a>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>

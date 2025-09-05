@@ -1,0 +1,32 @@
+<div class="cart-box" (click)="isCart =!isCart">
+  <app-common-svg-icons [icon]="'Bag'"></app-common-svg-icons>
+  <span class="badge rounded-pill badge-secondary">2 </span>
+</div>
+<div class="cart-dropdown onhover-show-div" [class.active]="isCart">
+  <h4 class="f-18 mb-0 dropdown-title">Cart</h4>
+  <ul class="py-0">
+    <li>
+      <div class="d-flex"><img class="img-fluid b-r-5 img-40"
+          src="assets/images/product_list/product-categories/headphone.png" alt="">
+        <div class="flex-grow-1"><span>Headphone</span>
+          <h6>1 X $ 299.00</h6>
+        </div>
+        <div class="close-circle"><a href="#"><app-feather-icon [icon]="'x'"></app-feather-icon></a></div>
+      </div>
+    </li>
+    <li>
+      <div class="d-flex"><img class="img-fluid b-r-5 img-40"
+          src="assets/images/product_list/product-categories/wireless-headphone.png" alt="">
+        <div class="flex-grow-1"><span>AirPods</span>
+          <h6>1 X $ 299.00</h6>
+        </div>
+        <div class="close-circle"><a href="#"><app-feather-icon [icon]="'x'"></app-feather-icon></a></div>
+      </div>
+    </li>
+    <li class="total">
+      <h5 class="mb-0">Subtotal :<span class="f-right">$299.00</span></h5>
+    </li>
+    <li><a class="view-cart" [routerLink]="['/ecommerce/cart']">View Cart</a><a class="view-checkout f-right"
+      [routerLink]="['/ecommerce/checkout']">Checkout</a></li>
+  </ul>
+</div>

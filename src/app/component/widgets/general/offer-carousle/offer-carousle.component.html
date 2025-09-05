@@ -1,0 +1,42 @@
+<div class="card discount-card">
+  <div class="card-body">
+      <owl-carousel-o [options]="customOptions">
+        @for (slide of slideData; track slide) {
+          <ng-template carouselSlide>
+            <div class="special-offer">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <h3>{{slide.name}} </h3>
+                  <h5>
+                    ${{slide.currentPrice}}
+                    <del>${{slide.originalPrice}}</del>
+                  </h5>
+                  <h6 class="bg-light">Special Discount </h6>
+                  <p>{{slide.specialDiscount}} <span>${{slide.dealOfTheDayPrice}} </span></p>
+                  <ul>
+                    <li>
+                      <h5>{{slide.countdown.days}}</h5><span>Days</span>
+                    </li>
+                    <li>
+                      <h5>{{slide.countdown.hours}}</h5><span>Hours</span>
+                    </li>
+                    <li>
+                      <h5>{{slide.countdown.minutes}}</h5><span>Min</span>
+                    </li>
+                    <li>
+                      <h5>{{slide.countdown.seconds}}</h5><span>Sec</span>
+                    </li>
+                  </ul>
+                </div><img [src]="slide.imageUrl" alt="">
+              </div>
+              <div class="product-slider">
+                <div class="shap-block">
+                  <div class="rounded-shap animate-bg-secondary"><i></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        }
+      </owl-carousel-o>
+  </div>
+</div>

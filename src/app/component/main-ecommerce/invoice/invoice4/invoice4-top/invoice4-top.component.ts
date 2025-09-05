@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-invoice4-top',
+    templateUrl: './invoice4-top.component.html',
+    styleUrls: ['./invoice4-top.component.scss'],
+    standalone: true
+})
+export class Invoice4TopComponent {
+
+}

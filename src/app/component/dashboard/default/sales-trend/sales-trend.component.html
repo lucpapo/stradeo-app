@@ -1,0 +1,17 @@
+<div class="card user-chat">
+  <div class="card-header card-no-border pb-0">
+    <div class="header-top">
+      <h4>Sales Trend</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body">
+    <div id="chart-dash-2-line">
+      <apx-chart [series]="chartData.series" [chart]="chartData.chart" [stroke]="chartData.stroke"
+        [grid]="chartData.grid" [fill]="chartData.fill" [labels]="chartData.labels" [markers]="chartData.markers"
+        [tooltip]="chartData.tooltip" [annotations]="chartData.annotations" [legend]="chartData.legend"
+        [colors]="chartData.colors" [xaxis]="chartData.xaxis" [yaxis]="chartData.yaxis"
+        [responsive]="chartData.responsive"></apx-chart>
+    </div>
+  </div>
+</div>

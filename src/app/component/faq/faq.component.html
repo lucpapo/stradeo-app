@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="faq-wrap">
+    <div class="row">
+      @for (item of FaqTopPartData; track item) {
+      <div [class]="item.colClass">
+        <div class="card articles-cards">
+          <div class="card-body">
+            <div class="d-flex faq-widgets">
+              <div class="flex-grow-1">
+                <h4>{{item.title}}</h4>
+                <p>{{item.desc}}</p>
+              </div><app-feather-icon [icon]="item.icon"></app-feather-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+      <div class="col-lg-12">
+        <div class="header-faq">
+          <h5 class="mb-0">Quick Questions are answered</h5>
+        </div>
+        <div class="row default-according style-1 faq-accordion">
+          <div class="col-xl-8 xl-60 col-lg-6 col-md-7">
+            <app-questions></app-questions>
+          </div>
+          <div class="col-xl-4 xl-40 col-lg-6 col-md-5">
+            <div class="row">
+              <div class="col-lg-12">
+                <app-search-article></app-search-article>
+              </div>
+              <div class="col-lg-12">
+                <app-navigation></app-navigation>
+              </div>
+              <div class="col-lg-12">
+                <app-latest-update></app-latest-update>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <app-featured-tutorials [data]="featuredTutorialData"></app-featured-tutorials>
+      </div>
+      <div class="col-lg-12">
+        <app-latest-article-videos [data]="articlesAndVideosData"></app-latest-article-videos>
+      </div>
+    </div>
+  </div>
+</div>

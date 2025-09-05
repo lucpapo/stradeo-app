@@ -1,0 +1,22 @@
+<div class="card o-hidden">
+    <div class="card-header">
+        <h4>Monthly History</h4>
+    </div>
+    <div class="bar-chart-widget">
+        <div class="bottom-content card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div id="chart-widget4">
+                        <apx-chart [series]="MonthlyHistoryChart.series" [chart]="MonthlyHistoryChart.chart"
+                            [dataLabels]="MonthlyHistoryChart.dataLabels" [tooltip]="MonthlyHistoryChart.tooltip"
+                            [plotOptions]="MonthlyHistoryChart.plotOptions" [stroke]="MonthlyHistoryChart.stroke"
+                            [fill]="MonthlyHistoryChart.fill" [xaxis]="MonthlyHistoryChart.xaxis"
+                            [yaxis]="MonthlyHistoryChart.yaxis" [responsive]="MonthlyHistoryChart.responsive"
+                            [colors]="MonthlyHistoryChart.colors">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

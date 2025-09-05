@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Simple accordion</h4>
+        <p class="f-m-light mt-1">
+            Click the accordions below to expand/collapse the accordion content.
+            Use the <code>.accordion </code>.
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="accordion dark-accordion" id="simpleaccordion" ngbAccordion [closeOthers]="true">
+            @for(simpleAccordionItem of simpleAccordionData; track simpleAccordionItem){
+            <div class="accordion-item" ngbAccordionItem [collapsed]="simpleAccordionItem.panel !== 'First'">
+                <h2 ngbAccordionHeader class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed bg-light-primary font-primary active" type="button"
+                        ngbAccordionButton>{{simpleAccordionItem.title}}
+                        <app-feather-icon [icon]="'chevron-down'" class="svg-color"></app-feather-icon>
+                    </button>
+                </h2>
+                <div class="accordion-collapse {{simpleAccordionItem.class}}" id="collapseOne"
+                    aria-labelledby="headingOne" ngbAccordionCollapse>
+                    <div class="accordion-body" ngbAccordionBody>
+                        <ng-template>
+                            <p [innerHTML]="simpleAccordionItem.text"></p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header card-no-border pb-0">
+    <div class="header-top">
+      <h4>Active Task</h4>
+      <app-dropdown [data]="dropdownList"></app-dropdown>
+    </div>
+  </div>
+  <div class="card-body active-task">
+    <ul>
+      @for (item of activeTasks; track item;let i = $index) {
+      <li class="d-flex">
+        <div class="flex-shrink-0">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+            <label class="form-check-label"></label>
+          </div>
+        </div>
+        <div class="flex-grow-1"><a [routerLink]="['/todo']">
+            <h5>{{item.title}}</h5>
+          </a>
+          <p>{{item.description}}</p>
+        </div>
+        <span class="delete-option">
+          <a (click)="deleteTask(i)">
+            <app-common-svg-icons [icon]="'Delete'" [class]="'remove'"></app-common-svg-icons>
+          </a>
+        </span>
+      </li>
+      }
+    </ul>
+  </div>
+</div>

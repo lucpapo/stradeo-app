@@ -1,0 +1,38 @@
+<div class="card appointment-detail">
+    <div class="card-header card-no-border pb-0">
+        <div class="header-top">
+            <h4>Total appointment</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive custom-scrollbar">
+            <table class="table">
+                <tbody>
+                    @for (item of totalAppointment; track item) {
+                    <tr>
+                        <td>
+                            <div class="d-flex">
+                                <img class="img-fluid align-top circle" [src]="item.img" alt="">
+                                <div class="flex-grow-1 text-truncate">
+                                    <a [routerLink]="['/user/users-profile']"><span>{{item.name}}</span></a>
+                                    <p class="mb-0">{{item.time}}</p>
+                                </div>
+                                <div class="active-status" [class]="item.status"></div>
+                            </div>
+                        </td>
+                        <td class="text-truncate">{{item.date}} </td>
+                        <td class="text-end">
+                            <button class="btn" [class]="item.buttonClass" type="button">{{item.buttonText}}
+                                @if (item.buttonIcon) {
+                                <i class="fa fa-check-circle"></i>
+                                }
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

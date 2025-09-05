@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header pb-0">
+    <h4>Global configuration of typeaheads</h4>
+    <p>This typeahead shows a hint when the input matches because the default values have been customized.</p>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <input id="typeahead-config" type="text" class="form-control" placeholder="Search for a stete"
+          [(ngModel)]="model" [ngbTypeahead]="search" />
+      </div>
+    </div>
+  </div>
+</div>

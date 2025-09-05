@@ -1,0 +1,17 @@
+<div class="card user-country">
+    <div class="card-header card-no-border pb-0">
+        <div class="header-top">
+            <h4>User By Country</h4>
+            <app-dropdown [data]="dropdownList"></app-dropdown>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex">
+            <h2 class="me-2">216.459</h2><span class="bg-light-success">
+              <app-common-svg-icons [icon]="'up-arrow'"></app-common-svg-icons>
+            </span>
+            <h6 class="font-success">+ 5.09%</h6>
+        </div><span>Increase than last month</span>
+        <div class="jvector-map-height" leaflet [leafletOptions]="options">
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="card monthly-chart">
+  <div class="card-header pb-0">
+    <div class="header-top">
+      <h4>Monthly Sale</h4>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex">
+      <div class="monthly">
+        <h5>Growth</h5>
+        <h3>$7,234</h3>
+      </div>
+      <div class="growth" id="monthlychart-1">
+        <apx-chart 
+        [series]="monthlyChart1.series" 
+        [chart]="monthlyChart1.chart" 
+        [grid]="monthlyChart1.grid"
+        [colors]="monthlyChart1.colors" 
+        [stroke]="monthlyChart1.stroke" 
+        [xaxis]="monthlyChart1.xaxis"
+        [yaxis]="monthlyChart1.yaxis" 
+        [markers]="monthlyChart1.markers">
+        </apx-chart>
+      </div>
+    </div>
+  </div>
+</div>
