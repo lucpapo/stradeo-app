@@ -9,8 +9,6 @@ import {  TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { BaseListaPage } from '@pcode/ui/list/BaseListaPage';
 import { IServiceBase } from '@pcode/api/IServiceBase';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
-import { StateRef } from '@pcode/store/state-ref';
-import { StateProvider } from '@pcode/store/state-provider';
  
 @Component({
   standalone: true,
@@ -27,17 +25,9 @@ export class TipocategoriaListPage extends BaseListaPage<
 
   private readonly service = inject(TipoCategoriaService);
   protected override readonly router = inject(Router);
-  private readonly stateProvider = inject(StateProvider);
-  private stateRef: StateRef<{ pagination: { page: number; qtdPage: number } }>;
 
   constructor() {
     super();
-    this.stateRef = new StateRef(this.stateProvider, 'ui-TipocategoriaShellComponent', 'TipocategoriaListPage#main');
-    
-    // Inicializa com valor padrão se não existir
-    if (!this.stateRef.get()) {
-      this.stateRef.set({ pagination: { page: 0, qtdPage: 10 } });
-    }
   }
  
   protected obterServico(): IServiceBase<TipoCategoria, TipocategoriaFilterValue, number> {

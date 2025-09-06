@@ -1,9 +1,8 @@
 <div class="container-fluid ">
- 
 
-  <app-tipocategoria-filter
-    [value]="gerenciador.filterValue()"
-    (apply)="gerenciador.aplicarFiltro($event)"
+
+  <app-tipocategoria-filter [value]="gerenciador.filterValue()" [masterKey]="'ui-TipocategoriaShellComponent'"
+    [componentKey]="'TipocategoriaFilterPage#main'" (apply)="gerenciador.aplicarFiltro($event)"
     (clear)="gerenciador.limparFiltro()">
   </app-tipocategoria-filter>
 
@@ -25,13 +24,10 @@
             <th class="text-start" style="width:120px">
               <!-- gap MENOR + padding esquerdo menor -->
               <div class="d-flex align-items-center gap-2 ps-1">
-                <button type="button" class="icon-action"
-                        title="Exportar Excel" aria-label="Exportar Excel">
+                <button type="button" class="icon-action" title="Exportar Excel" aria-label="Exportar Excel">
                   <i class="fa fa-file-excel-o"></i>
                 </button>
-                <button type="button" class="icon-action"
-                        title="Novo" aria-label="Novo"
-                        (click)="irParaNovo()">
+                <button type="button" class="icon-action" title="Novo" aria-label="Novo" (click)="irParaNovo()">
                   <i class="fa fa-plus-square-o"></i>
                 </button>
               </div>
@@ -39,8 +35,8 @@
             <th class="text-nowrap" style="width:80px">ID</th>
             <th class="text-nowrap">Descrição</th>
             <th class="text-nowrap" style="width:100px">Status</th>
-             <th class="text-nowrap" style="width:150px">Cadastro</th>
-    <th class="text-nowrap" style="width:150px">Atualização</th>
+            <th class="text-nowrap" style="width:150px">Cadastro</th>
+            <th class="text-nowrap" style="width:150px">Atualização</th>
           </tr>
         </thead>
 
@@ -63,25 +59,24 @@
 
             <td><span class="text-muted">{{ r.id }}</span></td>
             <td class="text-truncate">{{ r.descricao }}</td>
-             <td>
-      <span class="badge rounded-pill status-badge"
-            [class.bg-success]="r.status_delecao === 0"
-            [class.bg-secondary]="r.status_delecao !== 0">
-        {{ r.status_delecao === 0 ? 'Ativo' : 'Inativo' }}
-      </span>
-    </td>
+            <td>
+              <span class="badge rounded-pill status-badge" [class.bg-success]="r.status_delecao === 0"
+                [class.bg-secondary]="r.status_delecao !== 0">
+                {{ r.status_delecao === 0 ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
 
-    <td class="text-nowrap">
-      <span class="datetime" [title]="r.data_cadastro">
-        {{ r.data_cadastro ? (r.data_cadastro | date:'dd/MM/yyyy HH:mm') : '—' }}
-      </span>
-    </td>
-    <td class="text-nowrap">
-      <span class="datetime" [title]="r.data_atualizacao">
-        {{ r.data_atualizacao ? (r.data_atualizacao | date:'dd/MM/yyyy HH:mm') : '—' }}
-      </span>
-    </td>
-    
+            <td class="text-nowrap">
+              <span class="datetime" [title]="r.data_cadastro">
+                {{ r.data_cadastro ? (r.data_cadastro | date:'dd/MM/yyyy HH:mm') : '—' }}
+              </span>
+            </td>
+            <td class="text-nowrap">
+              <span class="datetime" [title]="r.data_atualizacao">
+                {{ r.data_atualizacao ? (r.data_atualizacao | date:'dd/MM/yyyy HH:mm') : '—' }}
+              </span>
+            </td>
+
           </tr>
         </tbody>
       </table>
@@ -90,12 +85,12 @@
     <div class="card-footer d-flex justify-content-between align-items-center py-2">
       <small class="text-muted">{{ gerenciador.showingRange() }}</small>
       <div class="btn-group">
-        <button class="btn btn-outline-secondary btn-sm"
-                (click)="gerenciador.prevPage()" [disabled]="gerenciador.query().page <= 1">
+        <button class="btn btn-outline-secondary btn-sm" (click)="gerenciador.prevPage()"
+          [disabled]="gerenciador.query().page <= 1">
           <i class="fa fa-chevron-left"></i> Anterior
         </button>
-        <button class="btn btn-outline-secondary btn-sm"
-                (click)="gerenciador.nextPage()" [disabled]="gerenciador.query().page >= gerenciador.maxPage()">
+        <button class="btn btn-outline-secondary btn-sm" (click)="gerenciador.nextPage()"
+          [disabled]="gerenciador.query().page >= gerenciador.maxPage()">
           Próxima <i class="fa fa-chevron-right"></i>
         </button>
       </div>
