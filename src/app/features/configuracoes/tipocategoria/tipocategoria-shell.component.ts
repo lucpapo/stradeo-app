@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../corepcode/store/state-provider';
- 
+
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-shell',
@@ -18,7 +18,7 @@ import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../
 export class TipocategoriaShellComponent implements OnInit, OnDestroy {
   private readonly rootKey = 'ui-TipocategoriaShellComponent';
 
-  constructor(private stateProvider: StateProvider) {}
+  constructor(private stateProvider: StateProvider) { }
 
   ngOnInit() {
     // Garante que o root state existe
