@@ -1,14 +1,15 @@
-// src/app/features/configuracoes/tipocategoria/tipocategoria-shell.component.ts
+// tipocategoria-shell.component.ts
 import { Component } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
-
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+ 
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-shell',
-  template: `
-    <!-- cabeçalho/toolbar local da feature, se quiser -->
-    <router-outlet />
-  `,
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterModule],
+  template: `<router-outlet></router-outlet>`,
+ 
 })
-export class TipocategoriaShellComponent {}
+export class TipocategoriaShellComponent   {
+  
+}

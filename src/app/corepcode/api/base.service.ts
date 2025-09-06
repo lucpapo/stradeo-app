@@ -1,11 +1,24 @@
-// corepcode/api/base.service.ts
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { AnyResponse, unwrapItem, unwrapList } from './api-types';
+// As importações dos seus tipos de API e utilitários
+import { AnyResponse, unwrapItem, unwrapList } from './api-types'; 
 import { ApiMode, ListQuery, AliasMap, SerializeOptions, buildListParams } from './param-alias';
 import { KeyInput, buildKeySegment } from './key.util';
-
-export abstract class BaseService<TItem, TKey extends KeyInput = number> {
+import { IServiceBase } from './IServiceBase';
+// 1. Importar a interface que vamos implementar
+ 
+/**
+ * Classe base abstrata para serviços CRUD.
+ * Agora implementa formalmente a IServiceBase para garantir a consistência do contrato.
+ */
+export abstract class BaseService<
+    TItem, 
+    TFilter extends Record<string, any>, // 2. Adicionar TFilter aos genéricos da classe
+    TKey extends KeyInput = number
+  > 
+  // 3. Implementar a interface
+  implements IServiceBase<TItem, TFilter, TKey> 
+{
   constructor(
     protected readonly http: HttpClient,
     private readonly baseUrl: string,
@@ -17,12 +30,14 @@ export abstract class BaseService<TItem, TKey extends KeyInput = number> {
     return buildKeySegment(key, this.keyMode);
   }
 
-  list<R = TItem, TFilters extends Record<string, any> = Record<string, any>>(
-    query?: ListQuery<TFilters>,
-    options?: { aliases?: AliasMap<TFilters>; serialize?: SerializeOptions }
-  ): Observable<{ data: R[]; total?: number }> {
-    const params = buildListParams<TFilters>(this.mode, query, options?.aliases, options?.serialize);
-    return this.http.get<AnyResponse<R[]>>(this.baseUrl, { params }).pipe(map(unwrapList));
+  // 4. O método list agora usa o TFilter definido ao nível da classe
+  list(
+    query?: ListQuery<TFilter>,
+    options?: { aliases?: AliasMap<TFilter>; serialize?: SerializeOptions }
+  ): Observable<{ data: TItem[]; total?: number }> {
+    const params = buildListParams<TFilter>(this.mode, query, options?.aliases, options?.serialize);
+    // Removido o genérico <R> para corresponder exatamente à interface
+    return this.http.get<AnyResponse<TItem[]>>(this.baseUrl, { params }).pipe(map(unwrapList));
   }
 
   get<R = TItem>(key: TKey): Observable<R> {

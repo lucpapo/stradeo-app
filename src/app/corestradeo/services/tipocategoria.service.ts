@@ -1,18 +1,28 @@
-// src/app/corestradeo/project/services/tipocategoria.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@pcode/api';
+import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
+import { TipocategoriaFilterValue } from 'app/features/configuracoes/tipocategoria/crud/search/filter/tipocategoria-filter.page';
+
 import { environment } from '../../../environments/environment';
  
-export interface TipoCategoria {
-  id: number;
-  descricao: string;
-  status_delecao: '0' | '1';
-}
-
-@Injectable({ providedIn: 'root' })
-export class TipoCategoriaService extends BaseService<TipoCategoria, number> {
-  constructor(http: HttpClient) {
-    super(http, `${environment.apiBase}/tipocategoria`, 'modern', 'path');
+@Injectable({
+  providedIn: 'root',
+})
+/**
+ * A correção está na assinatura da classe. Agora especificamos que o tipo de filtro (TFilter)
+ * para este serviço é 'TipocategoriaFilterValue', alinhando-o com a interface IServiceBase
+ * e resolvendo o erro de incompatibilidade.
+ */
+export class TipoCategoriaService extends BaseService<
+  TipoCategoria,          // TItem
+  TipocategoriaFilterValue, // TFilter
+  number                  // TKey
+> {
+  constructor() {
+    const http = inject(HttpClient);
+    
+  // O construtor da classe base é chamado com o endpoint específico usando a URL base do environment.
+  super(http, `${environment.apiBase}/tipocategoria`); 
   }
 }

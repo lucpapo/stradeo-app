@@ -1,0 +1,107 @@
+<div class="card">
+ 
+  <div *ngIf="loading()" class="alert alert-info m-3 py-2">Carregando...</div>
+  <div *ngIf="error()" class="alert alert-danger m-3 py-2">{{ error() }}</div>
+
+
+  <div class="card-body">
+     
+    <form id="tipo-categoria-form" [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading()" class="row g-3 needs-validation custom-input">
+
+      <div class="col-md-8 position-relative">
+        <label class="form-label" for="descricao">Descrição</label>
+        <input class="form-control" id="descricao" type="text" formControlName="descricao" type="text">
+
+      </div>
+      <div class="col-md-4 position-relative">
+        <label class="form-label" for="status">Status</label>
+
+        <div *ngIf="isViewMode(); else editStatus">
+          <select class="form-select status-select" disabled title="Status">
+            <option>{{ form.get('status_delecao')?.value === 0 ? 'Ativo' : 'Inativo' }}</option>
+          </select>
+        </div>
+        <!-- edit/create: select -->
+        <ng-template #editStatus>
+          <select id="status" class="form-select status-select" formControlName="status_delecao">
+            <option [ngValue]="0">Ativo</option>
+            <option [ngValue]="1">Inativo</option>
+          </select>
+        </ng-template>
+      </div>
+
+      <div class="d-flex justify-content-end gap-3  " *ngIf="!isViewMode()">
+        <button type="button" class="btn btn-outline-secondary px-4" (click)="goBack()">Cancelar</button>
+        <button type="submit" class="btn btn-primary px-4" [disabled]="form.invalid || loading()">Salvar</button>
+      </div>
+    </form>
+
+    <div *ngIf="id()" class="card shadow-sm mt-3">
+      <!-- header com ícone de colapse -->
+      <div class="card-header bg-light d-flex justify-content-between align-items-center py-3 border-bottom">
+        <div class="d-inline-flex align-items-center gap-2">
+          <label class="form-check-label fw-normal text-dark mb-0">Dados de Auditoria</label>
+        </div>
+
+        <div class="d-inline-flex align-items-center gap-2">
+          <small class="text-muted">
+            Última atualização:
+            <span class="fw-semibold text-dark">
+              {{ form.get('data_atualizacao')?.value
+              ? (form.get('data_atualizacao')?.value | date:'dd/MM/yyyy, HH:mm')
+              : '09/05/2025, 19:01' }}
+            </span>
+          </small>
+
+          <!-- Botão ícone para expandir/recolher -->
+          <button type="button" class="btn btn-sm btn-light border-0 p-2" (click)="toggleAudit()" [attr.aria-expanded]="auditOpen()" aria-controls="audit-panel"
+            title="{{ auditOpen() ? 'Recolher detalhes' : 'Expandir detalhes' }}">
+            <i class="fa" [ngClass]="auditOpen() ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            <span class="visually-hidden">{{ auditOpen() ? 'Recolher' : 'Expandir' }} dados de auditoria</span>
+          </button>
+        </div>
+      </div>
+
+
+      <div *ngIf="auditOpen()" id="audit-panel" class="card-body ">
+        <div class="row g-4">
+          <div class="col-12 col-md-3">
+            <div class="audit-item">
+              <div class="audit-value fw-semibold text-dark">
+                {{ form.get('data_cadastro')?.value
+                ? (form.get('data_cadastro')?.value | date:'dd/MM/yyyy, HH:mm')
+                : '09/05/2025, 19:01' }}
+              </div>
+              <div class="audit-label text-muted small mt-1">Data de Criação</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="audit-item">
+              <div class="audit-value fw-semibold text-dark">{{ form.get('usuario_cadastro')?.value ?? 'z' }}</div>
+              <div class="audit-label text-muted small mt-1">Usuário (Criação)</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="audit-item">
+              <div class="audit-value fw-semibold text-dark">
+                {{ form.get('data_atualizacao')?.value
+                ? (form.get('data_atualizacao')?.value | date:'dd/MM/yyyy, HH:mm')
+                : '09/05/2025, 19:01' }}
+              </div>
+              <div class="audit-label text-muted small mt-1">Última Atualização</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3">
+            <div class="audit-item">
+              <div class="audit-value fw-semibold text-dark">{{ form.get('usuario_atualizacao')?.value ?? 'z' }}</div>
+              <div class="audit-label text-muted small mt-1">Usuário (Atualização)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

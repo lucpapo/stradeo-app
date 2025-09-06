@@ -1,3 +1,16 @@
-.filter {
-  padding: 0.5rem 0;
+/* do layout anterior: */
+.icon-row{display:flex;align-items:center;gap:.25rem}
+.icon-row--tight{gap:.125rem}
+.icon-action{
+  appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;
+  width:26px;height:26px;padding:.125rem;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:.375rem;color:#111;cursor:pointer
 }
+.icon-action i{font-size:.95rem}
+.icon-action:hover{opacity:.75}
+.icon-action:active{transform:scale(.98)}
+
+/* filtro compacto */
+.filter-compact .form-label{font-size:.82rem; margin-bottom:.25rem}
+.filter-compact .input-group-text{background:transparent}
+.filter-compact .card-body{padding-top:.5rem; padding-bottom:.5rem}
