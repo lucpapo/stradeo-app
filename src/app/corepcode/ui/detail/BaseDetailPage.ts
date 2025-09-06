@@ -3,14 +3,14 @@ import { Directive, inject, OnInit, signal, computed } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IServiceBase } from '@pcode/api/IServiceBase';
-import { KeyInput } from '@pcode/api';
-import { ToastService } from '@pcode/toast/toast.service';
+import { IServiceBase } from '../../api/IServiceBase';
+import { KeyInput } from '../../api/key.util';
+import { ToastService } from '../../toast/toast.service';
 import { switchMap, of } from 'rxjs';
 
 @Directive()
 export abstract class BaseDetailPage<
-  TItem,
+  TItem extends Record<string, any>,
   TFilter extends object,
   TKey extends KeyInput
 > implements OnInit {
@@ -51,7 +51,7 @@ export abstract class BaseDetailPage<
   protected abstract obterRotaBase(): string;
 
   // --- Hooks e Lógica Principal (sem alterações) ---
-  protected prepararPayload(payload: TItem): Partial<TItem> {
+  protected prepararPayload(payload: any): Partial<TItem> {
     return payload;
   }
 
@@ -69,7 +69,8 @@ export abstract class BaseDetailPage<
         const isView = urlSegments.some(seg => seg.path === 'view');
 
         if (idParam && idParam !== 'novo') {
-          const numericId = (typeof this.id.prototype === 'number' ? Number(idParam) : idParam) as TKey;
+          // Converte o ID baseado no tipo esperado (assumindo number por padrão)
+          const numericId = (isNaN(Number(idParam)) ? idParam : Number(idParam)) as TKey;
           this.id.set(numericId);
           this.mode.set(isView ? 'view' : 'edit');
           this.loading.set(true);
@@ -83,7 +84,7 @@ export abstract class BaseDetailPage<
       next: (data) => {
         if (data) {
           this.item.set(data);
-          this.form.patchValue(data);
+          this.form.patchValue(data as any);
           this.aposCarregarDados(data);
           if (this.isViewMode()) {
             this.form.disable();
@@ -100,6 +101,14 @@ export abstract class BaseDetailPage<
   }
 
   save(): void {
+    this.saveAndNavigate('list');
+  }
+
+  saveAndContinue(): void {
+    this.saveAndNavigate('edit');
+  }
+
+  private saveAndNavigate(navigateTo: 'list' | 'edit'): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.toast.warning('Existem campos inválidos. Por favor, verifique.', { title: 'Atenção' });
@@ -118,9 +127,22 @@ export abstract class BaseDetailPage<
       : this.obterServico().update(currentId!, payload);
 
     saveOperation.subscribe({
-      next: () => {
+      next: (savedItem: any) => {
         this.toast.success('Registro salvo com sucesso!', { title: 'Sucesso' });
-        this.router.navigate([this.obterRotaBase()]);
+        
+        if (navigateTo === 'list') {
+          this.router.navigate([this.obterRotaBase()]);
+        } else {
+          // Para "Salvar e Continuar"
+          if (this.isCreateMode()) {
+            // Se estava criando, navega para edição do item recém-criado
+            const newId = savedItem?.id || savedItem;
+            this.router.navigate([this.obterRotaBase(), newId, 'edit']);
+          } else {
+            // Se já estava editando, apenas recarrega os dados
+            this.recarregarDados();
+          }
+        }
       },
       error: (err: HttpErrorResponse) => {
         const message = err.message || 'Ocorreu um erro desconhecido.';
@@ -129,6 +151,25 @@ export abstract class BaseDetailPage<
         this.loading.set(false);
       }
     });
+  }
+
+  private recarregarDados(): void {
+    const currentId = this.id();
+    if (currentId) {
+      this.loading.set(true);
+      this.obterServico().get<TItem>(currentId).subscribe({
+        next: (data) => {
+          this.item.set(data);
+          this.form.patchValue(data as any);
+          this.aposCarregarDados(data);
+          this.loading.set(false);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.set(`Erro ao recarregar dados: ${err.message}`);
+          this.loading.set(false);
+        }
+      });
+    }
   }
   
   goBack(): void {

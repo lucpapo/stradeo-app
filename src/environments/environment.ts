@@ -1,3 +1,3 @@
 export const environment = {
-  apiBase: 'https://api-paz-gateway.labsnextgen.tech/api' // legado
+  apiBase: 'https://localhost:7295' // legado
 };

@@ -24,3 +24,59 @@
   gap: 4px;        /* 4px — deixe menor se quiser */
 }
 .icon-row--tight { gap: 2px }   /* 2px */
+/* Estilos para os botões de salvamento */
+.btn {
+  transition: all 0.2s ease-in-out;
+  
+  i {
+    width: 16px;
+    text-align: center;
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  /* Animação sutil para feedback visual */
+  &:not(:disabled):active {
+    transform: translateY(1px);
+  }
+}
+
+/* Cores específicas para os botões */
+.btn-primary {
+  /* Botão "Salvar" - cor principal */
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  
+  &:hover:not(:disabled) {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+  }
+}
+
+.btn-outline-primary {
+  /* Botão "Salvar e Continuar" - outline azul */
+  color: #0d6efd;
+  border-color: #0d6efd;
+  
+  &:hover:not(:disabled) {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+  }
+}
+
+.btn-outline-secondary {
+  /* Botão "Cancelar" - outline cinza */
+  &:hover:not(:disabled) {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+}
+
+/* Espaçamento entre botões */
+.gap-2 > * + * {
+  margin-left: 0.5rem;
+}

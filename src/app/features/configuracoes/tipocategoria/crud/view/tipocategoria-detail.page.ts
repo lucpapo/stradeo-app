@@ -1,190 +1,56 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
-import { switchMap, of } from 'rxjs';
-import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
-import { ToastService } from '@pcode/toast/toast.service';
- 
+import { Component, inject, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { BaseStradeoDetailPage } from '../../../../../corestradeo/framework/base/BaseStradeoDetailPage';
+import { IServiceBase } from '../../../../../corepcode/api/IServiceBase';
+import { TipoCategoria } from '../../../../../corestradeo/domain/models/tipocategoria.model';
+import { TipoCategoriaService } from '../../../../../corestradeo/services/tipocategoria.service';
+import { TipocategoriaFilterValue } from '../search/filter/tipocategoria-filter.page';
 
 @Component({
   standalone: true,
-  selector: 'app-tipocategoria-form',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  selector: 'app-tipocategoria-detail',
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './tipocategoria-detail.page.html',
-  // O DatePipe é usado para formatar as datas de auditoria
+  styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]
 })
-export class TipocategoriaDetailPage implements OnInit {
-
-   private toast = inject(ToastService);
-  // --- Injeção de Dependências ---
+export class TipocategoriaDetailPage extends BaseStradeoDetailPage<
+  TipoCategoria,
+  TipocategoriaFilterValue,
+  number
+> {
   private readonly service = inject(TipoCategoriaService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly fb = inject(FormBuilder);
-  private readonly datePipe = inject(DatePipe);
 
-  // --- Sinais de Estado ---
-  loading = signal(false);
-  error = signal<string | null>(null);
-  auditOpen = signal(false);
+  // Estado adicional específico desta página
+  public readonly auditOpen = signal(false);
 
-  id = signal<number | null>(null);
-  mode = signal<'create' | 'view' | 'edit'>('create');
+  protected obterServico(): IServiceBase<TipoCategoria, TipocategoriaFilterValue, number> {
+    return this.service;
+  }
 
-  isViewMode = computed(() => this.mode() === 'view');
-
-  // --- Formulário Reativo ---
-  // O formulário agora inclui todos os campos. Os campos de auditoria
-  // são criados com o estado 'disabled' para serem apenas de leitura.
-  form: FormGroup = this.fb.group({
-    id: [{ value: null, disabled: true }],
-    descricao: ['', [Validators.required, Validators.maxLength(100)]],
-    status_delecao: [0, Validators.required],
-    data_cadastro: [{ value: '', disabled: true }],
-    usuario_cadastro: [{ value: '', disabled: true }],
-    data_atualizacao: [{ value: '', disabled: true }],
-    usuario_atualizacao: [{ value: '', disabled: true }],
-  });
-
-ok() {
-    this.toast.success('Operação realizada com sucesso!', {
-      title: 'Tudo certo',
-      position: 'top-end',
-      delay: 14000,
+  protected construirFormulario(): FormGroup {
+    return this.fb.group({
+      id: [{ value: null, disabled: true }],
+      descricao: ['', [Validators.required, Validators.maxLength(100)]],
+      status_delecao: [0, Validators.required],
+      data_cadastro: [{ value: '', disabled: true }],
+      usuario_cadastro: [{ value: '', disabled: true }],
+      data_atualizacao: [{ value: '', disabled: true }],
+      usuario_atualizacao: [{ value: '', disabled: true }],
     });
   }
 
-  warn() {
-    this.toast.warning('Campos pendentes para revisão.', {
-      position: 'top-end',
-      autohide: false, // fica até fechar manualmente
-    });
+  protected obterRotaBase(): string {
+    return '/configuracoes/tipocategoria';
   }
 
-  err() {
-    const id = this.toast.danger('Falha ao salvar o registro.', {
-      title: 'Erro',
-      position: 'top-end',
-      delay: 28000,
-    });
-
-    // exemplo: fechar programaticamente antes do autohide
-    setTimeout(() => this.toast.close(id), 13000);
-  }
-
-   fecharTodos() {
-    this.toast.closeAll();
-  }
-
-  
-
-  ngOnInit(): void {
-    this.ok();
-    this.warn();
-    this.err();
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const idParam = params.get('id');
-        const urlSegments = this.route.snapshot.url;
-        const isView = urlSegments.some(seg => seg.path === 'view');
-
-        if (idParam && idParam !== 'novo') {
-          const numericId = Number(idParam);
-          this.id.set(numericId);
-          this.mode.set(isView ? 'view' : 'edit');
-          return this.service.get<TipoCategoria>(numericId);
-        } else {
-          this.mode.set('create');
-          return of(null);
-        }
-      })
-    ).subscribe({
-      next: (data) => {
-        if (data) {
-          // Formata as datas para uma melhor apresentação antes de preencher o formulário
-          const formattedData = {
-            ...data,
-            data_cadastro: this.datePipe.transform(data.data_cadastro, 'dd/MM/yyyy HH:mm:ss'),
-            data_atualizacao: this.datePipe.transform(data.data_atualizacao, 'dd/MM/yyyy HH:mm:ss')
-          };
-          this.form.patchValue(formattedData);
-          if (this.isViewMode()) {
-            this.form.disable();
-          }
-        }
-        this.loading.set(false);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.error.set(`Erro ao carregar dados: ${err.message}`);
-        this.loading.set(false);
-      }
-    });
-  }
- 
- 
- 
- 
-
-  limparPayloadParaAPI<T>(payload: T): Partial<T> {
-
-    console.log(  this.mode() )
-  const camposExcluir = ['data_atualizacao', 'data_cadastro', 'usuario_atualizacao', 'usuario_atualizacao', 'usuario_cadastro']; // Lista fixa de campos a remover
-  const novoPayload: any = { ...payload }; // Cria uma cópia
-
-  camposExcluir.forEach(campo => {
-    if (campo in novoPayload) {
-      delete novoPayload[campo];
-    }
-  });
-
-  return novoPayload;
-}
-
-  save(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    this.loading.set(true);
-    this.error.set(null);
-
-    const formValue =  this.form.getRawValue();
-    const payloadLimpo = this.limparPayloadParaAPI(formValue);
-    const currentId = this.id();
-
-    const saveOperation = this.mode() === 'create'
-      ? this.service.create(payloadLimpo)
-      : this.service.update(currentId!, payloadLimpo);
-
-    saveOperation.subscribe({
-      next: () => this.router.navigate(['/configuracoes/tipocategoria']),
-      error: (err: HttpErrorResponse) => {
-        this.error.set(`Erro ao salvar: ${err.message}`);
-        this.loading.set(false);
-      }
-    });
-  }
-
-  goBack(): void {
-    this.router.navigate(['/configuracoes/tipocategoria']);
-  }
-
-  switchToEditMode(): void {
-    const currentId = this.id();
-    if (currentId) {
-      this.router.navigate(['/configuracoes/tipocategoria', currentId, 'edit']);
-    }
-  }
-
-  toggleAudit() {
+  public toggleAudit(): void {
     this.auditOpen.set(!this.auditOpen());
   }
 
-
- 
+  // Métodos de salvamento herdados da classe base
+  // save() - Salva e volta para lista
+  // saveAndContinue() - Salva e continua editando
 }
-

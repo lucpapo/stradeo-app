@@ -30,9 +30,26 @@
         </ng-template>
       </div>
 
-      <div class="d-flex justify-content-end gap-3  " *ngIf="!isViewMode()">
-        <button type="button" class="btn btn-outline-secondary px-4" (click)="goBack()">Cancelar</button>
-        <button type="submit" class="btn btn-primary px-4" [disabled]="form.invalid || loading()">Salvar</button>
+      <div class="d-flex justify-content-end gap-2" *ngIf="!isViewMode()">
+        <button type="button" class="btn btn-outline-secondary px-4" (click)="goBack()">
+          Cancelar
+        </button>
+        
+        <button type="button" 
+                class="btn btn-outline-primary px-4" 
+                [disabled]="form.invalid || loading()"
+                (click)="saveAndContinue()">
+          <i class="fa fa-edit me-2"></i>
+          Salvar e Continuar
+        </button>
+        
+        <button type="submit" 
+                class="btn btn-primary px-4" 
+                [disabled]="form.invalid || loading()"
+                (click)="save()">
+          <i class="fa fa-save me-2"></i>
+          Salvar
+        </button>
       </div>
     </form>
 
