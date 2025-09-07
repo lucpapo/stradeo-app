@@ -3,7 +3,8 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } fro
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
-import { ValidationIndicatorComponent } from 'app/shared/components/validation-indicator/validation-indicator.component';
+import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
+ 
 
 export type TipocategoriaFilterValue = {
     descricao: string;

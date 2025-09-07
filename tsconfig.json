@@ -29,7 +29,8 @@
       "@pcode/*": ["app/corepcode/*"],
       "@stradeo/*": ["app/corestradeo/*"],
       "@pcode/api": ["app/corepcode/api/index.ts"],
-      "@pcode/http": ["app/corepcode/http/index.ts"]
+      "@pcode/http": ["app/corepcode/http/index.ts"],
+      "@pcodeshared/*": ["app/shared/*"]
     }
     
   },

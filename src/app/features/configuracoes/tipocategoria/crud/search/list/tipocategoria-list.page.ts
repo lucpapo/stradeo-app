@@ -7,10 +7,11 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { TipocategoriaFilterPage,   TipocategoriaFilterValue } from '../filter/tipocategoria-filter.page';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
-import { EmptyStateComponent } from '../../../../../../shared/components/empty-state/empty-state.component';
-import { FullScreenLoadingComponent } from '../../../../../../shared/components/full-screen-loading/full-screen-loading.component';
+ 
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
+import { EmptyStateComponent } from '@pcodeshared/components/empty-state/empty-state.component';
+import { FullScreenLoadingComponent } from '@pcodeshared/components/full-screen-loading/full-screen-loading.component';
 
 interface PaginationState {
     page: number;
