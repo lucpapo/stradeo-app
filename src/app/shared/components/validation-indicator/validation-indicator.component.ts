@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from '@pcode/toast/toast.service';
 
 interface ValidationError {
   field: string;
@@ -155,9 +155,10 @@ export class ValidationIndicatorComponent {
 
     const errorMessages = this.errors.map(error => `• ${error.message}`).join('\n');
     
-    this.toastService.error(
-      'Erros de validação encontrados', 
-      errorMessages
-    );
+    this.toastService.danger(errorMessages, {
+      title: 'Erros de validação encontrados',
+      delay: 8000,
+      position: 'top-end'
+    });
   }
 }
