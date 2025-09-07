@@ -33,17 +33,27 @@ export abstract class AbstractFilterStrategy<T> implements FilterStrategy<T> {
   /**
    * Verifica se o formulário tem dados válidos para pesquisar
    * Implementação padrão inteligente:
-   * 1. Se há campos obrigatórios definidos, verifica se pelo menos um tem conteúdo
-   * 2. Caso contrário, verifica se há diferença do valor inicial
+   * 1. Detecta automaticamente campos obrigatórios pelos validators do formulário
+   * 2. Se há campos obrigatórios, verifica se pelo menos um tem conteúdo válido
+   * 3. Caso contrário, verifica se há diferença do valor inicial
    * Pode ser sobrescrita se necessário
    */
   hasValidSearchData(formValue: any): boolean {
-    const requiredFields = this.getRequiredSearchFields?.();
+    // Primeiro verifica se há campos obrigatórios definidos manualmente (para compatibilidade)
+    const manualRequiredFields = this.getRequiredSearchFields?.();
     
-    if (requiredFields && requiredFields.length > 0) {
-      return this.hasAnyValidContent(formValue, requiredFields);
+    if (manualRequiredFields && manualRequiredFields.length > 0) {
+      return this.hasAnyValidContent(formValue, manualRequiredFields);
+    }
+
+    // Detecta automaticamente campos obrigatórios pelos validators
+    const autoRequiredFields = this.getRequiredFieldsFromValidators();
+    
+    if (autoRequiredFields.length > 0) {
+      return this.hasAnyValidContent(formValue, autoRequiredFields);
     }
     
+    // Se não há campos obrigatórios, verifica se algo mudou do valor inicial
     return !this.isInitialValue(formValue);
   }
 
@@ -133,5 +143,35 @@ export abstract class AbstractFilterStrategy<T> implements FilterStrategy<T> {
       }
       return value !== null && value !== undefined && value !== '';
     });
+  }
+
+  /**
+   * Detecta automaticamente campos obrigatórios baseado nos validators do formulário
+   * Analisa os validators definidos no createFormControls para identificar campos required
+   */
+  private getRequiredFieldsFromValidators(): string[] {
+    try {
+      const formControls = this.createFormControls();
+      const requiredFields: string[] = [];
+
+      Object.keys(formControls).forEach(fieldName => {
+        const controlConfig = formControls[fieldName];
+        
+        // Verifica se é um array com validators [value, validators]
+        if (Array.isArray(controlConfig) && controlConfig.length >= 2) {
+          const validators = controlConfig[1];
+          
+          // Verifica se validators é um array e contém Validators.required
+          if (Array.isArray(validators) && validators.includes(Validators.required)) {
+            requiredFields.push(fieldName);
+          }
+        }
+      });
+
+      return requiredFields;
+    } catch (error) {
+      console.warn('Erro ao detectar campos obrigatórios automaticamente:', error);
+      return [];
+    }
   }
 }

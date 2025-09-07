@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
-import { BaseFilterPage } from '../../../../../../shared/components/base-filter/base-filter.component';
-import { FilterStrategy } from '../../../../../../shared/components/base-filter/filter-strategy.interface';
+ 
 import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
+import { BaseFilterPage, FilterStrategy } from '@pcodeshared/components/base-filter';
 
 @Component({
   standalone: true,

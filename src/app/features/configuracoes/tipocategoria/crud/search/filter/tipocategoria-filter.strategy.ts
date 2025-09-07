@@ -1,5 +1,6 @@
 import { Validators } from '@angular/forms';
-import { AbstractFilterStrategy } from '../../../../../../shared/components/base-filter/abstract-filter.strategy';
+import { AbstractFilterStrategy } from '@pcodeshared/components/base-filter/abstract-filter.strategy';
+ 
 import { TipocategoriaFilterValue, TIPOCATEGORIA_FILTER_INITIAL_VALUE } from '@stradeo/domain/types/tipocategoria-filter.types';
 
 /**
@@ -35,10 +36,5 @@ export class TipocategoriaFilterStrategy extends AbstractFilterStrategy<Tipocate
         };
     }
 
-    /**
-     * Define que a descrição é obrigatória para pesquisa
-     */
-    protected override  getRequiredSearchFields(): string[] {
-        return ['descricao'];
-    }
+ 
 }
