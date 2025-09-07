@@ -1,12 +1,12 @@
 import { ListStrategy } from '@pcodeshared/components/base-list';
-import { TipocategoriaFilterValue, TIPOCATEGORIA_FILTER_INITIAL_VALUE } from '@stradeo/domain/types/tipocategoria-filter.types';
+import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
 
 /**
  * Estratégia específica para listagem de Tipo Categoria
  * Implementa as regras de negócio específicas desta entidade
  */
-export class TipocategoriaListStrategy implements ListStrategy<TipocategoriaFilterValue, TipoCategoria> {
+export class TipocategoriaListStrategy extends ListStrategy<TipocategoriaFilterValue, TipoCategoria> {
 
   /**
    * Valida se os filtros são suficientes para carregar dados
@@ -14,17 +14,6 @@ export class TipocategoriaListStrategy implements ListStrategy<TipocategoriaFilt
    */
   hasValidFilters(filters: TipocategoriaFilterValue): boolean {
     return filters.descricao.trim() !== '';
-  }
-
-  /**
-   * Retorna as configurações de paginação padrão
-   */
-  getDefaultPagination() {
-    return {
-      page: 1,
-      pageSize: 5,
-      total: 0
-    };
   }
 
   /**
@@ -38,27 +27,5 @@ export class TipocategoriaListStrategy implements ListStrategy<TipocategoriaFilt
     };
   }
 
-  /**
-   * Transforma os parâmetros antes de enviar para a API (opcional)
-   * Aqui podemos fazer ajustes específicos nos parâmetros se necessário
-   */
-  transformQueryParams(params: {
-    page: number;
-    pageSize: number;
-    filters: TipocategoriaFilterValue;
-  }) {
-    // Para TipoCategoria, mantemos a estrutura atual
-    return params;
-  }
-
-  /**
-   * Processa a resposta da API antes de atualizar o estado (opcional)
-   * Aqui podemos fazer transformações específicas na resposta se necessário
-   */
-  processResponse(response: any): { data: TipoCategoria[]; total: number } {
-    return {
-      data: response.data || [],
-      total: response.total || 0
-    };
-  }
+ 
 }
