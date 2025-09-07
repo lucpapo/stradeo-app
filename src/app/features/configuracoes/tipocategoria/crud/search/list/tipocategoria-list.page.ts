@@ -47,12 +47,4 @@ export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue
         return TIPOCATEGORIA_FILTER_INITIAL_VALUE;
     }
 
-    /**
-     * Delega o carregamento de dados para a strategy
-     */
-    protected loadDataFromService(queryParams: any): Observable<any> {
-        return this.strategy.loadDataFromService(queryParams);
-    }
-
-
 }

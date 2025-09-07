@@ -42,8 +42,13 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
 
   /**
    * Retorna a estratégia específica para esta entidade
+   * Implementação genérica que cria a strategy automaticamente
+   * Requer que a filter page tenha uma propriedade 'strategy'
    */
-  protected abstract getStrategy(): FilterStrategy<T>;
+  protected getStrategy(): FilterStrategy<T> {
+    const filterPage = this as any;
+    return filterPage.strategy;
+  }
 
   /**
    * Cria o formulário com dados do StateProvider ou valores iniciais

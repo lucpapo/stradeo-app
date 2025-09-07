@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
- 
+
 import { TipocategoriaFilterValue, TipocategoriaFilterState } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { FilterState } from '@pcodeshared/components/base-list';
 import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
@@ -38,12 +38,4 @@ export class TipocategoriaFilterPage extends BaseFilterPage<TipocategoriaFilterV
     );
   }
 
-  /**
-   * Retorna a estratégia específica para Tipo Categoria
-   */
-  protected getStrategy(): FilterStrategy<TipocategoriaFilterValue> {
-    return this.strategy;
-  }
-
- 
 }

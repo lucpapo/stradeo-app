@@ -327,7 +327,14 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   // Métodos abstratos que devem ser implementados pelas classes filhas
   protected abstract getStrategy(): ListStrategy<TFilter, TEntity>;
   protected abstract getInitialFilters(): TFilter;
-  protected abstract loadDataFromService(queryParams: any): Observable<any>;
+
+  /**
+   * Carrega os dados do serviço usando a strategy
+   * Implementação genérica que delega para strategy.loadDataFromService()
+   */
+  protected loadDataFromService(queryParams: any): Observable<any> {
+    return this.getStrategy().loadDataFromService(queryParams);
+  }
 
   /**
    * Cria o estado inicial dos filtros com validação
