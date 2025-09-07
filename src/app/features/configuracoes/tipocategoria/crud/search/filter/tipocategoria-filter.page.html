@@ -1,24 +1,28 @@
-<form [formGroup]="gerenciador.form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
-  <div class="card-body py-2">
-    <div class="row g-2 align-items-end position-relative">
+<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
 
-      <!-- Indicador de validação no canto esquerdo -->
-      <app-validation-indicator [form]="gerenciador.form" [fieldLabels]="fieldLabels">
-      </app-validation-indicator>
+  <!-- Validation Indicator -->
+  <app-validation-indicator [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-end">
 
       <!-- Descrição -->
       <div class="col-12 col-md-5">
-        <label for="descricao" class="form-label mb-1">Descrição</label>
+        <label for="descricao" class="form-label mb-1">
+          Descrição <span class="text-danger">*</span>
+        </label>
         <input id="descricao" type="text" formControlName="descricao" class="form-control form-control-sm"
-          [class]="'form-control form-control-sm ' + validationService.getFieldErrorClass(gerenciador.form, 'descricao')"
-          placeholder="Filtrar por descrição...">
+          [style.border-left]="descricaoControl?.invalid ? '3px solid #dc3545' : ''"
+          placeholder="Filtrar por descrição..." maxlength="100">
+        
       </div>
 
       <!-- Status -->
       <div class="col-6 col-md-3">
         <label for="status" class="form-label mb-1">Status</label>
-        <select id="status" formControlName="status_delecao"
-          [class]="'form-select status-select ' + validationService.getFieldErrorClass(gerenciador.form, 'status_delecao')">
+        <select id="status" formControlName="status_delecao" class="form-select form-select-sm"
+          [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
           <option value="">Todos</option>
           <option value="0">Ativo</option>
           <option value="1">Inativo</option>
@@ -27,7 +31,13 @@
 
       <!-- Ações -->
       <div class="col-6 col-md-4 d-flex justify-content-end align-items-end gap-2">
-        <button type="submit" [disabled]="gerenciador.form.invalid"
+        <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+          (click)="onClear()">
+          <i class="fa fa-eraser"></i>
+          <span>Limpar</span>
+        </button>
+
+        <button type="submit" [disabled]="form.invalid"
           class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
           <i class="fa fa-search"></i>
           <span>Pesquisar</span>

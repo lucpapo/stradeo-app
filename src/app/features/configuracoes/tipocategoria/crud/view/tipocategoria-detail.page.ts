@@ -6,8 +6,8 @@ import { BaseStradeoDetailPage } from '../../../../../corestradeo/framework/base
 import { IServiceBase } from '../../../../../corepcode/api/IServiceBase';
 import { TipoCategoria } from '../../../../../corestradeo/domain/models/tipocategoria.model';
 import { TipoCategoriaService } from '../../../../../corestradeo/services/tipocategoria.service';
-import { TipocategoriaFilterValue } from '../search/filter/tipocategoria-filter-simple.page';
-
+import { TipocategoriaFilterValue } from '../search/filter/tipocategoria-filter.page';
+ 
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-detail',

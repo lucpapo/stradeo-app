@@ -11,8 +11,8 @@ export const TIPOCATEGORIA_ROUTES: Routes = [
         path: '',
         title: 'Tipo de Categoria',
         loadComponent: () =>
-          import('./crud/search/list/tipocategoria-list-simple.page')
-            .then(m => m.TipocategoriaListSimplePage),
+          import('./crud/search/list/tipocategoria-list.page')
+            .then(m => m.TipocategoriaListPage),
              data: {title: 'Tipo de Categoria',
             breadcrumb: 'Tipo de Categoria'
         }
