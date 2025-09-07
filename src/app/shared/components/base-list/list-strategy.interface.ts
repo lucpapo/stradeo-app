@@ -21,7 +21,7 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
     // Se tem propriedade 'valid', é FilterState (novo formato)
     if (typeof filtersOrState === 'object' && filtersOrState !== null && 'valid' in filtersOrState) {
       const filterState = filtersOrState as FilterState<TFilter>;
-      return filterState.valid && this.validateAdditionalRules(filterState.data);
+      return filterState.valid && this.validateAdditionalRules(filterState);
     }
 
     // Caso contrário, é o formato antigo - chama validação legacy
@@ -33,17 +33,17 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
    * Implementação padrão que sempre retorna true
    * Sobrescreva se usar o formato antigo
    */
-  protected validateFiltersLegacy(filters: TFilter): boolean {
+  protected validateFiltersLegacy(_filters: TFilter): boolean {
     return true;
   }
 
   /**
    * Validações adicionais específicas da entidade
-   * Implementação padrão que sempre retorna true
+   * Implementação padrão que retorna o valid do state provider
    * Sobrescreva apenas se precisar de validações extras além do state provider
    */
-  protected validateAdditionalRules(filters: TFilter): boolean {
-    return true;
+  validateAdditionalRules(filterState: FilterState<TFilter>): boolean {
+    return filterState.valid;
   }
 
   /**

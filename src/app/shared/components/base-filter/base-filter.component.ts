@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { FilterStrategy } from './filter-strategy.interface';
+import { FilterState } from '@pcodeshared/components/base-list';
 
 /**
  * Classe base abstrata para componentes de filtro
@@ -21,8 +22,8 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
   form!: FormGroup;
   fieldLabels: { [key: string]: string } = {};
 
-  // StateRef específico para os filtros
-  protected filterStateRef!: StateRef<T>;
+  // StateRef específico para os filtros - agora usa FilterState
+  protected filterStateRef!: StateRef<FilterState<T>>;
 
   constructor() {}
 
@@ -51,23 +52,27 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
     const strategy = this.getStrategy();
     
     // Busca dados salvos no StateProvider
-    let savedFilters = this.filterStateRef.get();
+    let savedFilterState = this.filterStateRef.get();
     
     // Se não há estado salvo, cria um estado inicial
-    if (!savedFilters) {
-      console.log('🆕 Criando estado inicial no StateProvider:', strategy.getInitialValue());
-      this.filterStateRef.set(strategy.getInitialValue());
-      savedFilters = strategy.getInitialValue();
+    if (!savedFilterState) {
+      const initialValue = strategy.getInitialValue();
+      savedFilterState = {
+        data: initialValue,
+        valid: strategy.hasValidSearchData(initialValue)
+      };
+      console.log('🆕 Criando estado inicial no StateProvider:', savedFilterState);
+      this.filterStateRef.set(savedFilterState);
     }
     
     console.log('🏗️ Criando formulário com dados:', {
-      savedFilters,
-      hasStateData: !!savedFilters,
+      savedFilterState,
+      hasStateData: !!savedFilterState,
       initialValue: strategy.getInitialValue()
     });
 
-    // Cria o formulário usando a estratégia
-    const formControls = strategy.createFormControls(savedFilters);
+    // Cria o formulário usando a estratégia com os dados do estado
+    const formControls = strategy.createFormControls(savedFilterState.data);
     this.form = this.fb.group(formControls);
 
     // Marca todos os campos como touched para mostrar validações iniciais
@@ -78,11 +83,11 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
    * Carrega os filtros salvos do estado ou usa valores iniciais
    */
   private loadSavedFilters(): void {
-    const savedFilters = this.filterStateRef.get();
+    const savedFilterState = this.filterStateRef.get();
     const strategy = this.getStrategy();
 
-    if (savedFilters) {
-      console.log('🔄 Filtros já carregados no createForm do estado:', savedFilters);
+    if (savedFilterState) {
+      console.log('🔄 Filtros já carregados no createForm do estado:', savedFilterState);
     } else if (this.value && !strategy.isInitialValue(this.value)) {
       console.log('📝 Atualizando com filtros do @Input:', this.value);
       this.form.patchValue(this.value as { [key: string]: any });
@@ -121,9 +126,9 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
     this.form.markAllAsTouched();
 
     const strategy = this.getStrategy();
-    const isValid = strategy.validateForm ? strategy.validateForm(this.form) : this.form.valid;
+    const isFormValid = strategy.validateForm ? strategy.validateForm(this.form) : this.form.valid;
 
-    if (isValid) {
+    if (isFormValid) {
       let filterValue: T = this.form.value;
       
       // Aplica transformação de dados se definida na estratégia
@@ -131,15 +136,22 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
         filterValue = strategy.transformData(filterValue);
       }
 
-      console.log('✅ Filtro válido - Aplicando:', filterValue);
+      // Verifica se tem dados válidos para pesquisa
+      const hasValidSearchData = strategy.hasValidSearchData(filterValue);
 
-      // Salva os filtros no estado
-      this.saveFilters(filterValue);
+      console.log('✅ Filtro válido - Aplicando:', { filterValue, hasValidSearchData });
+
+      // Salva os filtros no estado com validação
+      this.saveFiltersWithState(filterValue, hasValidSearchData);
 
       // Emite para a lista
       this.apply.emit(filterValue);
     } else {
       console.log('❌ Filtro inválido - Não aplicando:', this.form.errors);
+      
+      // Salva o estado como inválido
+      this.saveFiltersWithState(this.form.value, false);
+      
       // Não emite o evento se o formulário for inválido
     }
   }
@@ -156,18 +168,23 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
     // Mantém os campos como touched para mostrar validações
     this.form.markAllAsTouched();
 
-    // Salva os filtros limpos no estado
-    this.saveFilters(initialValue);
+    // Salva os filtros limpos no estado com validação
+    const isValid = strategy.hasValidSearchData(initialValue);
+    this.saveFiltersWithState(initialValue, isValid);
 
     this.clear.emit();
   }
 
   /**
-   * Salva os filtros no estado
+   * Salva os filtros no estado com validação
    */
-  private saveFilters(filters: T): void {
-    console.log('💾 Salvando filtros no estado:', filters);
-    this.filterStateRef.set(filters);
+  private saveFiltersWithState(filters: T, valid: boolean): void {
+    const filterState: FilterState<T> = {
+      data: filters,
+      valid: valid
+    };
+    console.log('💾 Salvando filtros no estado:', filterState);
+    this.filterStateRef.set(filterState);
   }
 
   /**

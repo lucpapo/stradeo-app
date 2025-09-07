@@ -4,7 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
  
-import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
+import { TipocategoriaFilterValue, TipocategoriaFilterState } from '@stradeo/domain/types/tipocategoria-filter.types';
+import { FilterState } from '@pcodeshared/components/base-list';
 import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
 import { BaseFilterPage, FilterStrategy } from '@pcodeshared/components/base-filter';
 
@@ -27,9 +28,10 @@ export class TipocategoriaFilterPage extends BaseFilterPage<TipocategoriaFilterV
 
   /**
    * Inicializa o StateRef específico para Tipo Categoria
+   * Agora usa FilterState para incluir validação
    */
   protected initializeStateRef(): void {
-    this.filterStateRef = new StateRef<TipocategoriaFilterValue>(
+    this.filterStateRef = new StateRef<FilterState<TipocategoriaFilterValue>>(
       this.stateProvider,
       'ui-TipocategoriaShellComponent',
       'TipocategoriaFilterPage#main'

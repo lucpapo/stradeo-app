@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { Observable } from 'rxjs';
-import { ListStrategy } from './list-strategy.interface';
+import { ListStrategy, FilterState } from './list-strategy.interface';
 
 export interface PaginationState {
   page: number;
@@ -12,7 +12,7 @@ export interface PaginationState {
 }
 
 export interface ListState<TFilter extends object, TEntity> {
-  filters: TFilter;
+  filters: FilterState<TFilter>;
   pagination: PaginationState;
   data: TEntity[];
   loading: boolean;
@@ -31,7 +31,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
 
   // StateRefs
   protected paginationStateRef!: StateRef<PaginationState>;
-  protected filterStateRef!: StateRef<TFilter>;
+  protected filterStateRef!: StateRef<FilterState<TFilter>>;
 
   // Estado da lista
   state!: ListState<TFilter, TEntity>;
@@ -60,7 +60,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
       stateKeys.paginationKey
     );
 
-    this.filterStateRef = new StateRef<TFilter>(
+    this.filterStateRef = new StateRef<FilterState<TFilter>>(
       this.stateProvider,
       stateKeys.shellKey,
       stateKeys.filterKey
@@ -74,7 +74,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     const strategy = this.getStrategy();
     
     this.state = {
-      filters: this.getInitialFilters(),
+      filters: this.getInitialFilterState(),
       pagination: strategy.getDefaultPagination(),
       data: [],
       loading: false,
@@ -127,7 +127,10 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   onFilterApply(filters: TFilter): void {
     console.log('🔍 onFilterApply chamado - Usuário clicou em Pesquisar');
     this.isPesquisar = true;
-    this.applyFiltersAndLoad(filters);
+    
+    // O filtro já foi salvo no state provider pelo BaseFilterPage
+    // Apenas carregamos os dados usando o estado atual
+    this.loadFromCurrentState();
   }
 
   /**
@@ -136,15 +139,36 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   onFilterClear(): void {
     console.log('🧹 onFilterClear chamado - Usuário clicou em Limpar');
     this.isPesquisar = true;
-    this.applyFiltersAndLoad(this.getInitialFilters());
+    
+    // O filtro já foi limpo no state provider pelo BaseFilterPage
+    // Apenas carregamos os dados usando o estado atual
+    this.loadFromCurrentState();
   }
 
   /**
-   * Aplica os filtros e carrega os dados
+   * Carrega dados usando o estado atual dos filtros
+   */
+  private loadFromCurrentState(): void {
+    // Recarrega o estado dos filtros do StateProvider
+    const currentFilterState = this.filterStateRef.get();
+    if (currentFilterState) {
+      this.state.filters = currentFilterState;
+      console.log('🔍 Carregando com estado atual dos filtros:', currentFilterState);
+      
+      if (this.hasValidFilters()) {
+        // Reseta paginação e carrega dados
+        this.state.pagination.page = 1;
+        this.savePaginationAndLoad();
+      }
+    }
+  }
+
+  /**
+   * Aplica os filtros e carrega os dados (método legacy - mantido para compatibilidade)
    */
   private applyFiltersAndLoad(filters: TFilter): void {
     if (this.isPesquisar) {
-      console.log('🔍 Aplicando filtros (click manual do usuário):', {
+      console.log('🔍 Aplicando filtros (método legacy):', {
         filtrosAtuais: this.state.filters,
         novosFiltros: filters
       });
@@ -153,7 +177,20 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
       console.log('🔄 Click manual - Resetando paginação para página 1');
       this.state.pagination.page = 1;
 
-      this.state.filters = filters;
+      // Cria FilterState para o novo formato
+      const strategy = this.getStrategy();
+      const filterState: FilterState<TFilter> = {
+        data: filters,
+        valid: true // Assumimos válido inicialmente, será validado pela strategy
+      };
+      
+      const isValid = strategy.validateAdditionalRules(filterState);
+      
+      this.state.filters = {
+        data: filters,
+        valid: isValid
+      };
+      
       this.savePaginationAndLoad();
       this.isPesquisar = false;
     }
@@ -229,7 +266,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     let queryParams = {
       page: this.state.pagination.page,
       pageSize: this.state.pagination.pageSize,
-      filters: this.state.filters
+      filters: this.state.filters.data
     };
 
     // Aplica transformação se definida na estratégia
@@ -292,6 +329,28 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   protected abstract getInitialFilters(): TFilter;
   protected abstract loadDataFromService(queryParams: any): Observable<any>;
 
+  /**
+   * Cria o estado inicial dos filtros com validação
+   */
+  protected getInitialFilterState(): FilterState<TFilter> {
+    const initialFilters = this.getInitialFilters();
+    const strategy = this.getStrategy();
+    
+    // Cria o FilterState inicial
+    const initialFilterState: FilterState<TFilter> = {
+      data: initialFilters,
+      valid: true // Assumimos válido inicialmente
+    };
+    
+    // Usa validateAdditionalRules para verificar se os filtros iniciais são válidos
+    const isValid = strategy.validateAdditionalRules(initialFilterState);
+    
+    return {
+      data: initialFilters,
+      valid: isValid
+    };
+  }
+
   // Getters para o template
   get loading(): boolean {
     return this.state.loading;
@@ -318,6 +377,10 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   }
 
   get filters(): TFilter {
+    return this.state.filters.data;
+  }
+
+  get filterState(): FilterState<TFilter> {
     return this.state.filters;
   }
 

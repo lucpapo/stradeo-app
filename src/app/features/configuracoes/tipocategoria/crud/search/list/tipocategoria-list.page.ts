@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -28,8 +28,6 @@ export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue
 
     private readonly service = inject(TipoCategoriaService);
     private strategy = new TipocategoriaListStrategy();
-
-    @ViewChild(TipocategoriaFilterPage) filterComponent!: TipocategoriaFilterPage;
 
     constructor() {
         super();
