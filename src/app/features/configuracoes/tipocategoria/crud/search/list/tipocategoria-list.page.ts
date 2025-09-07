@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Importações Específicas desta Feature
 import { TipocategoriaFilterPage, TipocategoriaFilterValue } from '../filter/tipocategoria-filter.page';
@@ -14,7 +15,7 @@ import { FullScreenLoadingComponent } from '../../../../../../shared/components/
 @Component({
     standalone: true,
     selector: 'app-tipocategoria-list',
-    imports: [CommonModule, RouterModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent],
+    imports: [CommonModule, RouterModule, NgbPaginationModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent],
     templateUrl: './tipocategoria-list.page.html',
     styleUrls: ['./tipocategoria-list.page.scss'],
 })
@@ -47,7 +48,7 @@ export class TipocategoriaListPage extends BaseListaPage<
         };
     }
 
-    
+
 
     protected obterTargetsIniciais(): string[] {
         return ['lista-principal', 'grafico-status', 'relatorios', 'exportacao'];
@@ -59,6 +60,16 @@ export class TipocategoriaListPage extends BaseListaPage<
 
     protected obterRotaNovo(): string {
         return '/configuracoes/tipocategoria/novo';
+    }
+
+    /**
+     * Método para lidar com mudanças de página do ngb-pagination
+     */
+    onPageChange(page: number): void {
+        const manager = this.getFilterManager('lista-principal');
+        const currentQuery = manager.query();
+        manager.hydrateQuery({ ...currentQuery, page });
+        manager.load();
     }
 }
 
