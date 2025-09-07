@@ -37,4 +37,53 @@
 }
 .icon-row--tight { gap: 2px }   /* 2px */
 
+/* Header da tabela com destaque */
+.table-header-custom {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border-bottom: 2px solid #dee2e6 !important;
+}
+
+.table-header-custom th {
+  background: transparent !important;
+  color: #495057 !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.025em !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #dee2e6 !important;
+  position: relative;
+}
+
+.table-header-custom th::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+  opacity: 0.8;
+}
+
+/* Hover effect nos headers */
+.table-header-custom th:hover {
+  background: rgba(0, 123, 255, 0.05) !important;
+  transition: background-color 0.2s ease;
+}
+
+/* Ícones no header com melhor contraste */
+.table-header-custom .icon-action {
+  color: #495057;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease;
+}
+
+.table-header-custom .icon-action:hover {
+  background: rgba(0, 123, 255, 0.1) !important;
+  border-color: rgba(0, 123, 255, 0.3) !important;
+  color: #007bff;
+  transform: translateY(-1px);
+}
+
 

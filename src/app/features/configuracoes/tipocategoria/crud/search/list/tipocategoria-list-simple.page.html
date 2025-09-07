@@ -3,10 +3,7 @@
   <!-- Filtro -->
   <div class="row mb-3">
     <div class="col-12">
-      <app-tipocategoria-filter-simple 
-        [value]="filters"
-        (apply)="onFilterApply($event)"
-        (clear)="onFilterClear()">
+      <app-tipocategoria-filter-simple [value]="filters" (apply)="onFilterApply($event)" (clear)="onFilterClear()">
       </app-tipocategoria-filter-simple>
     </div>
   </div>
@@ -24,7 +21,7 @@
   <div class="card shadow-sm">
     <div class="table-responsive">
       <table class="table table-hover table-sm table-compact align-middle mb-0">
-        <thead class="table-light position-sticky top-0" style="z-index:1">
+        <thead class="table-header-custom position-sticky top-0" style="z-index:1">
           <tr>
             <th class="text-start" style="width:120px">
               <div class="d-flex align-items-center gap-2 ps-1">
@@ -64,9 +61,8 @@
             <td><span class="text-muted">{{ item.id }}</span></td>
             <td class="text-truncate">{{ item.descricao }}</td>
             <td>
-              <span class="badge rounded-pill status-badge" 
-                    [class.bg-success]="item.status_delecao === 0"
-                    [class.bg-secondary]="item.status_delecao !== 0">
+              <span class="badge rounded-pill status-badge" [class.bg-success]="item.status_delecao === 0"
+                [class.bg-secondary]="item.status_delecao !== 0">
                 {{ item.status_delecao === 0 ? 'Ativo' : 'Inativo' }}
               </span>
             </td>
@@ -97,15 +93,11 @@
     <div class="card-footer d-flex justify-content-between align-items-center py-2">
       <div class="d-flex align-items-center gap-3">
         <small class="text-muted">{{ showingRange }}</small>
-        
+
         <!-- Seletor de PageSize -->
         <div class="d-flex align-items-center gap-2">
           <small class="text-muted">Itens por página:</small>
-          <select 
-            #pageSizeSelect
-            class="form-select form-select-sm" 
-            style="width: auto;"
-            [value]="pageSize"
+          <select #pageSizeSelect class="form-select form-select-sm" style="width: auto;" [value]="pageSize"
             (change)="onPageSizeChange(pageSizeSelect.value)">
             <option value="5">5</option>
             <option value="10">10</option>
@@ -115,16 +107,9 @@
           </select>
         </div>
       </div>
-      
-      <ngb-pagination
-        [(page)]="currentPage"
-        [pageSize]="pageSize"
-        [collectionSize]="total"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        [size]="'sm'"
-        (pageChange)="onPageChange($event)">
+
+      <ngb-pagination [(page)]="currentPage" [pageSize]="pageSize" [collectionSize]="total" [maxSize]="5"
+        [rotate]="true" [boundaryLinks]="true" [size]="'sm'" (pageChange)="onPageChange($event)">
       </ngb-pagination>
     </div>
   </div>
