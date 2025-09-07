@@ -51,19 +51,26 @@ export class TipocategoriaFilterPage implements OnInit, OnChanges {
    * Cria o formulário com dados do StateProvider ou valores iniciais
    */
   private createForm(): void {
-    // Busca dados salvos no StateProvider ou usa valores iniciais
-    const savedFilters = this.filterStateRef.get();
-    const initialData = savedFilters || TIPOCATEGORIA_FILTER_INITIAL_VALUE;
+    // Busca dados salvos no StateProvider
+    let savedFilters = this.filterStateRef.get();
+    
+    // Se não há estado salvo, cria um estado inicial
+    if (!savedFilters) {
+      console.log('🆕 Criando estado inicial no StateProvider:', TIPOCATEGORIA_FILTER_INITIAL_VALUE);
+      this.filterStateRef.set(TIPOCATEGORIA_FILTER_INITIAL_VALUE);
+      savedFilters = TIPOCATEGORIA_FILTER_INITIAL_VALUE;
+    }
     
     console.log('🏗️ Criando formulário com dados:', {
       savedFilters,
-      initialData,
-      hasStateData: !!savedFilters
+      hasStateData: !!savedFilters,
+      TIPOCATEGORIA_FILTER_INITIAL_VALUE,
+      'savedFilters.status_delecao': savedFilters.status_delecao
     });
 
     this.form = this.fb.group({
-      descricao: [initialData.descricao, [Validators.required, Validators.maxLength(100)]],
-      status_delecao: [initialData.status_delecao]
+      descricao: [savedFilters.descricao, [Validators.required, Validators.maxLength(100)]],
+      status_delecao: [savedFilters.status_delecao]
     });
 
     // Marca todos os campos como touched para mostrar validações iniciais

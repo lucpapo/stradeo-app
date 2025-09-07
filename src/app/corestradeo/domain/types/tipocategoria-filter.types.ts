@@ -5,5 +5,5 @@ export type TipocategoriaFilterValue = {
 
 export const TIPOCATEGORIA_FILTER_INITIAL_VALUE: TipocategoriaFilterValue = {
     descricao: '',
-    status_delecao: '0'
+    status_delecao: '1'
 };
