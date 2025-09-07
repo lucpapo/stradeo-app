@@ -1,21 +1,47 @@
-<div class="container-fluid ">
+<div class="container-fluid">
 
 
-  <app-tipocategoria-filter [value]="gerenciador.filterValue()" [masterKey]="'ui-TipocategoriaShellComponent'"
-    [componentKey]="'TipocategoriaFilterPage#main'" (apply)="gerenciador.aplicarFiltro($event)"
-    (clear)="gerenciador.limparFiltro()">
-  </app-tipocategoria-filter>
+  <!-- NOVA ABORDAGEM: Filtros com targets específicos -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <h6>Filtro Principal (Lista + Gráficos)</h6>
+      <app-tipocategoria-filter [value]="getFilterManager('lista-principal').filterValue()"
+        [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-lista-principal'"
+        (apply)="applyFilterToTargets($event, ['lista-principal', 'grafico-status'])"
+        (clear)="clearFilterFromTargets(['lista-principal', 'grafico-status'])">
+      </app-tipocategoria-filter>
+      <small class="text-muted">Afeta: Lista Principal + Gráfico Status</small>
+    </div>
 
-  <div *ngIf="gerenciador.loading()" class="d-flex align-items-center my-3">
+    <div class="col-md-6">
+      <h6>Filtro Secundário (Apenas Relatórios)</h6>
+      <app-tipocategoria-filter [value]="getFilterManager('relatorios').filterValue()"
+        [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-relatorios'"
+        (apply)="applyFilterToTargets($event, ['relatorios', 'exportacao'])"
+        (clear)="clearFilterFromTargets(['relatorios', 'exportacao'])">
+      </app-tipocategoria-filter>
+      <small class="text-muted">Afeta: Relatórios + Exportação</small>
+    </div>
+  </div>
+
+  <!-- Informação sobre filtros ativos -->
+  <div class="alert alert-info py-2 mb-3">
+    <strong>Filtros Ativos:</strong>
+    <span *ngFor="let info of getActiveFiltersInfo(); let last = last">
+      {{ info }}<span *ngIf="!last"> | </span>
+    </span>
+  </div>
+
+  <div *ngIf="getFilterManager('lista-principal').loading()" class="d-flex align-items-center my-3">
     <div class="spinner-border me-2" role="status" aria-hidden="true"></div>
     <strong>Carregando...</strong>
   </div>
 
-  <div *ngIf="gerenciador.error()" class="alert alert-danger py-2 my-2">
-    {{ gerenciador.error() }}
+  <div *ngIf="getFilterManager('lista-principal').error()" class="alert alert-danger py-2 my-2">
+    {{ getFilterManager('lista-principal').error() }}
   </div>
 
-  <div class="card shadow-sm" *ngIf="!gerenciador.loading()">
+  <div class="card shadow-sm" *ngIf="!getFilterManager('lista-principal').loading()">
     <div class="table-responsive">
       <!-- ADIÇÃO: table-sm table-compact -->
       <table class="table table-hover table-sm table-compact align-middle mb-0">
@@ -41,7 +67,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let r of gerenciador.rows()">
+          <tr *ngFor="let r of getFilterManager('lista-principal').rows()">
             <td class="text-start">
               <!-- gap MENOR + padding esquerdo menor -->
               <div class="d-flex align-items-center gap-2 ps-1">
@@ -51,7 +77,7 @@
                 <button type="button" class="icon-action" title="Editar" (click)="irParaEditar(r)">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button type="button" class="icon-action" title="Excluir" (click)="gerenciador.removerItem(r)">
+                <button type="button" class="icon-action" title="Excluir" (click)="gerenciadorAtivo.removerItem(r)">
                   <i class="fa fa-trash-o"></i>
                 </button>
               </div>
@@ -83,21 +109,64 @@
     </div>
 
     <div class="card-footer d-flex justify-content-between align-items-center py-2">
-      <small class="text-muted">{{ gerenciador.showingRange() }}</small>
+      <small class="text-muted">{{ getFilterManager('lista-principal').showingRange() }}</small>
       <div class="btn-group">
-        <button class="btn btn-outline-secondary btn-sm" (click)="gerenciador.prevPage()"
-          [disabled]="gerenciador.query().page <= 1">
+        <button class="btn btn-outline-secondary btn-sm" (click)="getFilterManager('lista-principal').prevPage()"
+          [disabled]="getFilterManager('lista-principal').query().page <= 1">
           <i class="fa fa-chevron-left"></i> Anterior
         </button>
-        <button class="btn btn-outline-secondary btn-sm" (click)="gerenciador.nextPage()"
-          [disabled]="gerenciador.query().page >= gerenciador.maxPage()">
+        <button class="btn btn-outline-secondary btn-sm" (click)="getFilterManager('lista-principal').nextPage()"
+          [disabled]="getFilterManager('lista-principal').query().page >= getFilterManager('lista-principal').maxPage()">
           Próxima <i class="fa fa-chevron-right"></i>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="!gerenciador.loading() && !gerenciador.rows().length" class="alert alert-warning py-2 my-3">
+  <div *ngIf="!getFilterManager('lista-principal').loading() && !getFilterManager('lista-principal').rows().length"
+    class="alert alert-warning py-2 my-3">
     Nenhum registro encontrado.
   </div>
-</div>
+
+  <!-- EXEMPLO: Outros componentes que podem ser afetados pelos filtros -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">Gráfico de Status (Target: grafico-status)</h6>
+        </div>
+        <div class="card-body">
+          <div *ngIf="getFilterManager('grafico-status').loading()" class="text-center">
+            <div class="spinner-border spinner-border-sm"></div> Carregando gráfico...
+          </div>
+          <div *ngIf="!getFilterManager('grafico-status').loading()">
+            <small class="text-muted">Total de registros: {{ getFilterManager('grafico-status').total() }}</small>
+            <!-- Aqui seria seu gráfico -->
+            <div class="bg-light p-3 text-center">
+              📊 Gráfico baseado nos dados filtrados
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">Relatórios (Target: relatorios)</h6>
+        </div>
+        <div class="card-body">
+          <div *ngIf="getFilterManager('relatorios').loading()" class="text-center">
+            <div class="spinner-border spinner-border-sm"></div> Carregando relatórios...
+          </div>
+          <div *ngIf="!getFilterManager('relatorios').loading()">
+            <small class="text-muted">Registros para relatório: {{ getFilterManager('relatorios').total() }}</small>
+            <!-- Aqui seriam seus relatórios -->
+            <div class="bg-light p-3 text-center">
+              📋 Relatórios baseados nos dados filtrados
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

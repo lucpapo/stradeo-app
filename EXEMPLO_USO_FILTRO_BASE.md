@@ -129,6 +129,14 @@ export class MinhaListaPage extends BaseListaPage<
 
 ### 2. Template HTML (Com Inputs de Configuração)
 ```html
+<!-- Lista com persistência de estado e filtro do state -->
+<app-minha-lista
+  [masterKey]="'ui-MeuShellComponent'"
+  [componentKey]="'MinhaListaPage#main'"
+  [filtro]="'MeuFilterPage#main'">
+</app-minha-lista>
+
+<!-- Filtro separado -->
 <app-meu-filtro
   [value]="gerenciador.filterValue()"
   [masterKey]="'ui-MeuShellComponent'"
@@ -200,3 +208,86 @@ export class MinhaListaPage extends BaseListaPage<...> {
   }
 }
 ```
+
+## Novo Input: Filtro do State
+
+### Funcionalidade
+O `BaseListaPage` agora possui um input `filtro` que permite buscar o valor do filtro diretamente do state, ao invés de usar apenas o valor inicial hardcoded.
+
+### Como Usar
+
+#### 1. Template HTML com Filtro do State
+```html
+<app-tipocategoria-list
+  [masterKey]="'ui-TipocategoriaShellComponent'"
+  [componentKey]="'TipocategoriaListPage#main'"
+  [filtro]="'TipocategoriaFilterPage#main'">
+</app-tipocategoria-list>
+```
+
+#### 2. Comportamento
+- **Com `filtro` configurado**: A lista busca o filtro salvo no state usando a chave fornecida
+- **Sem `filtro` configurado**: A lista usa o filtro inicial definido em `obterEstadoInicialQuery()`
+- **State não encontrado**: Fallback para o filtro inicial
+
+#### 3. Exemplo Prático - TipoCategoria
+
+**Antes (sem filtro do state):**
+```html
+<!-- tipocategoria-list.page.html -->
+<app-tipocategoria-filter 
+  [value]="gerenciador.filterValue()" 
+  [masterKey]="'ui-TipocategoriaShellComponent'"
+  [componentKey]="'TipocategoriaFilterPage#main'" 
+  (apply)="gerenciador.aplicarFiltro($event)"
+  (clear)="gerenciador.limparFiltro()">
+</app-tipocategoria-filter>
+
+<!-- Lista usa apenas filtro inicial hardcoded -->
+```
+
+**Depois (com filtro do state):**
+```html
+<!-- No shell component ou página que contém ambos -->
+<app-tipocategoria-filter
+  [masterKey]="'ui-TipocategoriaShellComponent'"
+  [componentKey]="'TipocategoriaFilterPage#main'">
+</app-tipocategoria-filter>
+
+<app-tipocategoria-list
+  [masterKey]="'ui-TipocategoriaShellComponent'"
+  [componentKey]="'TipocategoriaListPage#main'"
+  [filtro]="'TipocategoriaFilterPage#main'">
+</app-tipocategoria-list>
+```
+
+**Ou se usar na mesma página:**
+```html
+<!-- tipocategoria-list.page.html -->
+<div class="tipocategoria-list-page"
+     [masterKey]="'ui-TipocategoriaShellComponent'"
+     [componentKey]="'TipocategoriaListPage#main'"
+     [filtro]="'TipocategoriaFilterPage#main'">
+  
+  <app-tipocategoria-filter 
+    [value]="gerenciador.filterValue()" 
+    [masterKey]="'ui-TipocategoriaShellComponent'"
+    [componentKey]="'TipocategoriaFilterPage#main'" 
+    (apply)="gerenciador.aplicarFiltro($event)"
+    (clear)="gerenciador.limparFiltro()">
+  </app-tipocategoria-filter>
+  
+  <!-- resto da lista -->
+</div>
+```
+
+#### 4. Fluxo de Dados
+1. Usuário aplica filtro → Salvo no state com chave `TipocategoriaFilterPage#main`
+2. Lista inicializa → Busca filtro do state usando a mesma chave
+3. Se encontrado → Usa o filtro do state
+4. Se não encontrado → Usa o filtro inicial padrão
+
+### Vantagens
+- **Sincronização automática**: Lista sempre reflete o último filtro aplicado
+- **Persistência**: Filtros são mantidos entre navegações
+- **Flexibilidade**: Pode usar filtro do state ou valor inicial conforme necessário

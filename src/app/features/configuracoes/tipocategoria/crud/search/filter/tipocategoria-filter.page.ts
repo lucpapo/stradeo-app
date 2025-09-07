@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms'; // 1. Importar Validators
+import { ReactiveFormsModule, Validators } from '@angular/forms'; // 1. Importar Validators
 import { BaseFiltroDirective, ConfiguracaoFormulario } from '@pcode/ui/filter/BaseFiltroDirective';
 
 export type TipocategoriaFilterValue = {
@@ -22,16 +22,14 @@ export class TipocategoriaFilterPage extends BaseFiltroDirective<TipocategoriaFi
   }
 
 
-
   protected criarConfiguracaoFormulario(): ConfiguracaoFormulario<TipocategoriaFilterValue> {
     return {
-      descricao: ['', []], //[Validators.required, Validators.maxLength(20)]],
+      descricao: ['', [Validators.required, Validators.maxLength(20)]],
       status_delecao: '0',
     };
   }
 
   protected obterValorInicial(): TipocategoriaFilterValue {
-    // Retorna apenas o valor padrão durante a inicialização
     return {
       descricao: '',
       status_delecao: '0'
