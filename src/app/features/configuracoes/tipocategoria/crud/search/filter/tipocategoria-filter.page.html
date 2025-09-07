@@ -13,16 +13,16 @@
           Descrição <span class="text-danger">*</span>
         </label>
         <input id="descricao" type="text" formControlName="descricao" class="form-control form-control-sm"
-          [style.border-left]="descricaoControl?.invalid ? '3px solid #dc3545' : ''"
+          [style.border-left]="formRef.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
           placeholder="Filtrar por descrição..." maxlength="100">
-        
+
       </div>
 
       <!-- Status -->
       <div class="col-6 col-md-3">
         <label for="status" class="form-label mb-1">Status</label>
         <select id="status" formControlName="status_delecao" class="form-select form-select-sm"
-          [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+          [style.border-left]="formRef.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
           <option value="">Todos</option>
           <option value="0">Ativo</option>
           <option value="1">Inativo</option>

@@ -62,7 +62,6 @@ export class TipocategoriaListPage implements OnInit {
 
     // Controle de pesquisa
     private isPesquisar = false;
-    private isFirstLoad = true;
 
     constructor() {
         // StateRef específico para paginação
@@ -113,8 +112,6 @@ export class TipocategoriaListPage implements OnInit {
         } else {
             console.log('⏳ Aguardando filtros serem aplicados...');
         }
-
-        this.isFirstLoad = false;
     }
 
     /**
