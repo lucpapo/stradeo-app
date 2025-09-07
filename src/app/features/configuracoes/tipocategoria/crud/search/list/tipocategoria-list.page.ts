@@ -4,7 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Importações Específicas desta Feature
-import { TipocategoriaFilterPage, TipocategoriaFilterValue } from '../filter/tipocategoria-filter.page';
+import { TipocategoriaFilterPage } from '../filter/tipocategoria-filter.page';
+import { TipocategoriaFilterValue, TIPOCATEGORIA_FILTER_INITIAL_VALUE } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
 
@@ -52,7 +53,7 @@ export class TipocategoriaListPage implements OnInit {
 
     // Estado da lista
     state: ListState = {
-        filters: { descricao: '', status_delecao: '0' },
+        filters: TIPOCATEGORIA_FILTER_INITIAL_VALUE,
         pagination: { page: 1, pageSize: 5, total: 0 }, // Mudei para 10 para testar
         data: [],
         loading: false,
@@ -138,9 +139,8 @@ export class TipocategoriaListPage implements OnInit {
      */
     onFilterClear(): void {
         console.log('🧹 onFilterClear chamado - Usuário clicou em Limpar');
-        const initialFilters: TipocategoriaFilterValue = { descricao: '', status_delecao: '0' };
         this.isPesquisar = true;
-        this.applyFiltersAndLoad(initialFilters);
+        this.applyFiltersAndLoad(TIPOCATEGORIA_FILTER_INITIAL_VALUE);
     }
 
     /**

@@ -2,10 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@pcode/api';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
-import { TipocategoriaFilterValue } from 'app/features/configuracoes/tipocategoria/crud/search/filter/tipocategoria-filter.page';
 
 import { environment } from '../../../environments/environment';
- 
+import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,8 +21,8 @@ export class TipoCategoriaService extends BaseService<
 > {
   constructor() {
     const http = inject(HttpClient);
-    
-  // O construtor da classe base é chamado com o endpoint específico usando a URL base do environment.
-  super(http, `${environment.apiBase}/tipocategoria`); 
+
+    // O construtor da classe base é chamado com o endpoint específico usando a URL base do environment.
+    super(http, `${environment.apiBase}/tipocategoria`);
   }
 }
