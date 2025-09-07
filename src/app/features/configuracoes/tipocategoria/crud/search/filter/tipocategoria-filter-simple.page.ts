@@ -59,6 +59,9 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
             descricao: ['', [Validators.required, Validators.maxLength(100)]],
             status_delecao: ['0']
         });
+        
+        // Marca todos os campos como touched para mostrar validações iniciais
+        this.form.markAllAsTouched();
     }
 
     /**
@@ -77,6 +80,10 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
         } else {
             console.log('🆕 Usando filtros iniciais padrão');
         }
+        
+        // Garante que as validações sejam aplicadas após carregar os dados
+        this.form.markAllAsTouched();
+        this.form.updateValueAndValidity();
     }
 
     /**
@@ -125,6 +132,9 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
     onClear(): void {
         const initialValue: TipocategoriaFilterValue = { descricao: '', status_delecao: '0' };
         this.form.patchValue(initialValue);
+        
+        // Mantém os campos como touched para mostrar validações
+        this.form.markAllAsTouched();
         
         // Salva os filtros limpos no estado
         this.saveFilters(initialValue);

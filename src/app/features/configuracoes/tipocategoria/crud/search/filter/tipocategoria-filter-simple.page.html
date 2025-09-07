@@ -1,13 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="onApply()" 
-      class="card shadow-sm mb-3 filter-compact"
-      [class.has-validation-errors]="form.invalid && form.touched">
-  
+<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact"
+  [class.has-validation-errors]="form.invalid">
+
   <!-- Validation Indicator -->
-  <app-validation-indicator 
-    [form]="form" 
-    [fieldLabels]="fieldLabels">
+  <app-validation-indicator [form]="form" [fieldLabels]="fieldLabels">
   </app-validation-indicator>
-  
+
   <div class="card-body py-2">
     <div class="row g-2 align-items-end">
 
@@ -16,14 +13,9 @@
         <label for="descricao" class="form-label mb-1">
           Descrição <span class="text-danger">*</span>
         </label>
-        <input 
-          id="descricao" 
-          type="text" 
-          formControlName="descricao" 
-          class="form-control form-control-sm"
-          [class.is-invalid]="descricaoControl?.invalid && descricaoControl?.touched"
-          placeholder="Filtrar por descrição..."
-          maxlength="100">
+        <input id="descricao" type="text" formControlName="descricao" class="form-control form-control-sm"
+          [class.is-invalid]="descricaoControl?.invalid" placeholder="Filtrar por descrição..." maxlength="100">
+        
       </div>
 
       <!-- Status -->
@@ -38,17 +30,13 @@
 
       <!-- Ações -->
       <div class="col-6 col-md-4 d-flex justify-content-end align-items-end gap-2">
-        <button 
-          type="button" 
-          class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+        <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
           (click)="onClear()">
           <i class="fa fa-eraser"></i>
           <span>Limpar</span>
         </button>
-        
-        <button 
-          type="submit" 
-          [disabled]="form.invalid"
+
+        <button type="submit" [disabled]="form.invalid"
           class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
           <i class="fa fa-search"></i>
           <span>Pesquisar</span>
