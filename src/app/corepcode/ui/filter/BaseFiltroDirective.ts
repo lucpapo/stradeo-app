@@ -4,6 +4,8 @@ import { IFiltroGerenciador } from './IFiltroGerenciador';
 import { FiltroGerenciadorSignal } from './FiltroGerenciadorSignal';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
+import { ValidationService } from '../../../shared/validation/validation.service';
+import { ValidationConfig } from '../../../shared/validation/validation-config.interface';
  
 /**
  * Define o formato para a configuração do formulário.
@@ -19,6 +21,7 @@ export type ConfiguracaoFormulario<T> = {
 export abstract class BaseFiltroDirective<T extends object> implements OnInit {
   protected readonly fb = inject(FormBuilder);
   protected readonly stateProvider = inject(StateProvider);
+  protected readonly validationService = inject(ValidationService);
   
   apply = output<T>();
   clear = output<void>();
@@ -30,6 +33,10 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
 
   public readonly gerenciador: IFiltroGerenciador<T>;
   private _stateRef?: StateRef<{ filter: T }>;
+
+  // Propriedades de validação (podem ser sobrescritas pelas classes filhas)
+  protected validationConfig?: ValidationConfig = {};
+  protected fieldLabels?: Record<string, string> = {};
 
   constructor() {
     const formConfig = this.criarConfiguracaoFormulario();
@@ -105,6 +112,12 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
   }
 
   onApply(): void {
+    // Validação padrão - marca campos como touched se inválido
+    if (this.gerenciador.form.invalid) {
+      this.markAllFieldsAsTouched();
+      return;
+    }
+
     const currentValue = this.gerenciador.getValorAtual();
     
     // Atualiza o StateProvider se disponível
@@ -113,6 +126,15 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
     }
     
     this.apply.emit(currentValue);
+  }
+
+  /**
+   * Marca todos os campos do formulário como touched para exibir erros de validação
+   */
+  protected markAllFieldsAsTouched(): void {
+    Object.keys(this.gerenciador.form.controls).forEach(key => {
+      this.gerenciador.form.get(key)?.markAsTouched();
+    });
   }
 
   onClear(): void {

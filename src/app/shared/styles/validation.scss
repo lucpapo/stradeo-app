@@ -1,0 +1,21 @@
+// Estilo para campos com erro - borda vermelha à esquerda
+.field-error {
+  border-left: 4px solid #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.05) !important;
+}
+
+.field-error:focus {
+  border-left: 4px solid #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+// Remove o feedback padrão do Bootstrap para evitar movimento
+.invalid-feedback {
+  display: none !important;
+}
+
+// Estilo customizado para select com erro
+select.field-error {
+  border-left: 4px solid #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.05) !important;
+}

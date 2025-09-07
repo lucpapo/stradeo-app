@@ -1,58 +1,38 @@
-<form [formGroup]="gerenciador.form"
-      (ngSubmit)="onApply()"
-      class="card shadow-sm mb-3 filter-compact">
-
+<form [formGroup]="gerenciador.form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
   <div class="card-body py-2">
-    <div class="row g-2 align-items-end">
-      
-      <!-- Descrição (menor) -->
+    <div class="row g-2 align-items-end position-relative">
+
+      <!-- Indicador de validação no canto esquerdo -->
+      <app-validation-indicator [form]="gerenciador.form" [validationConfig]="validationConfig"
+        [fieldLabels]="fieldLabels">
+      </app-validation-indicator>
+
+      <!-- Descrição -->
       <div class="col-12 col-md-5">
         <label for="descricao" class="form-label mb-1">Descrição</label>
-        <input id="descricao"
-               type="text"
-               formControlName="descricao"
-               class="form-control form-control-sm"
-               placeholder="Filtrar por descrição..."
-               [class.is-invalid]="gerenciador.form.get('descricao')?.invalid && gerenciador.form.get('descricao')?.touched">
-        <div *ngIf="gerenciador.form.get('descricao')?.invalid && gerenciador.form.get('descricao')?.touched"
-             class="invalid-feedback d-block mt-1">
-          <ng-container *ngIf="gerenciador.form.get('descricao')?.hasError('required')">
-            Este campo é obrigatório.
-          </ng-container>
-          <ng-container *ngIf="gerenciador.form.get('descricao')?.hasError('maxlength')">
-            O campo não pode ter mais de 20 caracteres.
-          </ng-container>
-        </div>
+        <input id="descricao" type="text" formControlName="descricao" class="form-control form-control-sm"
+          [class]="'form-control form-control-sm ' + validationService.getFieldErrorClass(gerenciador.form, 'descricao')"
+          placeholder="Filtrar por descrição...">
       </div>
 
-      <!-- Status (um pouco maior) -->
+      <!-- Status -->
       <div class="col-6 col-md-3">
         <label for="status" class="form-label mb-1">Status</label>
-        <select id="status"
-                formControlName="status_delecao"
-                class="form-select status-select">
+        <select id="status" formControlName="status_delecao"
+          [class]="'form-select status-select ' + validationService.getFieldErrorClass(gerenciador.form, 'status_delecao')">
           <option value="">Todos</option>
           <option value="0">Ativo</option>
           <option value="1">Inativo</option>
         </select>
       </div>
 
-      <!-- Ações: Pesquisar (texto+ícone) e depois Limpar (só ícone) -->
+      <!-- Ações -->
       <div class="col-6 col-md-4 d-flex justify-content-end align-items-end gap-2">
-        <button type="submit"
-                [disabled]="gerenciador.form.invalid"
-                class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
+        <button type="submit" [disabled]="gerenciador.form.invalid"
+          class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
           <i class="fa fa-search"></i>
           <span>Pesquisar</span>
         </button>
-
-        <!-- <button type="button"
-                class="icon-action"
-                title="Limpar"
-                aria-label="Limpar"
-                (click)="onClear()">
-          <i class="fa fa-eraser"></i>
-        </button> -->
       </div>
 
     </div>

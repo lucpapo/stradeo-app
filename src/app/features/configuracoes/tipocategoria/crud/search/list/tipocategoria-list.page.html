@@ -1,35 +1,15 @@
 <div class="container-fluid">
 
 
-  <!-- NOVA ABORDAGEM: Filtros com targets específicos -->
+  <!-- Filtro Principal -->
   <div class="row mb-3">
-    <div class="col-md-6">
-      <h6>Filtro Principal (Lista + Gráficos)</h6>
+    <div class="col-12">
       <app-tipocategoria-filter [value]="getFilterManager('lista-principal').filterValue()"
         [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-lista-principal'"
-        (apply)="applyFilterToTargets($event, ['lista-principal', 'grafico-status'])"
-        (clear)="clearFilterFromTargets(['lista-principal', 'grafico-status'])">
+        (apply)="applyFilterToTargets($event, ['lista-principal'])"
+        (clear)="clearFilterFromTargets(['lista-principal'])">
       </app-tipocategoria-filter>
-      <small class="text-muted">Afeta: Lista Principal + Gráfico Status</small>
     </div>
-
-    <div class="col-md-6">
-      <h6>Filtro Secundário (Apenas Relatórios)</h6>
-      <app-tipocategoria-filter [value]="getFilterManager('relatorios').filterValue()"
-        [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-relatorios'"
-        (apply)="applyFilterToTargets($event, ['relatorios', 'exportacao'])"
-        (clear)="clearFilterFromTargets(['relatorios', 'exportacao'])">
-      </app-tipocategoria-filter>
-      <small class="text-muted">Afeta: Relatórios + Exportação</small>
-    </div>
-  </div>
-
-  <!-- Informação sobre filtros ativos -->
-  <div class="alert alert-info py-2 mb-3">
-    <strong>Filtros Ativos:</strong>
-    <span *ngFor="let info of getActiveFiltersInfo(); let last = last">
-      {{ info }}<span *ngIf="!last"> | </span>
-    </span>
   </div>
 
   <div *ngIf="getFilterManager('lista-principal').loading()" class="d-flex align-items-center my-3">
@@ -128,45 +108,3 @@
     Nenhum registro encontrado.
   </div>
 
-  <!-- EXEMPLO: Outros componentes que podem ser afetados pelos filtros -->
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h6 class="mb-0">Gráfico de Status (Target: grafico-status)</h6>
-        </div>
-        <div class="card-body">
-          <div *ngIf="getFilterManager('grafico-status').loading()" class="text-center">
-            <div class="spinner-border spinner-border-sm"></div> Carregando gráfico...
-          </div>
-          <div *ngIf="!getFilterManager('grafico-status').loading()">
-            <small class="text-muted">Total de registros: {{ getFilterManager('grafico-status').total() }}</small>
-            <!-- Aqui seria seu gráfico -->
-            <div class="bg-light p-3 text-center">
-              📊 Gráfico baseado nos dados filtrados
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h6 class="mb-0">Relatórios (Target: relatorios)</h6>
-        </div>
-        <div class="card-body">
-          <div *ngIf="getFilterManager('relatorios').loading()" class="text-center">
-            <div class="spinner-border spinner-border-sm"></div> Carregando relatórios...
-          </div>
-          <div *ngIf="!getFilterManager('relatorios').loading()">
-            <small class="text-muted">Registros para relatório: {{ getFilterManager('relatorios').total() }}</small>
-            <!-- Aqui seriam seus relatórios -->
-            <div class="bg-light p-3 text-center">
-              📋 Relatórios baseados nos dados filtrados
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
