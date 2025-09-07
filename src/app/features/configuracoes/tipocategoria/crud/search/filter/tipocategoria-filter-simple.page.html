@@ -1,4 +1,13 @@
-<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
+<form [formGroup]="form" (ngSubmit)="onApply()" 
+      class="card shadow-sm mb-3 filter-compact"
+      [class.has-validation-errors]="form.invalid && form.touched">
+  
+  <!-- Validation Indicator -->
+  <app-validation-indicator 
+    [form]="form" 
+    [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  
   <div class="card-body py-2">
     <div class="row g-2 align-items-end">
 
@@ -15,16 +24,6 @@
           [class.is-invalid]="descricaoControl?.invalid && descricaoControl?.touched"
           placeholder="Filtrar por descrição..."
           maxlength="100">
-        
-        <!-- Mensagens de erro -->
-        <div class="invalid-feedback" *ngIf="descricaoControl?.invalid && descricaoControl?.touched">
-          <div *ngIf="descricaoControl?.errors?.['required']">
-            Este campo é obrigatório.
-          </div>
-          <div *ngIf="descricaoControl?.errors?.['maxlength']">
-            O campo não pode ter mais de 100 caracteres.
-          </div>
-        </div>
       </div>
 
       <!-- Status -->

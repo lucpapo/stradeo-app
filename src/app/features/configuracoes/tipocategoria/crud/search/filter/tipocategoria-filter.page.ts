@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { BaseFiltroDirective, ConfiguracaoFormulario } from '@pcode/ui/filter/BaseFiltroDirective';
-import { ValidationConfig } from '../../../../../../shared/validation/validation-config.interface';
-import { ValidationIndicatorComponent } from '../../../../../../shared/components/validation-indicator/validation-indicator.component';
+import { ValidationConfig } from 'app/shared/validation/validation-config.interface';
+import { ValidationIndicatorComponent } from 'app/shared/components/validation-indicator/validation-indicator.component';
+import { ValidationService } from 'app/shared/validation/validation.service';
 
 
 export type TipocategoriaFilterValue = {
@@ -19,6 +20,8 @@ export type TipocategoriaFilterValue = {
   styleUrls: ['./tipocategoria-filter.page.scss', '../../../../../../shared/styles/validation.scss'],
 })
 export class TipocategoriaFilterPage extends BaseFiltroDirective<TipocategoriaFilterValue> implements OnInit {
+
+  protected override readonly validationService = inject(ValidationService);
 
   // Configuração de validação específica para este filtro
   protected override validationConfig: ValidationConfig = {

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } fro
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
+import { ValidationIndicatorComponent } from 'app/shared/components/validation-indicator/validation-indicator.component';
 
 export type TipocategoriaFilterValue = {
     descricao: string;
@@ -12,7 +13,7 @@ export type TipocategoriaFilterValue = {
 @Component({
     standalone: true,
     selector: 'app-tipocategoria-filter-simple',
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, ValidationIndicatorComponent],
     templateUrl: './tipocategoria-filter-simple.page.html',
     styleUrls: ['./tipocategoria-filter.page.scss'],
 })
@@ -29,6 +30,12 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
     
     // StateRef específico para os filtros
     private filterStateRef: StateRef<TipocategoriaFilterValue>;
+
+    // Labels dos campos para o ValidationIndicator
+    fieldLabels = {
+        descricao: 'Descrição',
+        status_delecao: 'Status'
+    };
 
     constructor() {
         // StateRef específico para filtros
