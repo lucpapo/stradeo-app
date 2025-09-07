@@ -12,11 +12,6 @@
   <app-full-screen-loading [show]="loading" message="Pesquisando dados...">
   </app-full-screen-loading>
 
-  <!-- Mensagem de erro -->
-  <div *ngIf="error" class="alert alert-danger py-2 my-2">
-    {{ error }}
-  </div>
-
   <!-- Tabela de dados -->
   <div class="card shadow-sm">
     <div class="table-responsive">
@@ -79,8 +74,19 @@
             </td>
           </tr>
 
+          <!-- Estado de erro - Erro ao carregar dados -->
+          <tr *ngIf="!loading && error">
+            <td colspan="100%" class="p-0">
+              <app-error-state 
+                [message]="error"
+                [showRetryButton]="true"
+                [onRetryCallback]="retryLoadData">
+              </app-error-state>
+            </td>
+          </tr>
+
           <!-- Estado vazio - Nenhum dado encontrado -->
-          <tr *ngIf="!loading && !data.length">
+          <tr *ngIf="!loading && !error && !data.length">
             <td colspan="100%" class="p-0">
               <app-empty-state></app-empty-state>
             </td>
@@ -90,27 +96,8 @@
     </div>
 
     <!-- Paginação -->
-    <div class="card-footer d-flex justify-content-between align-items-center py-2">
-      <div class="d-flex align-items-center gap-3">
-        <small class="text-muted">{{ showingRange }}</small>
-
-        <!-- Seletor de PageSize -->
-        <div class="d-flex align-items-center gap-2">
-          <small class="text-muted">Itens por página:</small>
-          <select #pageSizeSelect class="form-select form-select-sm" style="width: auto;" [value]="pageSize"
-            (change)="onPageSizeChange(pageSizeSelect.value)">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-      </div>
-
-      <ngb-pagination [(page)]="currentPage" [pageSize]="pageSize" [collectionSize]="total" [maxSize]="5"
-        [rotate]="true" [boundaryLinks]="true" [size]="'sm'" (pageChange)="onPageChange($event)">
-      </ngb-pagination>
-    </div>
+    <app-pagination-footer [currentPage]="currentPage" [pageSize]="pageSize" [total]="total"
+      [showingRange]="showingRange" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination-footer>
   </div>
 </div>

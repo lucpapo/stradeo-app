@@ -4,14 +4,16 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Importações Específicas desta Feature
-import { TipocategoriaFilterPage,   TipocategoriaFilterValue } from '../filter/tipocategoria-filter.page';
+import { TipocategoriaFilterPage, TipocategoriaFilterValue } from '../filter/tipocategoria-filter.page';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
- 
+
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { EmptyStateComponent } from '@pcodeshared/components/empty-state/empty-state.component';
 import { FullScreenLoadingComponent } from '@pcodeshared/components/full-screen-loading/full-screen-loading.component';
+import { PaginationFooterComponent } from '@pcodeshared/components/pagination-footer/pagination-footer.component';
+import { ErrorStateComponent } from '@pcodeshared/components/error-state/error-state.component';
 
 interface PaginationState {
     page: number;
@@ -30,7 +32,7 @@ interface ListState {
 @Component({
     standalone: true,
     selector: 'app-tipocategoria-list',
-    imports: [CommonModule, RouterModule, NgbPaginationModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent],
+    imports: [CommonModule, RouterModule, NgbPaginationModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent, PaginationFooterComponent, ErrorStateComponent],
     templateUrl: './tipocategoria-list.page.html',
     styleUrls: ['./tipocategoria-list.page.scss'],
 })
@@ -181,8 +183,7 @@ export class TipocategoriaListPage implements OnInit {
     /**
      * Chamado quando muda o tamanho da página
      */
-    onPageSizeChange(pageSizeValue: string): void {
-        const pageSize = parseInt(pageSizeValue, 10);
+    onPageSizeChange(pageSize: number): void {
         console.log('📏 Mudança de pageSize:', pageSize);
 
         // Só permite mudança se há filtros válidos
@@ -327,5 +328,13 @@ export class TipocategoriaListPage implements OnInit {
         const start = (this.currentPage - 1) * this.pageSize + 1;
         const end = Math.min(this.currentPage * this.pageSize, this.total);
         return `Mostrando ${start} a ${end} de ${this.total} registros`;
+    }
+
+    /**
+     * Método para tentar carregar os dados novamente (usado pelo componente de erro)
+     */
+    retryLoadData = (): void => {
+        console.log('🔄 Tentando carregar dados novamente...');
+        this.loadData();
     }
 }
