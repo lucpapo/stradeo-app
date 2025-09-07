@@ -27,7 +27,7 @@ import { TipocategoriaListStrategy } from './tipocategoria-list.strategy';
 export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue, TipoCategoria> {
 
     private readonly service = inject(TipoCategoriaService);
-    private strategy = new TipocategoriaListStrategy();
+    private strategy = new TipocategoriaListStrategy(this.service, this.router);
 
     constructor() {
         super();
@@ -48,24 +48,11 @@ export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue
     }
 
     /**
-     * Carrega os dados do serviço
+     * Delega o carregamento de dados para a strategy
      */
     protected loadDataFromService(queryParams: any): Observable<any> {
-        return this.service.list(queryParams);
+        return this.strategy.loadDataFromService(queryParams);
     }
 
-    /**
-     * Navegação
-     */
-    irParaNovo(): void {
-        this.router.navigate(['/configuracoes/tipocategoria/novo']);
-    }
 
-    irParaVer(item: TipoCategoria): void {
-        this.router.navigate(['/configuracoes/tipocategoria', item.id, 'view']);
-    }
-
-    irParaEditar(item: TipoCategoria): void {
-        this.router.navigate(['/configuracoes/tipocategoria', item.id, 'edit']);
-    }
 }

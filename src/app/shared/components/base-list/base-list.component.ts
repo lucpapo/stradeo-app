@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { Observable } from 'rxjs';
-import { ListStrategy, FilterState } from './list-strategy.interface';
+import { ListStrategy, FilterState, NavigationStrategy } from './list-strategy.interface';
 
 export interface PaginationState {
   page: number;
@@ -393,5 +393,51 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     const start = (this.currentPage - 1) * this.pageSize + 1;
     const end = Math.min(this.currentPage * this.pageSize, this.total);
     return `Mostrando ${start} a ${end} de ${this.total} registros`;
+  }
+
+  /**
+   * Métodos de navegação genéricos que delegam para a strategy
+   */
+  
+  /**
+   * Navega para criar novo item
+   */
+  irParaNovo(): void {
+    const strategy = this.getStrategy();
+    if (this.isNavigationStrategy(strategy)) {
+      strategy.irParaNovo();
+    }
+  }
+
+  /**
+   * Navega para visualizar um item
+   */
+  irParaVer(item: TEntity): void {
+    const strategy = this.getStrategy();
+    if (this.isNavigationStrategy(strategy)) {
+      strategy.irParaVer(item);
+    }
+  }
+
+  /**
+   * Navega para editar um item
+   */
+  irParaEditar(item: TEntity): void {
+    const strategy = this.getStrategy();
+    if (this.isNavigationStrategy(strategy)) {
+      strategy.irParaEditar(item);
+    }
+  }
+
+  /**
+   * Type guard para verificar se a strategy implementa NavigationStrategy
+   */
+  private isNavigationStrategy(strategy: ListStrategy<TFilter, TEntity>): strategy is ListStrategy<TFilter, TEntity> & NavigationStrategy<TEntity> {
+    return 'irParaNovo' in strategy && 
+           'irParaVer' in strategy && 
+           'irParaEditar' in strategy &&
+           typeof (strategy as any).irParaNovo === 'function' &&
+           typeof (strategy as any).irParaVer === 'function' &&
+           typeof (strategy as any).irParaEditar === 'function';
   }
 }

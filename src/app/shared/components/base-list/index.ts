@@ -1,2 +1,2 @@
 export { BaseListPage, PaginationState, ListState } from './base-list.component';
-export { ListStrategy, FilterState } from './list-strategy.interface';
+export { ListStrategy, FilterState, NavigationStrategy } from './list-strategy.interface';

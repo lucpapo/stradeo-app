@@ -8,6 +8,16 @@ export interface FilterState<T> {
 }
 
 /**
+ * Interface opcional para métodos de navegação
+ * Strategies que implementam navegação devem implementar estes métodos
+ */
+export interface NavigationStrategy<TEntity> {
+  irParaNovo(): void;
+  irParaVer(item: TEntity): void;
+  irParaEditar(item: TEntity): void;
+}
+
+/**
  * Classe abstrata para estratégias de listagem
  * Define os métodos que cada estratégia específica deve implementar
  * e fornece implementações padrão para métodos comuns
