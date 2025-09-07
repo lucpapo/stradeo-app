@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { FilterStrategy } from './filter-strategy.interface';
-import { FilterState } from '@pcodeshared/components/base-list';
+import { FilterState } from '@pcode/ui/base-list';
 
 /**
  * Classe base abstrata para componentes de filtro

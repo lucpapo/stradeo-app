@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+// PCODE
 import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
-
+import { FilterState } from '@pcode/ui/base-list';
+import { BaseFilterPage } from '@pcode/ui/base-filter';
 import { TipocategoriaFilterValue, TipocategoriaFilterState } from '@stradeo/domain/types/tipocategoria-filter.types';
-import { FilterState } from '@pcodeshared/components/base-list';
+// STRADEO
 import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
-import { BaseFilterPage, FilterStrategy } from '@pcodeshared/components/base-filter';
+
 
 @Component({
   standalone: true,

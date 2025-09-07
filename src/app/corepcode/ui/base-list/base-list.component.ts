@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { Observable } from 'rxjs';
-import { ListStrategy, FilterState, NavigationStrategy } from './list-strategy.interface';
+import { ListStrategy, FilterState  } from './list-strategy.interface';
 
 export interface PaginationState {
   page: number;
@@ -163,38 +163,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     }
   }
 
-  /**
-   * Aplica os filtros e carrega os dados (método legacy - mantido para compatibilidade)
-   */
-  private applyFiltersAndLoad(filters: TFilter): void {
-    if (this.isPesquisar) {
-      console.log('🔍 Aplicando filtros (método legacy):', {
-        filtrosAtuais: this.state.filters,
-        novosFiltros: filters
-      });
 
-      // Click manual do usuário sempre reseta paginação para página 1
-      console.log('🔄 Click manual - Resetando paginação para página 1');
-      this.state.pagination.page = 1;
-
-      // Cria FilterState para o novo formato
-      const strategy = this.getStrategy();
-      const filterState: FilterState<TFilter> = {
-        data: filters,
-        valid: true // Assumimos válido inicialmente, será validado pela strategy
-      };
-      
-      const isValid = strategy.validateAdditionalRules(filterState);
-      
-      this.state.filters = {
-        data: filters,
-        valid: isValid
-      };
-      
-      this.savePaginationAndLoad();
-      this.isPesquisar = false;
-    }
-  }
 
   /**
    * Chamado quando muda a página
@@ -349,8 +318,10 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
       valid: true // Assumimos válido inicialmente
     };
     
-    // Usa validateAdditionalRules para verificar se os filtros iniciais são válidos
-    const isValid = strategy.validateAdditionalRules(initialFilterState);
+    // Usa validateAdditionalRules para verificar se os filtros iniciais são válidos (se disponível)
+    const isValid = strategy.validateAdditionalRules 
+      ? strategy.validateAdditionalRules(initialFilterState)
+      : true;
     
     return {
       data: initialFilters,
@@ -411,9 +382,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
    */
   irParaNovo(): void {
     const strategy = this.getStrategy();
-    if (this.isNavigationStrategy(strategy)) {
-      strategy.irParaNovo();
-    }
+    strategy.irParaNovo();
   }
 
   /**
@@ -421,9 +390,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
    */
   irParaVer(item: TEntity): void {
     const strategy = this.getStrategy();
-    if (this.isNavigationStrategy(strategy)) {
-      strategy.irParaVer(item);
-    }
+    strategy.irParaVer(item);
   }
 
   /**
@@ -431,20 +398,6 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
    */
   irParaEditar(item: TEntity): void {
     const strategy = this.getStrategy();
-    if (this.isNavigationStrategy(strategy)) {
-      strategy.irParaEditar(item);
-    }
-  }
-
-  /**
-   * Type guard para verificar se a strategy implementa NavigationStrategy
-   */
-  private isNavigationStrategy(strategy: ListStrategy<TFilter, TEntity>): strategy is ListStrategy<TFilter, TEntity> & NavigationStrategy<TEntity> {
-    return 'irParaNovo' in strategy && 
-           'irParaVer' in strategy && 
-           'irParaEditar' in strategy &&
-           typeof (strategy as any).irParaNovo === 'function' &&
-           typeof (strategy as any).irParaVer === 'function' &&
-           typeof (strategy as any).irParaEditar === 'function';
+    strategy.irParaEditar(item);
   }
 }

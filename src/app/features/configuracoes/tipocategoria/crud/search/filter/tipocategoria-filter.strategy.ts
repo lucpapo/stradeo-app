@@ -1,6 +1,7 @@
 import { Validators } from '@angular/forms';
-import { AbstractFilterStrategy } from '@pcodeshared/components/base-filter/abstract-filter.strategy';
- 
+// PCODE
+import { AbstractFilterStrategy } from '@pcode/ui/base-filter';
+// STRADEO
 import { TipocategoriaFilterValue, TIPOCATEGORIA_FILTER_INITIAL_VALUE } from '@stradeo/domain/types/tipocategoria-filter.types';
 
 /**

@@ -29,18 +29,32 @@ export abstract class BaseService<
     return buildKeySegment(key, this.keyMode);
   }
 
-  // 4. O método list agora usa o TFilter definido ao nível da classe
+  // Método padrão - DINÂMICO (mais usado para velocidade de desenvolvimento)
   list(
+    query?: ListQuery<TFilter>,
+    options?: { aliases?: AliasMap<TFilter>; serialize?: SerializeOptions }
+  ): Observable<{ data: any[]; total?: number }> {
+    const params = buildListParams<TFilter>(this.mode, query, options?.aliases, options?.serialize);
+    return this.http.get<AnyResponse<any[]>>(this.baseUrl, { params }).pipe(map(unwrapList));
+  }
+
+  // Método tipado - quando precisar de type safety
+  listTyped(
     query?: ListQuery<TFilter>,
     options?: { aliases?: AliasMap<TFilter>; serialize?: SerializeOptions }
   ): Observable<{ data: TItem[]; total?: number }> {
     const params = buildListParams<TFilter>(this.mode, query, options?.aliases, options?.serialize);
-    // Removido o genérico <R> para corresponder exatamente à interface
     return this.http.get<AnyResponse<TItem[]>>(this.baseUrl, { params }).pipe(map(unwrapList));
   }
 
-  get<R = TItem>(key: TKey): Observable<R> {
+  // Método padrão - DINÂMICO (aceita qualquer estrutura de retorno)
+  get<R = any>(key: TKey): Observable<R> {
     return this.http.get<AnyResponse<R>>(`${this.baseUrl}/${this.idSeg(key)}`).pipe(map(unwrapItem));
+  }
+
+  // Método tipado - quando precisar de type safety
+  getTyped(key: TKey): Observable<TItem> {
+    return this.http.get<AnyResponse<TItem>>(`${this.baseUrl}/${this.idSeg(key)}`).pipe(map(unwrapItem));
   }
 
   create<R = TItem>(payload: Partial<TItem>): Observable<R> {

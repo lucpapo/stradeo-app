@@ -1,30 +1,12 @@
 import { Observable } from 'rxjs';
-
-/**
- * Interface padrão para filtros com estado de validação
- * Todos os filtros devem seguir este padrão
- */
-export interface FilterState<T> {
-  data: T;
-  valid: boolean;
-}
-
-/**
- * Interface opcional para métodos de navegação
- * Strategies que implementam navegação devem implementar estes métodos
- */
-export interface NavigationStrategy<TEntity> {
-  irParaNovo(): void;
-  irParaVer(item: TEntity): void;
-  irParaEditar(item: TEntity): void;
-}
+import { FilterState, ListStrategy } from './list-strategy.interface';
 
 /**
  * Classe abstrata para estratégias de listagem
  * Define os métodos que cada estratégia específica deve implementar
  * e fornece implementações padrão para métodos comuns
  */
-export abstract class ListStrategy<TFilter extends object, TEntity> {
+export abstract class AbstractListStrategy<TFilter extends object, TEntity> implements ListStrategy<TFilter, TEntity> {
   /**
    * Valida se os filtros são suficientes para carregar dados
    * Suporta tanto FilterState (novo formato) quanto TFilter (compatibilidade)
@@ -132,8 +114,8 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
     return item[this.getColunaId()] as string | number;
   }
 
- 
-  
+
+
   /**
    * Navega para criar novo item
    * Usa baseRoute da strategy

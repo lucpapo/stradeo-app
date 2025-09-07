@@ -1,4 +1,4 @@
-import { FilterState } from '@pcodeshared/components/base-list';
+import { FilterState } from '@pcode/ui/base-list';
 
 export type TipocategoriaFilterValue = {
     descricao: string;

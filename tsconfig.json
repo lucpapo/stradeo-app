@@ -26,8 +26,8 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@pcode/*": ["app/corepcode/*"],
       "@stradeo/*": ["app/corestradeo/*"],
+      "@pcode/*": ["app/corepcode/*"],
       "@pcode/api": ["app/corepcode/api/index.ts"],
       "@pcode/http": ["app/corepcode/http/index.ts"],
       "@pcodeshared/*": ["app/shared/*"]
