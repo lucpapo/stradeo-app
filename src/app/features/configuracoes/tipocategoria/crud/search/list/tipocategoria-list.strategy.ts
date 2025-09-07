@@ -9,10 +9,20 @@ import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
 export class TipocategoriaListStrategy extends ListStrategy<TipocategoriaFilterValue, TipoCategoria> {
 
   /**
-   * Valida se os filtros são suficientes para carregar dados
+   * Validações adicionais específicas para TipoCategoria
+   * O state provider já valida o básico, aqui só adicionamos regras extras se necessário
+   */
+  protected override validateAdditionalRules(filters: TipocategoriaFilterValue): boolean {
+    // Por enquanto, não temos validações extras além do que o state provider já faz
+    // Se precisar de validações específicas de negócio, adicione aqui
+    return true;
+  }
+
+  /**
+   * Validação legacy para compatibilidade com código existente
    * Para TipoCategoria, a descrição é obrigatória
    */
-  hasValidFilters(filters: TipocategoriaFilterValue): boolean {
+  protected override validateFiltersLegacy(filters: TipocategoriaFilterValue): boolean {
     return filters.descricao.trim() !== '';
   }
 
@@ -27,5 +37,5 @@ export class TipocategoriaListStrategy extends ListStrategy<TipocategoriaFilterV
     };
   }
 
- 
+
 }
