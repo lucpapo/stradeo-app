@@ -2,7 +2,6 @@ import { ListStrategy, NavigationStrategy } from '@pcodeshared/components/base-l
 import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 /**
@@ -26,13 +25,6 @@ export class TipocategoriaListStrategy extends ListStrategy<TipocategoriaFilterV
       paginationKey: 'TipocategoriaListPage#main',
       filterKey: 'TipocategoriaFilterPage#main'
     };
-  }
-
-  /**
-   * Carrega os dados do serviço
-   */
-  loadDataFromService(queryParams: any): Observable<any> {
-    return this.service.list(queryParams);
   }
 
 }

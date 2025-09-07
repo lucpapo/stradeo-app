@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 /**
  * Interface padrão para filtros com estado de validação
  * Todos os filtros devem seguir este padrão
@@ -130,9 +132,7 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
     return item[this.getColunaId()] as string | number;
   }
 
-  // Métodos de navegação - implementação padrão
-  // Strategies que implementam NavigationStrategy herdam estes métodos automaticamente
-  // Requer que a strategy tenha propriedades baseRoute e router
+ 
   
   /**
    * Navega para criar novo item
@@ -159,5 +159,15 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
   irParaEditar(item: TEntity): void {
     const strategy = this as any;
     strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'edit']);
+  }
+
+  /**
+   * Carrega os dados do serviço
+   * Implementação padrão que chama service.list(queryParams)
+   * Requer que a strategy tenha propriedade service com método list()
+   */
+  loadDataFromService(queryParams: any): Observable<any> {
+    const strategy = this as any;
+    return strategy.service.list(queryParams);
   }
 }
