@@ -8,11 +8,13 @@ import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { BaseListaPage } from '@pcode/ui/list/BaseListaPage';
 import { IServiceBase } from '@pcode/api/IServiceBase';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
+import { EmptyStateComponent } from '../../../../../../shared/components/empty-state/empty-state.component';
+import { FullScreenLoadingComponent } from '../../../../../../shared/components/full-screen-loading/full-screen-loading.component';
 
 @Component({
     standalone: true,
     selector: 'app-tipocategoria-list',
-    imports: [CommonModule, RouterModule, TipocategoriaFilterPage],
+    imports: [CommonModule, RouterModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent],
     templateUrl: './tipocategoria-list.page.html',
     styleUrls: ['./tipocategoria-list.page.scss'],
 })

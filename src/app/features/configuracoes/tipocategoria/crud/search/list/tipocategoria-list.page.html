@@ -4,24 +4,22 @@
   <!-- Filtro Principal -->
   <div class="row mb-3">
     <div class="col-12">
-      <app-tipocategoria-filter [value]="getFilterManager('lista-principal').filterValue()"
-        [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-lista-principal'"
-        (apply)="applyFilterToTargets($event, ['lista-principal'])"
+      <app-tipocategoria-filter [masterKey]="'ui-TipocategoriaShellComponent'" [componentKey]="'filter-lista-principal'"
+        [loadInitialData]="true" (apply)="applyFilterToTargets($event, ['lista-principal'])"
         (clear)="clearFilterFromTargets(['lista-principal'])">
       </app-tipocategoria-filter>
     </div>
   </div>
 
-  <div *ngIf="getFilterManager('lista-principal').loading()" class="d-flex align-items-center my-3">
-    <div class="spinner-border me-2" role="status" aria-hidden="true"></div>
-    <strong>Carregando...</strong>
-  </div>
+  <!-- Loading de tela cheia -->
+  <app-full-screen-loading [show]="getFilterManager('lista-principal').loading()" message="Pesquisando dados...">
+  </app-full-screen-loading>
 
   <div *ngIf="getFilterManager('lista-principal').error()" class="alert alert-danger py-2 my-2">
     {{ getFilterManager('lista-principal').error() }}
   </div>
 
-  <div class="card shadow-sm" *ngIf="!getFilterManager('lista-principal').loading()">
+  <div class="card shadow-sm">
     <div class="table-responsive">
       <!-- ADIÇÃO: table-sm table-compact -->
       <table class="table table-hover table-sm table-compact align-middle mb-0">
@@ -47,6 +45,7 @@
         </thead>
 
         <tbody>
+          <!-- Dados da tabela -->
           <tr *ngFor="let r of getFilterManager('lista-principal').rows()">
             <td class="text-start">
               <!-- gap MENOR + padding esquerdo menor -->
@@ -82,7 +81,14 @@
                 {{ r.data_atualizacao ? (r.data_atualizacao | date:'dd/MM/yyyy HH:mm') : '—' }}
               </span>
             </td>
+          </tr>
 
+          <!-- Estado vazio - Nenhum dado encontrado -->
+          <tr
+            *ngIf="!getFilterManager('lista-principal').loading() && !getFilterManager('lista-principal').rows().length">
+            <td colspan="100%" class="p-0">
+              <app-empty-state></app-empty-state>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -102,9 +108,3 @@
       </div>
     </div>
   </div>
-
-  <div *ngIf="!getFilterManager('lista-principal').loading() && !getFilterManager('lista-principal').rows().length"
-    class="alert alert-warning py-2 my-3">
-    Nenhum registro encontrado.
-  </div>
-

@@ -100,6 +100,13 @@ export abstract class BaseListaPage<
     );
 
     this.gerenciadores.set(filtroKey, novoGerenciador);
+    
+    // CORREÇÃO: Não carrega automaticamente se há filtro do state
+    // A carga será feita apenas quando o filtro for aplicado via evento apply
+    if (!filtroDoState) {
+      novoGerenciador.load();
+    }
+    
     return novoGerenciador;
   }
 
@@ -221,12 +228,16 @@ export abstract class BaseListaPage<
     targets.forEach(target => {
       if (!this.filterManagers.has(target)) {
         const estadoInicial = this.obterEstadoInicialQuery();
+
         const novoGerenciador = new GerenciadorListaSignal<TRow, TFilter, TKey>(
           this.obterServico(),
           estadoInicial
         );
         this.filterManagers.set(target, novoGerenciador);
-        novoGerenciador.load();
+        
+        // CORREÇÃO: NÃO carrega automaticamente
+        // A carga será feita apenas quando o filtro for aplicado via evento apply
+        // novoGerenciador.load();
       }
     });
   }
@@ -281,27 +292,14 @@ export abstract class BaseListaPage<
       }
     }
 
-    // Obtém o estado inicial da query
+    // CORREÇÃO: Inicializa gerenciador apenas com estado inicial
+    // NÃO carrega dados automaticamente - aguarda evento apply do filtro
     const estadoInicialQuery = this.obterEstadoInicialQuery();
-
-    // Tenta obter o filtro do state se configurado
-    const filtroDoState = this.obterFiltroDoState();
-
-    // Se encontrou filtro no state, usa ele; senão usa o filtro inicial
-    const queryFinal = filtroDoState
-      ? { ...estadoInicialQuery, filters: filtroDoState }
-      : estadoInicialQuery;
-
-    // Inicializamos o gestor aqui, dentro de ngOnInit.
-    // Neste ponto do ciclo de vida do componente, a injeção de dependência foi concluída
-    // para o componente filho, então `obterServico()` retornará uma instância de serviço válida.
+    
     this.gerenciador = new GerenciadorListaSignal<TRow, TFilter, TKey>(
       this.obterServico(),
-      queryFinal
+      estadoInicialQuery
     );
-
-    // Após o gestor ser criado com um serviço válido, podemos acionar o carregamento inicial dos dados.
-    this.gerenciador.load();
 
     // NOVO: Inicializa targets se configurados
     const targets = this.obterTargetsIniciais?.();

@@ -44,7 +44,7 @@ export class TipocategoriaFilterPage extends BaseFiltroDirective<TipocategoriaFi
 
   protected obterValorInicial(): TipocategoriaFilterValue {
     return {
-      descricao: '',
+      descricao: '', // Campo obrigatório vazio - deve ser inválido
       status_delecao: '0'
     };
   }

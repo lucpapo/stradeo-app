@@ -30,6 +30,9 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
   // Inputs para configuração do StateRef
   masterKey = input<string>('');
   componentKey = input<string>('');
+  
+  // NOVO: Input para controlar se deve carregar dados inicialmente
+  loadInitialData = input<boolean>(true);
 
   public readonly gerenciador: IFiltroGerenciador<T>;
   private _stateRef?: StateRef<{ filter: T }>;
@@ -58,19 +61,36 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
   }
 
   ngOnInit(): void {
-    // Carrega estado salvo se StateRef estiver configurado
+    const shouldLoadInitialData = this.loadInitialData();
+    
+    // CORREÇÃO: Lógica simplificada para evitar chamadas duplas
     if (this.stateRef) {
       const savedState = this.stateRef.get();
+      
       if (savedState?.filter) {
+        // Carrega filtro do state
         this.gerenciador.patchValue(savedState.filter);
+        
+        // NOVO: Só aplica se loadInitialData=true E formulário válido
+        if (shouldLoadInitialData && this.isFormValidWithValidation()) {
+          // Simula um clique do usuário após um pequeno delay
+          setTimeout(() => this.onApply(), 0);
+        }
       } else {
-        // Se não existe estado salvo, salva o valor inicial
+        // Se não há state, salva o valor inicial e aplica se válido
         const valorInicial = this.gerenciador.getValorAtual();
         this.stateRef.set({ filter: valorInicial });
+        
+        if (shouldLoadInitialData && this.isFormValidWithValidation()) {
+          setTimeout(() => this.onApply(), 0);
+        }
+      }
+    } else {
+      // Sem StateRef, só aplica se deve carregar dados e formulário válido
+      if (shouldLoadInitialData && this.isFormValidWithValidation()) {
+        setTimeout(() => this.onApply(), 0);
       }
     }
-    
-    this.onApply();
   }
 
   /**
@@ -135,6 +155,36 @@ export abstract class BaseFiltroDirective<T extends object> implements OnInit {
     Object.keys(this.gerenciador.form.controls).forEach(key => {
       this.gerenciador.form.get(key)?.markAsTouched();
     });
+  }
+
+  /**
+   * Verifica se o formulário é válido
+   */
+  public isFormValid(): boolean {
+    return this.gerenciador.form.valid;
+  }
+
+  /**
+   * Força a validação de todos os campos (marca como touched e dirty)
+   * Útil quando o filtro vem do state e precisa mostrar erros imediatamente
+   */
+  public forceValidation(): void {
+    Object.keys(this.gerenciador.form.controls).forEach(key => {
+      const control = this.gerenciador.form.get(key);
+      if (control) {
+        control.markAsTouched();
+        control.markAsDirty();
+        control.updateValueAndValidity();
+      }
+    });
+  }
+
+  /**
+   * Verifica se o formulário é válido após forçar validação
+   */
+  public isFormValidWithValidation(): boolean {
+    this.forceValidation();
+    return this.gerenciador.form.valid;
   }
 
   onClear(): void {
