@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { StateRef } from '@pcode/store/state-ref';
+import { StateProvider } from '@pcode/store/state-provider';
 
 export type TipocategoriaFilterValue = {
     descricao: string;
@@ -17,16 +19,29 @@ export type TipocategoriaFilterValue = {
 export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
 
     private readonly fb = inject(FormBuilder);
+    private readonly stateProvider = inject(StateProvider);
 
     @Input() value: TipocategoriaFilterValue = { descricao: '', status_delecao: '0' };
     @Output() apply = new EventEmitter<TipocategoriaFilterValue>();
     @Output() clear = new EventEmitter<void>();
 
     form!: FormGroup;
+    
+    // StateRef específico para os filtros
+    private filterStateRef: StateRef<TipocategoriaFilterValue>;
+
+    constructor() {
+        // StateRef específico para filtros
+        this.filterStateRef = new StateRef<TipocategoriaFilterValue>(
+            this.stateProvider,
+            'ui-TipocategoriaShellComponent',
+            'TipocategoriaFilterPage#main'
+        );
+    }
 
     ngOnInit(): void {
         this.createForm();
-        this.updateFormWithValue();
+        this.loadSavedFilters();
     }
 
     /**
@@ -37,6 +52,24 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
             descricao: ['', [Validators.required, Validators.maxLength(100)]],
             status_delecao: ['0']
         });
+    }
+
+    /**
+     * Carrega os filtros salvos do estado ou usa valores iniciais
+     */
+    private loadSavedFilters(): void {
+        const savedFilters = this.filterStateRef.get();
+        
+        if (savedFilters) {
+            console.log('🔄 Filtros restaurados do estado:', savedFilters);
+            this.form.patchValue(savedFilters);
+            // Não emite automaticamente - deixa a lista buscar os filtros quando precisar
+        } else if (this.value) {
+            console.log('📝 Usando filtros do @Input:', this.value);
+            this.form.patchValue(this.value);
+        } else {
+            console.log('🆕 Usando filtros iniciais padrão');
+        }
     }
 
     /**
@@ -67,6 +100,11 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
         if (this.form.valid) {
             const filterValue: TipocategoriaFilterValue = this.form.value;
             console.log('✅ Filtro válido - Aplicando:', filterValue);
+            
+            // Salva os filtros no estado
+            this.saveFilters(filterValue);
+            
+            // Emite para a lista
             this.apply.emit(filterValue);
         } else {
             console.log('❌ Filtro inválido - Não aplicando:', this.form.errors);
@@ -80,7 +118,19 @@ export class TipocategoriaFilterSimplePage implements OnInit, OnChanges {
     onClear(): void {
         const initialValue: TipocategoriaFilterValue = { descricao: '', status_delecao: '0' };
         this.form.patchValue(initialValue);
+        
+        // Salva os filtros limpos no estado
+        this.saveFilters(initialValue);
+        
         this.clear.emit();
+    }
+
+    /**
+     * Salva os filtros no estado
+     */
+    private saveFilters(filters: TipocategoriaFilterValue): void {
+        console.log('💾 Salvando filtros no estado:', filters);
+        this.filterStateRef.set(filters);
     }
 
     /**

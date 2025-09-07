@@ -12,13 +12,15 @@ import { FullScreenLoadingComponent } from '../../../../../../shared/components/
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 
+interface PaginationState {
+    page: number;
+    pageSize: number;
+    total: number;
+}
+
 interface ListState {
     filters: TipocategoriaFilterValue;
-    pagination: {
-        page: number;
-        pageSize: number;
-        total: number;
-    };
+    pagination: PaginationState;
     data: TipoCategoria[];
     loading: boolean;
     error: string | null;
@@ -39,13 +41,16 @@ export class TipocategoriaListSimplePage implements OnInit {
 
     @ViewChild(TipocategoriaFilterSimplePage) filterComponent!: TipocategoriaFilterSimplePage;
 
-    // StateRef para gerenciar o estado
-    private stateRef: StateRef<ListState>;
+    // StateRef específico para paginação
+    private paginationStateRef: StateRef<PaginationState>;
+
+    // StateRef para acessar os filtros salvos
+    private filterStateRef: StateRef<TipocategoriaFilterValue>;
 
     // Estado da lista
     state: ListState = {
         filters: { descricao: '', status_delecao: '0' },
-        pagination: { page: 1, pageSize: 10, total: 0 }, // Mudei para 10 para testar
+        pagination: { page: 1, pageSize: 5, total: 0 }, // Mudei para 10 para testar
         data: [],
         loading: false,
         error: null
@@ -56,10 +61,18 @@ export class TipocategoriaListSimplePage implements OnInit {
     private isFirstLoad = true;
 
     constructor() {
-        this.stateRef = new StateRef<ListState>(
+        // StateRef específico para paginação
+        this.paginationStateRef = new StateRef<PaginationState>(
             this.stateProvider,
             'ui-TipocategoriaShellComponent',
             'TipocategoriaListPage#main'
+        );
+
+        // StateRef para acessar os filtros
+        this.filterStateRef = new StateRef<TipocategoriaFilterValue>(
+            this.stateProvider,
+            'ui-TipocategoriaShellComponent',
+            'TipocategoriaFilterPage#main'
         );
     }
 
@@ -71,40 +84,30 @@ export class TipocategoriaListSimplePage implements OnInit {
      * Inicializa o componente verificando se há dados salvos no state
      */
     private initializeFromState(): void {
-        const savedState = this.stateRef.get();
-
-        if (savedState && !this.isFirstLoad) {
-            // Restaura o estado completo salvo (incluindo paginação atual)
-            this.state = { ...this.state, ...savedState };
-            console.log('🔄 Voltando - Estado restaurado:', {
+        // Restaura paginação
+        const savedPagination = this.paginationStateRef.get();
+        if (savedPagination) {
+            this.state.pagination = savedPagination;
+            console.log('🔄 Paginação restaurada do estado:', {
                 page: this.state.pagination.page,
                 pageSize: this.state.pagination.pageSize,
                 total: this.state.pagination.total
             });
-            this.loadData(); // Carrega dados com estado restaurado
-        } else if (savedState && this.isFirstLoad) {
-            // Primeira carga mas com estado salvo - mantém a página atual
-            this.state = { ...this.state, ...savedState };
-            console.log('🔄 Primeira carga com estado salvo:', {
-                page: this.state.pagination.page,
-                pageSize: this.state.pagination.pageSize,
-                total: this.state.pagination.total
-            });
+        }
 
-            // Só carrega se os filtros forem válidos
+        // Restaura filtros
+        const savedFilters = this.filterStateRef.get();
+        if (savedFilters) {
+            this.state.filters = savedFilters;
+            console.log('🔄 Filtros restaurados do estado:', savedFilters);
+
+            // Se há filtros válidos salvos, carrega os dados automaticamente
             if (this.hasValidFilters()) {
+                console.log('✅ Carregando dados com filtros e paginação restaurados');
                 this.loadData();
-            } else {
-                console.log('⚠️ Filtros inválidos - Não carregando dados automaticamente');
             }
         } else {
-            // Primeira vez absoluta - usa valores iniciais
-            console.log('🆕 Primeira vez absoluta:', {
-                page: this.state.pagination.page,
-                pageSize: this.state.pagination.pageSize,
-                total: this.state.pagination.total
-            });
-            // Não carrega dados automaticamente na primeira vez sem filtros válidos
+            console.log('⏳ Aguardando filtros serem aplicados...');
         }
 
         this.isFirstLoad = false;
@@ -122,6 +125,7 @@ export class TipocategoriaListSimplePage implements OnInit {
      * Chamado quando o usuário clica em "Pesquisar" no filtro
      */
     onFilterApply(filters: TipocategoriaFilterValue): void {
+        console.log('🔍 onFilterApply chamado - Usuário clicou em Pesquisar');
         this.isPesquisar = true;
         this.applyFiltersAndLoad(filters);
     }
@@ -130,6 +134,7 @@ export class TipocategoriaListSimplePage implements OnInit {
      * Chamado quando o usuário clica em "Limpar" no filtro
      */
     onFilterClear(): void {
+        console.log('🧹 onFilterClear chamado - Usuário clicou em Limpar');
         const initialFilters: TipocategoriaFilterValue = { descricao: '', status_delecao: '0' };
         this.isPesquisar = true;
         this.applyFiltersAndLoad(initialFilters);
@@ -143,13 +148,22 @@ export class TipocategoriaListSimplePage implements OnInit {
             // Verifica se os filtros realmente mudaram para resetar paginação
             const filtersChanged = JSON.stringify(this.state.filters) !== JSON.stringify(filters);
 
+            console.log('🔍 Aplicando filtros:', {
+                filtrosAtuais: this.state.filters,
+                novosFiltros: filters,
+                mudaram: filtersChanged
+            });
+
             if (filtersChanged) {
                 // Reset da paginação apenas quando os filtros mudaram
+                console.log('🔄 Filtros mudaram - Resetando paginação para página 1');
                 this.state.pagination.page = 1;
+            } else {
+                console.log('✅ Filtros iguais - Mantendo paginação atual');
             }
 
             this.state.filters = filters;
-            this.saveStateAndLoad();
+            this.savePaginationAndLoad();
             this.isPesquisar = false;
         }
     }
@@ -193,8 +207,16 @@ export class TipocategoriaListSimplePage implements OnInit {
     /**
      * Salva o estado atual e carrega os dados
      */
+    private savePaginationAndLoad(): void {
+        this.savePagination();
+        this.loadData();
+    }
+
+    /**
+     * Salva o estado atual e carrega os dados
+     */
     private saveStateAndLoad(): void {
-        this.saveState();
+        this.savePagination();
         this.loadData();
     }
 
@@ -228,7 +250,7 @@ export class TipocategoriaListSimplePage implements OnInit {
                 this.state.data = response.data;
                 this.state.pagination.total = response.total || 0;
                 this.state.loading = false;
-                this.saveState();
+                this.savePagination();
                 console.log('✅ Dados carregados:', {
                     page: this.state.pagination.page,
                     pageSize: this.state.pagination.pageSize,
@@ -248,14 +270,13 @@ export class TipocategoriaListSimplePage implements OnInit {
     /**
      * Salva o estado atual no StateRef
      */
-    private saveState(): void {
-        console.log('💾 Salvando estado completo:', {
+    private savePagination(): void {
+        console.log('💾 Salvando paginação no estado:', {
             page: this.state.pagination.page,
             pageSize: this.state.pagination.pageSize,
-            total: this.state.pagination.total,
-            filters: this.state.filters
+            total: this.state.pagination.total
         });
-        this.stateRef.set(this.state);
+        this.paginationStateRef.set(this.state.pagination);
     }
 
     /**
