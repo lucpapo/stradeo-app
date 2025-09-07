@@ -65,3 +65,75 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
                     - tipocategoria-subview.component.html
                     - tipocategoria-subview.component.scss
      
+
+
+
+
+     # Contexto
+- Voltou a ter as duas chamadas a api no voltar.
+
+# Sugestao
+- Recomecar
+- ler o prompr todo antes de comecar
+- Esquecer por enquanto o BaseFiltro e BaseList e suas estrategias
+- Implementar tudo na clase TipocategoriaListPage e TipocategoriaFilterPage 
+- depois refatoramos 
+
+# Como deve ser o Funcionamento
+  - Componente TipocategoriaListPage
+    - Contem o componente TipocategoriaFilterPage
+      - verifica se tem valor no state 
+        - se nao tem carrega com o valor inicial do filtro
+      - pega o valor do state e preenche o formulario do filtro
+      - verifica se esta autoloadingdata
+        -  se estiver simula um click
+     - sugiro separa o Click() da funcao que setaria o stateprovider e dispararia o evento
+        - na funcao click() 
+           - this.isPesquisar = true
+        - na funcao que realmente ativa o evento da api 
+           - se  this.isPesquisar
+           - limpa a paginacao e seta os dados do filtro no state provider
+           - this.pesquisar = false
+           - pega a paginacao do state e o filtro do state
+           - faz o evento de chamar a api
+    - na paginacao 
+      - seta a paginacao 
+        - o this.pesquisar == false
+        - pega a paginacao do state e o filtro do state
+        - faz o evento de chamar a api
+    - no refresh/voltar
+        - o this.pesquisar == false
+        - pega a paginacao do state e o filtro do state
+        - faz o evento de chamar a api
+  - Componente lista esta dizendo que o objeto que filtra ele 
+    ele recupera o state e faz a requisicao da api       
+
+ 
+
+# Premissa
+- o State quero usar ainda o state provider. 
+- usar o TipoCategoriaService para a api desta tela
+- nao fazer mock de dados.
+ 
+
+# observacao 
+- a tela esta funcionando so esta com problema
+- entao a sugestao é fazer uma reengenharia deixando a tela independente da base e das strategy
+  - TipocategoriaFilterPage
+  - TipocategoriaListPage
+- simplificar, corrigir  e depois iremos para outros passos.  
+
+# sugestao 
+- simplificar o processo deixando um filtro por componente como no inicio 
+- tirar os target 
+- dizer nos componentes que precisam do filtro qual seria o filtro 
+- criar um checklist do que vai fazer 
+- ler todo o contexto antes de comecar.
+- Zerar o pensamento para poder achar outras alternativas
+- verificar as pastas 
+  - corepcode
+  - corestradeo
+  - features
+  - shared\components
+    
+
