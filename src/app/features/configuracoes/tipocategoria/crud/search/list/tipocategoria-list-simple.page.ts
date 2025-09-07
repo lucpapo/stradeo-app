@@ -145,22 +145,14 @@ export class TipocategoriaListSimplePage implements OnInit {
      */
     private applyFiltersAndLoad(filters: TipocategoriaFilterValue): void {
         if (this.isPesquisar) {
-            // Verifica se os filtros realmente mudaram para resetar paginação
-            const filtersChanged = JSON.stringify(this.state.filters) !== JSON.stringify(filters);
-
-            console.log('🔍 Aplicando filtros:', {
+            console.log('🔍 Aplicando filtros (click manual do usuário):', {
                 filtrosAtuais: this.state.filters,
-                novosFiltros: filters,
-                mudaram: filtersChanged
+                novosFiltros: filters
             });
 
-            if (filtersChanged) {
-                // Reset da paginação apenas quando os filtros mudaram
-                console.log('🔄 Filtros mudaram - Resetando paginação para página 1');
-                this.state.pagination.page = 1;
-            } else {
-                console.log('✅ Filtros iguais - Mantendo paginação atual');
-            }
+            // Click manual do usuário sempre reseta paginação para página 1
+            console.log('🔄 Click manual - Resetando paginação para página 1');
+            this.state.pagination.page = 1;
 
             this.state.filters = filters;
             this.savePaginationAndLoad();
