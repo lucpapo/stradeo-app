@@ -112,4 +112,52 @@ export abstract class ListStrategy<TFilter extends object, TEntity> {
       total: response.total || 0
     };
   }
+
+  /**
+   * Retorna o nome da propriedade que contém o ID da entidade
+   * Implementação padrão retorna 'id'
+   * Sobrescreva se a entidade usar outro nome para o ID
+   */
+  getColunaId(): keyof TEntity {
+    return 'id' as keyof TEntity;
+  }
+
+  /**
+   * Extrai o valor do ID de um item
+   * Usa getColunaId() para determinar qual propriedade acessar
+   */
+  getIdValue(item: TEntity): string | number {
+    return item[this.getColunaId()] as string | number;
+  }
+
+  // Métodos de navegação - implementação padrão
+  // Strategies que implementam NavigationStrategy herdam estes métodos automaticamente
+  // Requer que a strategy tenha propriedades baseRoute e router
+  
+  /**
+   * Navega para criar novo item
+   * Usa baseRoute da strategy
+   */
+  irParaNovo(): void {
+    const strategy = this as any;
+    strategy.router.navigate([strategy.baseRoute, 'novo']);
+  }
+
+  /**
+   * Navega para visualizar um item
+   * Usa getColunaId() e getIdValue() para acessar o ID dinamicamente
+   */
+  irParaVer(item: TEntity): void {
+    const strategy = this as any;
+    strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'view']);
+  }
+
+  /**
+   * Navega para editar um item
+   * Usa getColunaId() e getIdValue() para acessar o ID dinamicamente
+   */
+  irParaEditar(item: TEntity): void {
+    const strategy = this as any;
+    strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'edit']);
+  }
 }

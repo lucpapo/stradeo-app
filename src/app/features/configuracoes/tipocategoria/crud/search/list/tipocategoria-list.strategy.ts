@@ -35,25 +35,4 @@ export class TipocategoriaListStrategy extends ListStrategy<TipocategoriaFilterV
     return this.service.list(queryParams);
   }
 
-  /**
-   * Navega para criar novo item
-   */
-  irParaNovo(): void {
-    this.router.navigate([this.baseRoute, 'novo']);
-  }
-
-  /**
-   * Navega para visualizar um item
-   */
-  irParaVer(item: TipoCategoria): void {
-    this.router.navigate([this.baseRoute, item.id.toString(), 'view']);
-  }
-
-  /**
-   * Navega para editar um item
-   */
-  irParaEditar(item: TipoCategoria): void {
-    this.router.navigate([this.baseRoute, item.id.toString(), 'edit']);
-  }
-
 }
