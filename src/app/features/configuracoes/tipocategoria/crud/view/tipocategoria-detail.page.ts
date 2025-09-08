@@ -25,6 +25,7 @@ export class TipocategoriaDetailPage extends BaseStradeoDetailPage<
 
   // Estado adicional específico desta página
   public readonly auditOpen = signal(false);
+  public readonly auditOffcanvasOpen = signal(false);
 
   protected obterServico(): IServiceBase<TipoCategoria, TipocategoriaFilterValue, number> {
     return this.service;
@@ -48,6 +49,14 @@ export class TipocategoriaDetailPage extends BaseStradeoDetailPage<
 
   public toggleAudit(): void {
     this.auditOpen.set(!this.auditOpen());
+  }
+
+  public openAuditOffcanvas(): void {
+    this.auditOffcanvasOpen.set(true);
+  }
+
+  public closeAuditOffcanvas(): void {
+    this.auditOffcanvasOpen.set(false);
   }
 
   // Métodos de salvamento herdados da classe base
