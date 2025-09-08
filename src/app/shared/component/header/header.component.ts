@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ClickOutsideDirective } from '../../directive/outside.directive';
 import { LayoutService } from '../../service/layout.service';
 import { Menu, NavigationService } from '../../service/navigation.service';
+import { Concessionaria, ConcessionariaService } from '../../service/concessionaria.service';
 import { SvgIconComponent } from "../svg-icon/svg-icon.component";
 import { BookmarkComponent } from "./bookmark/bookmark.component";
 import { CartComponent } from "./cart/cart.component";
@@ -14,6 +15,7 @@ import { ModeComponent } from "./mode/mode.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { LanguageComponent } from "./language/language.component";
+import { ConcessionariaSelectorComponent } from "../concessionaria-selector/concessionaria-selector.component";
 
 @Component({
   selector: 'app-header',
@@ -21,12 +23,12 @@ import { LanguageComponent } from "./language/language.component";
   imports: [NotificationsComponent, BookmarkComponent, CartComponent,
     RouterModule, FormsModule, CommonModule, ClickOutsideDirective,
     MessageComponent, ProfileComponent, ModeComponent,
-    CommonSvgIconsComponent, SvgIconComponent, LanguageComponent],
+    CommonSvgIconsComponent, SvgIconComponent, LanguageComponent, ConcessionariaSelectorComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   public searchText: string = '';
   public navData: Menu[] = [];
@@ -35,11 +37,25 @@ export class HeaderComponent {
   public isSearch: boolean = false;
   public searchResult: boolean = false;
   public searchResultEmpty: boolean = false;
+  
+  // Concessionaria properties
+  public concessionariaAtual: Concessionaria | null = null;
+  public showConcessionariaSelector: boolean = false;
 
-  constructor(public layoutService: LayoutService, public navigationService: NavigationService) {
+  constructor(
+    public layoutService: LayoutService, 
+    public navigationService: NavigationService,
+    private concessionariaService: ConcessionariaService
+  ) {
     this.navigationService.items.subscribe(response => {
       this.navData = response;
-    })
+    });
+  }
+
+  ngOnInit(): void {
+    this.concessionariaService.concessionariaAtual$.subscribe(
+      concessionaria => this.concessionariaAtual = concessionaria
+    );
   }
 
   search(data: string) {
@@ -93,5 +109,19 @@ export class HeaderComponent {
     this.searchText = "";
     this.searchResult = false;
     document.body.classList.remove('offcanvas')
+  }
+
+  // Concessionaria methods
+  openConcessionariaSelector(): void {
+    this.showConcessionariaSelector = true;
+  }
+
+  closeConcessionariaSelector(): void {
+    this.showConcessionariaSelector = false;
+  }
+
+  onConcessionariaSelected(concessionaria: Concessionaria): void {
+    this.concessionariaAtual = concessionaria;
+    this.showConcessionariaSelector = false;
   }
 }
