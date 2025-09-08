@@ -16,7 +16,7 @@ import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
   selector: 'app-tipocategoria-filter',
   imports: [CommonModule, ReactiveFormsModule, ValidationIndicatorComponent],
   templateUrl: './tipocategoria-filter.page.html',
-  styleUrls: ['./tipocategoria-filter.page.scss'],
+  styleUrls: [ ],
 })
 export class TipocategoriaFilterPage extends BaseFilterPage<TipocategoriaFilterValue> {
 
