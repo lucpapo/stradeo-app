@@ -10,6 +10,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, errorInterceptor } from './corepcode/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
  
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);

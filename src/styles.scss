@@ -1,2 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../public/assets/scss/app.scss"
+@import "../public/assets/scss/app.scss";
+
+/* Estilos do sistema de offcanvas */
+@import "./app/shared/styles/offcanvas.scss";

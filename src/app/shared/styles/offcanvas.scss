@@ -1,0 +1,446 @@
+/* Estilos globais para o sistema de offcanvas */
+
+/* Debug - forçar z-index do offcanvas */
+.offcanvas {
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 100vh !important;
+  background-color: #ffffff !important; /* Fundo branco sólido */
+  border-left: 1px solid #dee2e6 !important; /* Borda para definir melhor */
+}
+
+.offcanvas-backdrop {
+  z-index: 9998 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Forçar que o offcanvas apareça por cima de tudo */
+.offcanvas.show {
+  transform: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Classe personalizada para teste */
+.custom-offcanvas-width {
+  width: 80% !important;
+  max-width: 80% !important;
+}
+
+/* Reset de qualquer interferência */
+.page-wrapper,
+.page-body-wrapper,
+.page-body {
+  position: relative !important;
+  z-index: auto !important;
+}
+
+/* Classes de largura personalizadas para offcanvas */
+.offcanvas-class-40 {
+  width: 40% !important;
+  max-width: 40% !important;
+}
+
+.offcanvas-class-50 {
+  width: 50% !important;
+  max-width: 50% !important;
+}
+
+.offcanvas-class-60 {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+.offcanvas-class-70 {
+  width: 70% !important;
+  max-width: 70% !important;
+}
+
+.offcanvas-class-80 {
+  width: 80% !important;
+  max-width: 80% !important;
+}
+
+.offcanvas-class-85 {
+  width: 85% !important;
+  max-width: 85% !important;
+}
+
+.offcanvas-class-90 {
+  width: 90% !important;
+  max-width: 90% !important;
+}
+
+.offcanvas-class-95 {
+  width: 95% !important;
+  max-width: 95% !important;
+}
+
+.offcanvas-class-full {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  .offcanvas-class-40,
+  .offcanvas-class-50,
+  .offcanvas-class-60,
+  .offcanvas-class-70,
+  .offcanvas-class-80,
+  .offcanvas-class-85,
+  .offcanvas-class-90,
+  .offcanvas-class-95 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Estilos para melhorar a aparência do offcanvas */
+.offcanvas {
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff !important; /* Garantir fundo branco */
+  
+  .offcanvas-header {
+    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa !important; /* Fundo cinza claro sólido */
+    
+    .offcanvas-title {
+      font-weight: 600;
+      color: #495057;
+    }
+    
+    .btn-close {
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      }
+    }
+  }
+  
+  .offcanvas-body {
+    padding: 1.5rem;
+    background-color: #ffffff !important; /* Fundo branco sólido */
+    
+    /* Scroll personalizado */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+      
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
+  }
+}
+
+/* Animações suaves */
+.offcanvas.show {
+  transform: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Backdrop personalizado */
+.offcanvas-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Quando não há backdrop, garantir que o offcanvas seja visível */
+.offcanvas:not(.offcanvas-backdrop) {
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Estilos para offcanvas aninhados */
+.offcanvas-backdrop.show ~ .offcanvas-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Indicador de pilha de offcanvas */
+.offcanvas-stack-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1060;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  
+  &::before {
+    content: "Offcanvas: ";
+  }
+}
+
+/* Correção específica para transparência */
+.offcanvas {
+  background-color: #ffffff !important;
+  color: #212529 !important; /* Garantir cor do texto */
+}
+
+.offcanvas .offcanvas-header {
+  background-color: #f8f9fa !important;
+  color: #495057 !important;
+}
+
+.offcanvas .offcanvas-body {
+  background-color: #ffffff !important;
+  color: #212529 !important; /* Garantir cor do texto */
+}
+
+/* Garantir que elementos filhos tenham cores apropriadas */
+.offcanvas .card {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+}
+
+.offcanvas .form-control {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+}
+
+.offcanvas .btn {
+  /* Manter cores originais dos botões */
+}
+
+.offcanvas .alert {
+  /* Manter cores originais dos alerts */
+}
+
+/* Garantir visibilidade de textos */
+.offcanvas p,
+.offcanvas span,
+.offcanvas div,
+.offcanvas small,
+.offcanvas h1, .offcanvas h2, .offcanvas h3, 
+.offcanvas h4, .offcanvas h5, .offcanvas h6 {
+  color: inherit !important;
+}
+
+/* Cores específicas para elementos com fundo */
+.offcanvas .bg-light {
+  background-color: #f8f9fa !important;
+  color: #495057 !important;
+}
+
+.offcanvas .bg-white {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+}
+
+.offcanvas .text-muted {
+  color: #6c757d !important;
+}
+
+/* Forçar opacidade total */
+.offcanvas.show {
+  opacity: 1 !important;
+}
+
+/* Estilos para offcanvas aninhados com níveis */
+.offcanvas-level-1 {
+  z-index: 10000 !important;
+}
+
+.offcanvas-level-2 {
+  z-index: 10010 !important;
+}
+
+.offcanvas-level-3 {
+  z-index: 10020 !important;
+}
+
+.offcanvas-level-4 {
+  z-index: 10030 !important;
+}
+
+.offcanvas-level-5 {
+  z-index: 10040 !important;
+}
+
+/* Backdrop para offcanvas aninhados - modo sem backdrop */
+.offcanvas-backdrop:first-of-type {
+  z-index: 9998 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modo sem backdrop - apenas o primeiro tem backdrop */
+.offcanvas-no-backdrop-mode .offcanvas-level-2,
+.offcanvas-no-backdrop-mode .offcanvas-level-3,
+.offcanvas-no-backdrop-mode .offcanvas-level-4,
+.offcanvas-no-backdrop-mode .offcanvas-level-5 {
+  + .offcanvas-backdrop {
+    display: none !important;
+  }
+}
+
+/* Modo com backdrop - cada offcanvas tem seu backdrop */
+.offcanvas-with-backdrop-mode .offcanvas-backdrop {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-backdrop:first-of-type {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-backdrop:nth-of-type(2) {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-backdrop:nth-of-type(3) {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-backdrop:nth-of-type(4) {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Ajustes de z-index para modo com backdrop */
+.offcanvas-with-backdrop-mode .offcanvas-level-1 {
+  z-index: 10000 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-1 + .offcanvas-backdrop {
+  z-index: 9999 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-2 {
+  z-index: 10020 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-2 + .offcanvas-backdrop {
+  z-index: 10019 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-3 {
+  z-index: 10040 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-3 + .offcanvas-backdrop {
+  z-index: 10039 !important;
+}
+
+/* Indicador visual de nível */
+.offcanvas-level-indicator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 123, 255, 0.8);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* Sombra diferenciada para níveis */
+.offcanvas-level-1 {
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.offcanvas-level-2 {
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.offcanvas-level-3 {
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.offcanvas-level-4,
+.offcanvas-level-5 {
+  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Estilos para posições diferentes */
+.offcanvas.offcanvas-start.offcanvas-level-2,
+.offcanvas.offcanvas-start.offcanvas-level-3,
+.offcanvas.offcanvas-start.offcanvas-level-4,
+.offcanvas.offcanvas-start.offcanvas-level-5 {
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Correções específicas para visibilidade de texto */
+.offcanvas .row {
+  color: inherit;
+}
+
+.offcanvas .col-12 {
+  color: inherit;
+}
+
+/* Garantir que elementos Bootstrap tenham cores corretas */
+.offcanvas .btn-sm {
+  color: white !important;
+}
+
+.offcanvas .btn-primary {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: white !important;
+}
+
+.offcanvas .btn-info {
+  background-color: #0dcaf0 !important;
+  border-color: #0dcaf0 !important;
+  color: #000 !important;
+}
+
+.offcanvas .btn-warning {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.offcanvas .btn-success {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: white !important;
+}
+
+.offcanvas .btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: white !important;
+}
+
+.offcanvas .btn-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: white !important;
+}
+
+.offcanvas .btn-outline-info {
+  border-color: #0dcaf0 !important;
+  color: #0dcaf0 !important;
+}
+
+/* Forçar visibilidade de badges */
+.offcanvas .badge {
+  color: white !important;
+}
+
+.offcanvas .badge.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.offcanvas .badge.bg-info {
+  background-color: #0dcaf0 !important;
+  color: #000 !important;
+}

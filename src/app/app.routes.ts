@@ -16,9 +16,33 @@ export const routes: Routes = [
         redirectTo: 'dashboard/default',
         pathMatch: 'full'
     },
-
+    {
+        path: 'offcanvas-test',
+        loadComponent: () => 
+          import('./shared/components/offcanvas-container/offcanvas-test-page.component')
+            .then(m => m.OffcanvasTestPageComponent)
+      },
 
     { path: '', pathMatch: 'full', redirectTo: 'tipocategoria' },
+    
+    {
+        path: 'offcanvas-test',
+        loadComponent: () => 
+            import('./shared/components/offcanvas-container/offcanvas-test-page.component')
+                .then(m => m.OffcanvasTestPageComponent)
+    },
+    {
+        path: 'table-simulation',
+        loadComponent: () => 
+            import('./shared/components/offcanvas-container/clean-table-page.component')
+                .then(m => m.CleanTablePageComponent)
+    },
+    {
+        path: 'backdrop-test',
+        loadComponent: () => 
+            import('./shared/components/offcanvas-container/backdrop-test.component')
+                .then(m => m.BackdropTestComponent)
+    },
 
     {
         path: 'configuracoes',
