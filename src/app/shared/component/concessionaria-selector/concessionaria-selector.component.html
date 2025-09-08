@@ -3,7 +3,7 @@
   <div class="concessionaria-display">
     <span class="concessionaria-text">
       {{ concessionariaAtual?.id ? (concessionariaAtual?.id + ' - ') : '' }}
-      {{ concessionariaAtual?.nome ?? 'Concessionária XPTO' }}
+      {{ concessionariaAtual?.nome ?? 'Carregando...' }}
     </span>
   </div>
   <button class="concessionaria-change-btn" type="button" (click)="openSelector()">

@@ -11,6 +11,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, errorInterceptor } from './corepcode/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from './corepcode/store/state-provider';
  
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -21,8 +22,12 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     provideCharts(withDefaultRegisterables()),
+    // StateProvider global para toda a aplicação
+    StateProvider,
+    { provide: LOCAL_STORAGE_KEY, useValue: 'ui-MasterAppComponent' },
+    { provide: USE_BASE64_ENCODING, useValue: false },
     importProvidersFrom(
       FlatpickrModule.forRoot(),
       TranslateModule.forRoot({

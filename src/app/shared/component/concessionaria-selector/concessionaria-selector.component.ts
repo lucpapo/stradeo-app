@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Concessionaria, ConcessaoService } from '../../../corestradeo/services/concessao.service';
+import { Concessionaria } from '../../../corestradeo/services/concessao.service';
 import { CommonSvgIconsComponent } from '../header/common-svg-icons/common-svg-icons.component';
+import { ConcessionariaStateService, ConcessionariaState } from './concessionaria-state.service';
 
 @Component({
   selector: 'app-concessionaria-selector',
@@ -12,21 +13,20 @@ import { CommonSvgIconsComponent } from '../header/common-svg-icons/common-svg-i
 })
 export class ConcessionariaSelectorComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
-  @Output() select = new EventEmitter<Concessionaria>();
+  @Output() select = new EventEmitter<ConcessionariaState>();
 
   isOpen: boolean = false;
   concessionarias: Concessionaria[] = [];
-  concessionariaAtual: Concessionaria | null = null;
+  concessionariaAtual: ConcessionariaState | null = null;
 
-  constructor(private concessaoService: ConcessaoService) {}
+  constructor(private concessionariaStateService: ConcessionariaStateService) {}
 
   ngOnInit(): void {
     this.loadConcessionarias();
-    this.updateConcessionariaAtual();
     
-    // Subscribe to concessionaria changes
-    this.concessaoService.concessionariaAtual$.subscribe(
-      (concessionaria: Concessionaria) => this.concessionariaAtual = concessionaria
+    // Subscribe to concessionaria changes from state service
+    this.concessionariaStateService.concessionaria$.subscribe(
+      (concessionaria: ConcessionariaState | null) => this.concessionariaAtual = concessionaria
     );
   }
 
@@ -38,25 +38,27 @@ export class ConcessionariaSelectorComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
-  private updateConcessionariaAtual(): void {
-    this.concessionariaAtual = this.concessaoService.getConcessionariaAtual();
-  }
-
   loadConcessionarias(): void {
-    this.concessaoService.getConcessionarias().subscribe(
+    this.concessionariaStateService.getConcessionarias().subscribe(
       (concessionarias: Concessionaria[]) => this.concessionarias = concessionarias
     );
   }
 
   onSelectConcessionaria(concessionaria: Concessionaria): void {
-    this.concessaoService.setConcessionariaAtual(concessionaria);
-    this.select.emit(concessionaria);
+    const concessionariaState: ConcessionariaState = {
+      id: concessionaria.id,
+      nome: concessionaria.nome,
+      cnpj: concessionaria.cnpj
+    };
+    
+    console.log('🎯 Selecionando concessionária:', concessionariaState);
+    this.concessionariaStateService.setConcessionaria(concessionariaState);
+    this.select.emit(concessionariaState);
     this.onClose();
   }
 
   openSelector(): void {
     this.isOpen = true;
-    this.updateConcessionariaAtual();
     this.blockBodyScroll();
   }
 
