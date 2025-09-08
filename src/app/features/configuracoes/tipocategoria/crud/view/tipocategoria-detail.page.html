@@ -37,9 +37,8 @@
       <div class="row align-items-center mb-4" *ngIf="id()">
         <div class="col-12">
           <div class="d-flex align-items-center gap-1">
-            <i class="fa fa-shield text-primary audit-icon-clickable" 
-               (click)="openAuditOffcanvas()"
-               title="Ver dados de auditoria"></i>
+            <i class="fa fa-shield text-primary audit-icon-clickable" (click)="openAuditOffcanvas()"
+              title="Ver dados de auditoria"></i>
             <i class="fa fa-clock-o text-muted"></i>
             <small class="text-muted">
               Última atualização:
@@ -54,23 +53,33 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="row" *ngIf="!isViewMode()">
+      <div class="row">
         <div class="col-12">
-          <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-outline-secondary btn-sm px-3" (click)="goBack()">
-              Cancelar
-            </button>
-            <button type="submit" class="btn btn-success btn-sm px-3" [disabled]="form.invalid || loading()" (click)="save()">
-              <i class="fa fa-check me-2"></i>
-              Salvar e fechar
-            </button>
-            <button type="button" class="btn btn-primary btn-sm px-3" [disabled]="form.invalid || loading()"
-              (click)="saveAndContinue()">
-              <i class="fa fa-edit me-2"></i>
-              Salvar
-            </button>
+          <div class="d-flex justify-content-end gap-1">
+            <!-- Botões para modo de edição -->
+            <ng-container *ngIf="!isViewMode()">
+              <button type="button" class="btn btn-outline-secondary btn-sm px-2 py-1" (click)="goBack()">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-success btn-sm px-2 py-1" [disabled]="form.invalid || loading()"
+                (click)="save()">
+                <i class="fa fa-check me-1"></i>
+                Salvar e fechar
+              </button>
+              <button type="button" class="btn btn-primary btn-sm px-2 py-1" [disabled]="form.invalid || loading()"
+                (click)="saveAndContinue()">
+                <i class="fa fa-edit me-1"></i>
+                Salvar
+              </button>
+            </ng-container>
 
-           
+            <!-- Botão para modo de visualização -->
+            <ng-container *ngIf="isViewMode()">
+              <button type="button" class="btn btn-outline-primary btn-sm px-2 py-1" (click)="goBack()">
+                <i class="fa fa-arrow-left me-1"></i>
+                Voltar
+              </button>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -79,25 +88,18 @@
 </div>
 
 <!-- Backdrop -->
-<div *ngIf="auditOffcanvasOpen()" 
-     class="modal-backdrop fade show" 
-     (click)="closeAuditOffcanvas()"
-     style="z-index: 1040;"></div>
+<div *ngIf="auditOffcanvasOpen()" class="modal-backdrop fade show" (click)="closeAuditOffcanvas()"
+  style="z-index: 1040;"></div>
 
 <!-- Audit Data Offcanvas -->
-<div class="audit-offcanvas" 
-     [class.show]="auditOffcanvasOpen()"
-     [attr.aria-hidden]="!auditOffcanvasOpen()">
-  
+<div class="audit-offcanvas" [class.show]="auditOffcanvasOpen()" [attr.aria-hidden]="!auditOffcanvasOpen()">
+
   <div class="offcanvas-header border-bottom bg-light">
     <h5 class="offcanvas-title fw-bold">
       <i class="fa fa-shield me-2 text-primary"></i>
       Dados de Auditoria
     </h5>
-    <button type="button" 
-            class="btn-close" 
-            (click)="closeAuditOffcanvas()" 
-            aria-label="Fechar">
+    <button type="button" class="btn-close" (click)="closeAuditOffcanvas()" aria-label="Fechar">
     </button>
   </div>
 
