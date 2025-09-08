@@ -42,6 +42,16 @@
 }
 
 /* Classes de largura personalizadas para offcanvas */
+.offcanvas-class-30 {
+  width: 30% !important;
+  max-width: 30% !important;
+}
+
+.offcanvas-class-35 {
+  width: 35% !important;
+  max-width: 35% !important;
+}
+
 .offcanvas-class-40 {
   width: 40% !important;
   max-width: 40% !important;
@@ -89,6 +99,8 @@
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
+  .offcanvas-class-30,
+  .offcanvas-class-35,
   .offcanvas-class-40,
   .offcanvas-class-50,
   .offcanvas-class-60,
@@ -154,10 +166,115 @@
   transition: transform 0.3s ease-in-out;
 }
 
-/* Backdrop personalizado */
+/* Backdrop personalizado - FORÇADO */
 .offcanvas-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(2px) !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.offcanvas-backdrop.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.offcanvas-backdrop.fade {
+  opacity: 1 !important;
+}
+
+/* Forçar backdrop para offcanvas empilhados */
+.offcanvas.show + .offcanvas-backdrop {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Backdrop específico por nível para proteger offcanvas anterior - FORÇADO */
+.backdrop-level-2 {
+  z-index: 10015 !important; /* Entre nível 1 (10000) e nível 2 (10020) */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.backdrop-level-3 {
+  z-index: 10035 !important; /* Entre nível 2 (10020) e nível 3 (10040) */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.backdrop-level-4 {
+  z-index: 10055 !important; /* Entre nível 3 (10040) e nível 4 (10060) */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.backdrop-level-5 {
+  z-index: 10075 !important; /* Entre nível 4 (10060) e nível 5 (10080) */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Forçar z-index dos offcanvas para garantir ordem correta */
+.offcanvas-level-1.show {
+  z-index: 10000 !important;
+}
+
+.offcanvas-level-2.show {
+  z-index: 10020 !important;
+}
+
+.offcanvas-level-3.show {
+  z-index: 10040 !important;
+}
+
+.offcanvas-level-4.show {
+  z-index: 10060 !important;
+}
+
+.offcanvas-level-5.show {
+  z-index: 10080 !important;
+}
+
+/* Correção específica para Bootstrap backdrop */
+.offcanvas-backdrop.show {
+  z-index: 9990 !important;
+}
+
+/* Quando há múltiplos backdrops, o último deve ter z-index maior */
+body:has(.offcanvas-level-2) .offcanvas-backdrop:last-of-type {
+  z-index: 10015 !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+body:has(.offcanvas-level-3) .offcanvas-backdrop:last-of-type {
+  z-index: 10035 !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Quando não há backdrop, garantir que o offcanvas seja visível */
@@ -311,29 +428,68 @@
   background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Ajustes de z-index para modo com backdrop */
+/* Ajustes de z-index para modo com backdrop - CORRIGIDO */
 .offcanvas-with-backdrop-mode .offcanvas-level-1 {
   z-index: 10000 !important;
-}
-
-.offcanvas-with-backdrop-mode .offcanvas-level-1 + .offcanvas-backdrop {
-  z-index: 9999 !important;
 }
 
 .offcanvas-with-backdrop-mode .offcanvas-level-2 {
   z-index: 10020 !important;
 }
 
-.offcanvas-with-backdrop-mode .offcanvas-level-2 + .offcanvas-backdrop {
-  z-index: 10019 !important;
-}
-
 .offcanvas-with-backdrop-mode .offcanvas-level-3 {
   z-index: 10040 !important;
 }
 
-.offcanvas-with-backdrop-mode .offcanvas-level-3 + .offcanvas-backdrop {
-  z-index: 10039 !important;
+.offcanvas-with-backdrop-mode .offcanvas-level-4 {
+  z-index: 10060 !important;
+}
+
+.offcanvas-with-backdrop-mode .offcanvas-level-5 {
+  z-index: 10080 !important;
+}
+
+/* Backdrop específico para cada nível - NOVO */
+.offcanvas-backdrop {
+  z-index: 9990 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Múltiplos backdrops para empilhamento - CORRIGIDO */
+/* O backdrop deve ficar ENTRE os offcanvas para proteger o anterior */
+
+.offcanvas-backdrop:nth-of-type(1) {
+  z-index: 9990 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Backdrop do 2º offcanvas: entre nível 1 (10000) e nível 2 (10020) */
+.offcanvas-backdrop:nth-of-type(2) {
+  z-index: 10015 !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Backdrop do 3º offcanvas: entre nível 2 (10020) e nível 3 (10040) */
+.offcanvas-backdrop:nth-of-type(3) {
+  z-index: 10035 !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Backdrop do 4º offcanvas: entre nível 3 (10040) e nível 4 (10060) */
+.offcanvas-backdrop:nth-of-type(4) {
+  z-index: 10055 !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Backdrop do 5º offcanvas: entre nível 4 (10060) e nível 5 (10080) */
+.offcanvas-backdrop:nth-of-type(5) {
+  z-index: 10075 !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Indicador visual de nível */
@@ -374,6 +530,52 @@
 .offcanvas.offcanvas-start.offcanvas-level-4,
 .offcanvas.offcanvas-start.offcanvas-level-5 {
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+  left: 0 !important;
+  right: auto !important;
+}
+
+/* Garantir que offcanvas do lado esquerdo apareça corretamente */
+.offcanvas.offcanvas-start {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(-100%) !important;
+}
+
+.offcanvas.offcanvas-start.show {
+  transform: translateX(0) !important;
+}
+
+/* Z-index específico para offcanvas do lado esquerdo */
+.offcanvas.offcanvas-start.offcanvas-level-3 {
+  z-index: 10040 !important;
+}
+
+/* FORÇAR offcanvas do lado esquerdo - MAIS ESPECÍFICO */
+.offcanvas-level-3.offcanvas-start {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(0) !important;
+  position: fixed !important;
+  top: 0 !important;
+  height: 100vh !important;
+}
+
+/* Garantir que não seja sobrescrito */
+.offcanvas-level-3.offcanvas-start.show {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(0) !important;
+}
+
+/* Animação específica para lado esquerdo */
+.offcanvas-level-3.offcanvas-start:not(.show) {
+  transform: translateX(-100%) !important;
+}
+
+/* Forçar largura específica */
+.offcanvas-level-3.offcanvas-class-35 {
+  width: 35% !important;
+  max-width: 35% !important;
 }
 
 /* Correções específicas para visibilidade de texto */
