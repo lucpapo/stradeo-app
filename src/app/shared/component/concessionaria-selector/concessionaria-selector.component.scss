@@ -1,3 +1,113 @@
+/* ===== Concessionaria Display Styles (from header) ===== */
+$PILL_H: 44px;
+$BTN_W: 42px;
+$ICON: 16px;
+
+.concessionaria-wrapper {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) #{$BTN_W} !important;
+  align-items: stretch;
+  width: 70% !important;
+  height: $PILL_H;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+
+.concessionaria-display {
+  display: flex !important;
+  align-items: center;
+  min-width: 0;
+  padding: 0 16px;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.concessionaria-text {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.concessionaria-change-btn {
+  all: unset;
+  box-sizing: border-box;
+  grid-column: 2;
+  width: $BTN_W !important; 
+  min-width: $BTN_W !important; 
+  max-width: $BTN_W !important;
+  height: 100% !important;
+  flex: 0 0 $BTN_W !important;
+  display: grid !important;
+  place-items: center !important;
+  background: var(--bs-success, #198754) !important;
+  border-left: 1px solid rgba(255,255,255,.35) !important;
+  cursor: pointer;
+  position: relative; 
+  overflow: hidden;
+  transition: transform .12s, box-shadow .12s, filter .12s;
+
+  &:hover { 
+    filter: brightness(1.07); 
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 10px rgba(0,0,0,.12); 
+  }
+
+  &:active { 
+    filter: brightness(0.95); 
+    transform: none; 
+    box-shadow: 0 2px 6px rgba(0,0,0,.08); 
+  }
+
+  .btn-icon {
+    display: grid; 
+    place-items: center;
+    width: $ICON + 4px; 
+    height: $ICON + 4px;
+    line-height: 0; 
+    pointer-events: none;
+  }
+}
+
+:host ::ng-deep .concessionaria-change-btn app-common-svg-icons,
+:host ::ng-deep .concessionaria-change-btn app-common-svg-icons *,
+:host ::ng-deep .concessionaria-change-btn svg,
+:host ::ng-deep .concessionaria-change-btn i {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  display: block !important;
+  margin: 0 !important;
+  width: $ICON !important;
+  height: $ICON !important;
+  color: #fff !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  line-height: 0 !important;
+}
+
+@media (max-width: 992px) {
+  .concessionaria-wrapper { 
+    width: 100% !important; 
+  }
+}
+
+[data-theme="dark"] .concessionaria-wrapper { 
+  background:#2b3035; 
+  border-color:#3a3f44; 
+  box-shadow:0 2px 6px rgba(255,255,255,.05); 
+}
+
+[data-theme="dark"] .concessionaria-text { 
+  color: var(--dark-font-color, #e9ecef); 
+}
+
+/* ===== Modal Styles ===== */
 .concessionaria-modal-backdrop {
   position: fixed;
   top: 0;

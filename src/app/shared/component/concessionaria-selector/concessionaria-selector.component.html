@@ -1,3 +1,19 @@
+<!-- Concessionaria Display (from header) -->
+<div class="concessionaria-wrapper">
+  <div class="concessionaria-display">
+    <span class="concessionaria-text">
+      {{ concessionariaAtual?.id ? (concessionariaAtual?.id + ' - ') : '' }}
+      {{ concessionariaAtual?.nome ?? 'Concessionária XPTO' }}
+    </span>
+  </div>
+  <button class="concessionaria-change-btn" type="button" (click)="openSelector()">
+    <span class="btn-icon" aria-hidden="true">
+      <app-common-svg-icons [icon]="'search'"></app-common-svg-icons>
+    </span>
+  </button>
+</div>
+
+<!-- Concessionaria Selector Popup -->
 <div class="concessionaria-modal-backdrop" [class.show]="isOpen" (click)="onBackdropClick($event)">
 
   <div class="concessionaria-modal" [class.show]="isOpen">

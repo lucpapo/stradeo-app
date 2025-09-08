@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ClickOutsideDirective } from '../../directive/outside.directive';
 import { LayoutService } from '../../service/layout.service';
 import { Menu, NavigationService } from '../../service/navigation.service';
-import { Concessionaria, ConcessionariaService } from '../../service/concessionaria.service';
+
 import { SvgIconComponent } from "../svg-icon/svg-icon.component";
 import { BookmarkComponent } from "./bookmark/bookmark.component";
 import { CartComponent } from "./cart/cart.component";
@@ -16,6 +16,7 @@ import { NotificationsComponent } from "./notifications/notifications.component"
 import { ProfileComponent } from "./profile/profile.component";
 import { LanguageComponent } from "./language/language.component";
 import { ConcessionariaSelectorComponent } from "../concessionaria-selector/concessionaria-selector.component";
+
 
 @Component({
   selector: 'app-header',
@@ -37,15 +38,10 @@ export class HeaderComponent implements OnInit {
   public isSearch: boolean = false;
   public searchResult: boolean = false;
   public searchResultEmpty: boolean = false;
-  
-  // Concessionaria properties
-  public concessionariaAtual: Concessionaria | null = null;
-  public showConcessionariaSelector: boolean = false;
 
   constructor(
     public layoutService: LayoutService, 
-    public navigationService: NavigationService,
-    private concessionariaService: ConcessionariaService
+    public navigationService: NavigationService
   ) {
     this.navigationService.items.subscribe(response => {
       this.navData = response;
@@ -53,9 +49,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.concessionariaService.concessionariaAtual$.subscribe(
-      concessionaria => this.concessionariaAtual = concessionaria
-    );
   }
 
   search(data: string) {
@@ -109,19 +102,5 @@ export class HeaderComponent implements OnInit {
     this.searchText = "";
     this.searchResult = false;
     document.body.classList.remove('offcanvas')
-  }
-
-  // Concessionaria methods
-  openConcessionariaSelector(): void {
-    this.showConcessionariaSelector = true;
-  }
-
-  closeConcessionariaSelector(): void {
-    this.showConcessionariaSelector = false;
-  }
-
-  onConcessionariaSelected(concessionaria: Concessionaria): void {
-    this.concessionariaAtual = concessionaria;
-    this.showConcessionariaSelector = false;
   }
 }

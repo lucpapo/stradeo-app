@@ -16,40 +16,8 @@
       
       <ul class="header-left" (clickOutside)="clickOutside()">
         <li class="concessionaria-li">
-          <div class="concessionaria-wrapper">
-            <div class="concessionaria-display">
-              <span class="concessionaria-text">
-                {{ concessionariaAtual?.id ? (concessionariaAtual?.id + ' - ') : '' }}
-                {{ concessionariaAtual?.nome ?? 'Concessionária XPTO' }}
-              </span>
-            </div>
-            <button class="concessionaria-change-btn" type="button" (click)="openConcessionariaSelector()">
-              <span class="btn-icon" aria-hidden="true">
-                <app-common-svg-icons [icon]="'search'"></app-common-svg-icons>
-              </span>
-            </button>
-            
-          </div>
+          <app-concessionaria-selector></app-concessionaria-selector>
         </li>
-        
-        
-        
-        
-        
-        
-        <!-- <li>
-          <div class="concessionaria-wrapper d-flex align-items-center">
-            <div class="concessionaria-display">
-              <div class="concessionaria-info d-flex align-items-center">
-                <span class="concessionaria-id">{{ concessionariaAtual?.id }}</span>
-                <span class="concessionaria-nome">{{ concessionariaAtual?.nome }}</span>
-              </div>
-            </div>
-            <button class="concessionaria-change-btn" (click)="openConcessionariaSelector()" type="button">
-              <app-common-svg-icons [icon]="'search'" [class]="'change-icon'"></app-common-svg-icons>
-            </button>
-          </div>
-        </li> -->
       </ul>
     </div>
   </div>
@@ -81,10 +49,3 @@
     </ul>
   </div>
 </div>
-
-<!-- Concessionaria Selector Popup -->
-<app-concessionaria-selector 
-  [isOpen]="showConcessionariaSelector"
-  (close)="closeConcessionariaSelector()"
-  (select)="onConcessionariaSelected($event)">
-</app-concessionaria-selector>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Concessionaria, ConcessionariaService } from '../../service/concessionaria.service';
 import { CommonSvgIconsComponent } from '../header/common-svg-icons/common-svg-icons.component';
 
@@ -10,11 +10,11 @@ import { CommonSvgIconsComponent } from '../header/common-svg-icons/common-svg-i
   templateUrl: './concessionaria-selector.component.html',
   styleUrl: './concessionaria-selector.component.scss'
 })
-export class ConcessionariaSelectorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() isOpen: boolean = false;
+export class ConcessionariaSelectorComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Output() select = new EventEmitter<Concessionaria>();
 
+  isOpen: boolean = false;
   concessionarias: Concessionaria[] = [];
   concessionariaAtual: Concessionaria | null = null;
 
@@ -23,15 +23,11 @@ export class ConcessionariaSelectorComponent implements OnInit, OnChanges, OnDes
   ngOnInit(): void {
     this.loadConcessionarias();
     this.updateConcessionariaAtual();
-  }
-
-  ngOnChanges(): void {
-    if (this.isOpen) {
-      this.updateConcessionariaAtual();
-      this.blockBodyScroll();
-    } else {
-      this.unblockBodyScroll();
-    }
+    
+    // Subscribe to concessionaria changes
+    this.concessionariaService.concessionariaAtual$.subscribe(
+      concessionaria => this.concessionariaAtual = concessionaria
+    );
   }
 
   private blockBodyScroll(): void {
@@ -58,7 +54,15 @@ export class ConcessionariaSelectorComponent implements OnInit, OnChanges, OnDes
     this.onClose();
   }
 
+  openSelector(): void {
+    this.isOpen = true;
+    this.updateConcessionariaAtual();
+    this.blockBodyScroll();
+  }
+
   onClose(): void {
+    this.isOpen = false;
+    this.unblockBodyScroll();
     this.close.emit();
   }
 
