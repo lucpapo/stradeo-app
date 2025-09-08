@@ -1,120 +1,87 @@
-/* ===== Concessionaria Display Styles (from header) ===== */
-$PILL_H: 44px;
-$BTN_W: 42px;
-$ICON: 16px;
+// Variables
+$pill-h: 44px;
+$btn-w: 42px;
+$icon-size: 16px;
 
+// Concessionaria Display
 .concessionaria-wrapper {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) #{$BTN_W} !important;
+  display: grid;
+  grid-template-columns: 1fr #{$btn-w};
   align-items: stretch;
-  width: 70% !important;
-  height: $PILL_H;
+  width: 70%;
+  height: $pill-h;
   background: #fff;
   border: 1px solid #e9ecef;
-  border-radius: 8px !important;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
 }
 
 .concessionaria-display {
-  display: flex !important;
+  display: flex;
   align-items: center;
   min-width: 0;
   padding: 0 16px;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
+  background: transparent;
+  border: 0;
 }
 
 .concessionaria-text {
   font-weight: 500;
   font-size: 14px;
-  white-space: nowrap; 
-  overflow: hidden; 
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .concessionaria-change-btn {
-  all: unset;
-  box-sizing: border-box;
-  grid-column: 2;
-  width: $BTN_W !important; 
-  min-width: $BTN_W !important; 
-  max-width: $BTN_W !important;
-  height: 100% !important;
-  flex: 0 0 $BTN_W !important;
-  display: grid !important;
-  place-items: center !important;
-  background: var(--bs-success, #198754) !important;
-  border-left: 1px solid rgba(255,255,255,.35) !important;
+  width: $btn-w;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bs-success, #198754);
+  border: none;
   cursor: pointer;
-  position: relative; 
-  overflow: hidden;
-  transition: transform .12s, box-shadow .12s, filter .12s;
+  transition: all .12s;
 
-  &:hover { 
-    filter: brightness(1.07); 
-    transform: translateY(-1px); 
-    box-shadow: 0 4px 10px rgba(0,0,0,.12); 
+  &:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
   }
 
-  &:active { 
-    filter: brightness(0.95); 
-    transform: none; 
-    box-shadow: 0 2px 6px rgba(0,0,0,.08); 
+  &:active {
+    filter: brightness(0.95);
+    transform: none;
   }
 
   .btn-icon {
-    display: grid; 
-    place-items: center;
-    width: $ICON + 4px; 
-    height: $ICON + 4px;
-    line-height: 0; 
-    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $icon-size + 4px;
+    height: $icon-size + 4px;
   }
 }
 
 :host ::ng-deep .concessionaria-change-btn app-common-svg-icons,
-:host ::ng-deep .concessionaria-change-btn app-common-svg-icons *,
 :host ::ng-deep .concessionaria-change-btn svg,
 :host ::ng-deep .concessionaria-change-btn i {
-  position: static !important;
-  inset: auto !important;
-  transform: none !important;
-  display: block !important;
-  margin: 0 !important;
-  width: $ICON !important;
-  height: $ICON !important;
+  width: $icon-size !important;
+  height: $icon-size !important;
   color: #fff !important;
   fill: currentColor !important;
   stroke: currentColor !important;
-  line-height: 0 !important;
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
 }
 
-@media (max-width: 992px) {
-  .concessionaria-wrapper { 
-    width: 100% !important; 
-  }
-}
-
-[data-theme="dark"] .concessionaria-wrapper { 
-  background:#2b3035; 
-  border-color:#3a3f44; 
-  box-shadow:0 2px 6px rgba(255,255,255,.05); 
-}
-
-[data-theme="dark"] .concessionaria-text { 
-  color: var(--dark-font-color, #e9ecef); 
-}
-
-/* ===== Modal Styles ===== */
+// Modal
 .concessionaria-modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,10 +90,6 @@ $ICON: 16px;
   visibility: hidden;
   transition: all 0.3s ease;
   pointer-events: none;
-  
-  // Garantir que capture todos os eventos
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
 
   &.show {
     opacity: 1;
@@ -136,7 +99,7 @@ $ICON: 16px;
 }
 
 .concessionaria-modal {
-  background: #ffffff;
+  background: #fff;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   width: 90%;
@@ -162,36 +125,11 @@ $ICON: 16px;
       align-items: center;
       gap: 16px;
 
-      .header-icon {
-        width: 40px;
-        height: 40px;
-        background: #e3f2fd;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .header-icon-svg {
-          width: 18px;
-          height: 18px;
-          color: #1976d2;
-        }
-      }
-
-      .header-text {
-        .modal-title {
-          margin: 0 0 4px 0;
-          color: #1a1a1a;
-          font-weight: 600;
-          font-size: 20px;
-        }
-
-        .modal-subtitle {
-          margin: 0;
-          color: #6c757d;
-          font-size: 14px;
-          font-weight: 400;
-        }
+      .modal-title {
+        margin: 0;
+        color: #1a1a1a;
+        font-weight: 600;
+        font-size: 20px;
       }
     }
 
@@ -201,17 +139,10 @@ $ICON: 16px;
       padding: 8px;
       cursor: pointer;
       border-radius: 8px;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.2s;
 
       &:hover {
         background-color: #e9ecef;
-      }
-
-      .close-icon {
-        font-size: 20px;
-        color: #6c757d;
-        line-height: 1;
-        font-weight: 300;
       }
     }
   }
@@ -220,25 +151,6 @@ $ICON: 16px;
     padding: 20px 28px 28px;
     max-height: 65vh;
     overflow-y: auto;
-
-    // Custom scrollbar
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
-      border-radius: 3px;
-
-      &:hover {
-        background: #a8a8a8;
-      }
-    }
 
     .concessionaria-cards {
       display: flex;
@@ -253,12 +165,12 @@ $ICON: 16px;
         border: 2px solid #e9ecef;
         border-radius: 12px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        background: #ffffff;
+        transition: all 0.2s;
+        background: #fff;
 
         &:hover:not(.selected) {
           border-color: #dee2e6;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
           transform: translateY(-1px);
         }
 
@@ -266,11 +178,6 @@ $ICON: 16px;
           border-color: #28a745;
           background: #f8fff9;
           box-shadow: 0 2px 12px rgba(40, 167, 69, 0.15);
-          transform: translateY(-1px);
-        }
-
-        &:active {
-          transform: translateY(0);
         }
 
         .card-content {
@@ -283,8 +190,8 @@ $ICON: 16px;
             margin-bottom: 8px;
 
             .concessionaria-id {
-              background-color: #28a745;
-              color: #ffffff;
+              background: #28a745;
+              color: #fff;
               padding: 4px 8px;
               border-radius: 6px;
               font-size: 12px;
@@ -302,201 +209,70 @@ $ICON: 16px;
           }
 
           .concessionaria-cnpj {
-            margin: 0;
+            margin: 0 0 0 36px;
             color: #6c757d;
             font-size: 14px;
-            margin-left: 36px;
           }
         }
 
-        .checkbox-container {
-          .custom-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #dee2e6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            background: #ffffff;
+        .custom-checkbox {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #dee2e6;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+          background: #fff;
 
-            &.checked {
-              border-color: #28a745;
-              background: #28a745;
-            }
-
-            .checkbox-inner {
-              .checkmark {
-                color: #ffffff;
-                font-size: 12px;
-                font-weight: bold;
-                line-height: 1;
-              }
-            }
+          &.checked {
+            border-color: #28a745;
+            background: #28a745;
+            color: #fff;
           }
         }
       }
     }
-
-    .loading-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      text-align: center;
-
-      .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid #e9ecef;
-        border-top: 3px solid #28a745;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 16px;
-      }
-
-      .loading-text {
-        margin: 0;
-        color: #6c757d;
-        font-size: 14px;
-      }
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      text-align: center;
-
-      .empty-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
-        opacity: 0.6;
-      }
-
-      .empty-title {
-        margin: 0 0 8px 0;
-        color: #1a1a1a;
-        font-weight: 600;
-        font-size: 16px;
-      }
-
-      .empty-text {
-        margin: 0;
-        color: #6c757d;
-        font-size: 14px;
-      }
-    }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 }
 
 
-
-// Dark theme support
+// Dark theme
 [data-theme="dark"] {
+  .concessionaria-wrapper {
+    background: #2b3035;
+    border-color: #3a3f44;
+  }
+
+  .concessionaria-text {
+    color: #e9ecef;
+  }
+
   .concessionaria-modal {
     background: #2d3748;
-    color: #e2e8f0;
 
     .modal-header {
       background: #1a202c;
 
-      .header-content {
-        .header-icon {
-          background: #4a5568;
-        }
-
-        .header-text {
-          .modal-title {
-            color: #e2e8f0;
-          }
-
-          .modal-subtitle {
-            color: #a0aec0;
-          }
-        }
-      }
-
-      .btn-close {
-        &:hover {
-          background-color: #4a5568;
-        }
-
-        .close-icon {
-          color: #a0aec0;
-        }
+      .modal-title {
+        color: #e2e8f0;
       }
     }
 
-    .modal-body {
-      .concessionaria-cards {
-        .concessionaria-card {
-          background: #2d3748;
-          border-color: #4a5568;
+    .concessionaria-card {
+      background: #2d3748;
+      border-color: #4a5568;
 
-          &:hover {
-            border-color: #718096;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-          }
-
-          &.selected {
-            background: #1a2f1a;
-            border-color: #28a745;
-          }
-
-          .card-content {
-            .concessionaria-header {
-              .concessionaria-nome {
-                color: #e2e8f0;
-              }
-            }
-
-            .concessionaria-cnpj {
-              color: #a0aec0;
-            }
-          }
-
-          .checkbox-container {
-            .custom-checkbox {
-              border-color: #718096;
-              background: #2d3748;
-
-              &.checked {
-                border-color: #28a745;
-                background: #28a745;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .loading-state {
-      .loading-spinner {
-        border-color: #4a5568;
-        border-top-color: #28a745;
+      &.selected {
+        background: #1a2f1a;
       }
 
-      .loading-text {
-        color: #a0aec0;
-      }
-    }
-
-    .empty-state {
-      .empty-title {
+      .concessionaria-nome {
         color: #e2e8f0;
       }
 
-      .empty-text {
+      .concessionaria-cnpj {
         color: #a0aec0;
       }
     }
@@ -504,101 +280,15 @@ $ICON: 16px;
 }
 
 // Responsive
+@media (max-width: 992px) {
+  .concessionaria-wrapper {
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .concessionaria-modal {
     width: 95%;
     max-height: 90vh;
-
-    .modal-header {
-      padding: 20px 24px;
-
-      .header-content {
-        gap: 12px;
-
-        .header-icon {
-          width: 36px;
-          height: 36px;
-
-          .header-icon-svg {
-            width: 16px;
-            height: 16px;
-          }
-        }
-
-        .header-text {
-          .modal-title {
-            font-size: 18px;
-          }
-
-          .modal-subtitle {
-            font-size: 13px;
-          }
-        }
-      }
-    }
-
-    .modal-body {
-      padding: 16px 24px 24px;
-
-      .concessionaria-cards {
-        .concessionaria-card {
-          padding: 16px;
-
-          .card-content {
-            .concessionaria-header {
-              .concessionaria-nome {
-                font-size: 15px;
-              }
-            }
-
-            .concessionaria-cnpj {
-              font-size: 13px;
-              margin-left: 32px;
-            }
-          }
-
-          .checkbox-container {
-            .custom-checkbox {
-              width: 18px;
-              height: 18px;
-
-              .checkbox-inner {
-                .checkmark {
-                  font-size: 11px;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
-
-@media (max-width: 480px) {
-  .concessionaria-modal {
-    .modal-body {
-      .concessionaria-cards {
-        .concessionaria-card {
-          padding: 14px;
-
-          .card-content {
-            .concessionaria-header {
-              gap: 8px;
-
-              .concessionaria-nome {
-                font-size: 14px;
-              }
-            }
-
-            .concessionaria-cnpj {
-              font-size: 12px;
-              margin-left: 28px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-

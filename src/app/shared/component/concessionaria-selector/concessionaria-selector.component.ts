@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Concessionaria, ConcessionariaService } from '../../service/concessionaria.service';
+import { Concessionaria, ConcessaoService } from '../../../corestradeo/services/concessao.service';
 import { CommonSvgIconsComponent } from '../header/common-svg-icons/common-svg-icons.component';
 
 @Component({
@@ -18,15 +18,15 @@ export class ConcessionariaSelectorComponent implements OnInit, OnDestroy {
   concessionarias: Concessionaria[] = [];
   concessionariaAtual: Concessionaria | null = null;
 
-  constructor(private concessionariaService: ConcessionariaService) {}
+  constructor(private concessaoService: ConcessaoService) {}
 
   ngOnInit(): void {
     this.loadConcessionarias();
     this.updateConcessionariaAtual();
     
     // Subscribe to concessionaria changes
-    this.concessionariaService.concessionariaAtual$.subscribe(
-      concessionaria => this.concessionariaAtual = concessionaria
+    this.concessaoService.concessionariaAtual$.subscribe(
+      (concessionaria: Concessionaria) => this.concessionariaAtual = concessionaria
     );
   }
 
@@ -39,17 +39,17 @@ export class ConcessionariaSelectorComponent implements OnInit, OnDestroy {
   }
 
   private updateConcessionariaAtual(): void {
-    this.concessionariaAtual = this.concessionariaService.getConcessionariaAtual();
+    this.concessionariaAtual = this.concessaoService.getConcessionariaAtual();
   }
 
   loadConcessionarias(): void {
-    this.concessionariaService.getConcessionarias().subscribe(
-      concessionarias => this.concessionarias = concessionarias
+    this.concessaoService.getConcessionarias().subscribe(
+      (concessionarias: Concessionaria[]) => this.concessionarias = concessionarias
     );
   }
 
   onSelectConcessionaria(concessionaria: Concessionaria): void {
-    this.concessionariaService.setConcessionariaAtual(concessionaria);
+    this.concessaoService.setConcessionariaAtual(concessionaria);
     this.select.emit(concessionaria);
     this.onClose();
   }
