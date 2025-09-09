@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { AbstractDetailStrategy } from '@pcode/ui/base-detail';
-import { TipoCategoria } from '../../../../../corestradeo/domain/models/tipocategoria.model';
-import { TipoCategoriaService } from '../../../../../corestradeo/services/tipocategoria.service';
-import { ToastService } from '../../../../../corepcode/toast/toast.service';
+ 
+import { ToastService } from '@pcode/toast/toast.service';
+import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
+import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
+ 
 
 /**
  * Estratégia específica para detalhes de Tipo Categoria
@@ -14,14 +16,14 @@ import { ToastService } from '../../../../../corepcode/toast/toast.service';
 export class TipocategoriaDetailStrategy extends AbstractDetailStrategy<TipoCategoria, number> {
 
   private readonly datePipe = inject(DatePipe);
+  private readonly toastService = inject(ToastService);
 
   // Desabilita o toast padrão da classe base
   public readonly showDefaultSuccessToast = false;
 
   constructor(
     readonly service: TipoCategoriaService,
-    readonly router: Router,
-    private readonly toastService: ToastService
+    readonly router: Router
   ) {
     super();
   }
@@ -73,18 +75,19 @@ export class TipocategoriaDetailStrategy extends AbstractDetailStrategy<TipoCate
   }
 
   /**
-   * Ações específicas pós-salvamento para Tipo Categoria
+   * Labels dos campos para o ValidationIndicator
    */
-  override afterSave(savedEntity: TipoCategoria, mode: 'create' | 'edit'): void {
-    console.log(`✅ TipoCategoria ${mode === 'create' ? 'criado' : 'atualizado'}:`, savedEntity);
+  getFieldLabels(): { [key: string]: string } {
+    return {
+      descricao: 'Descrição',
+      status_delecao: 'Status'
+    };
+  }
 
-    // Limpa todos os toasts anteriores
-    this.toastService.closeAll();
-
-    // Mostra o toast de sucesso
-    const action = mode === 'create' ? 'criado' : 'atualizado';
-    this.toastService.success(`Tipo de Categoria ${action} com sucesso!`, {
-      title: 'Sucesso'
-    });
+  /**
+   * Retorna o título da entidade para mensagens
+   */
+  getEntityTitle(): string {
+    return 'Tipo de Categoria';
   }
 }

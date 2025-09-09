@@ -1,31 +1,42 @@
 <!-- Loading and Error States -->
-<div *ngIf="loading()" class="alert alert-info m-3 py-2">Carregando...</div>
-<div *ngIf="error()" class="alert alert-danger m-3 py-2">{{ error() }}</div>
+<app-full-screen-loading [show]="loading()" message="Carregando dados...">
+</app-full-screen-loading>
+<app-compact-error *ngIf="error()" [message]="error() || ''"></app-compact-error>
 
 <!-- Main Card Container -->
 <div class="card m-3" *ngIf="!loading()">
   <div class="card-body">
     <form id="tipo-categoria-form" [formGroup]="form" (ngSubmit)="save()" class="needs-validation">
 
+      <!-- Validation Indicator -->
+      <app-validation-indicator *ngIf="!loading() && form" [form]="form" [fieldLabels]="fieldLabels">
+      </app-validation-indicator>
+
       <!-- Main Content Row -->
       <div class="row align-items-start mb-3">
         <!-- Description Field -->
         <div class="col-md-8">
-          <label class="form-label fw-medium" for="descricao">Descrição</label>
+          <label class="form-label fw-medium" for="descricao">
+            Descrição <span class="text-danger">*</span>
+          </label>
           <input class="form-control form-control-sm" id="descricao" type="text" formControlName="descricao"
-            placeholder="Digite a descrição">
+            [style.border-left]="form.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
+            placeholder="Digite a descrição" maxlength="100">
         </div>
 
         <!-- Status Field -->
         <div class="col-md-4">
-          <label class="form-label fw-medium" for="status">Status</label>
+          <label class="form-label fw-medium" for="status">
+            Status <span class="text-danger">*</span>
+          </label>
           <div *ngIf="isViewMode(); else editStatus">
             <select class="form-select form-select-sm" disabled title="Status">
               <option>{{ form.get('status_delecao')?.value === 0 ? 'Ativo' : 'Inativo' }}</option>
             </select>
           </div>
           <ng-template #editStatus>
-            <select id="status" class="form-select form-select-sm" formControlName="status_delecao">
+            <select id="status" class="form-select form-select-sm" formControlName="status_delecao"
+              [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
               <option [ngValue]="0">Ativo</option>
               <option [ngValue]="1">Inativo</option>
             </select>
@@ -36,10 +47,8 @@
       <!-- Audit Info Row -->
       <div class="row align-items-center mb-4" *ngIf="id()">
         <div class="col-12">
-          <app-audit-trigger 
-            [lastUpdateDate]="form.get('data_atualizacao')?.value"
-            (openAudit)="openAuditOffcanvas()">
-          </app-audit-trigger>
+          <app-audit [lastUpdateDate]="form.get('data_atualizacao')?.value" [auditData]="getAuditData()">
+          </app-audit>
         </div>
       </div>
 
@@ -76,11 +85,3 @@
     </form>
   </div>
 </div>
-
-<!-- Audit Canvas Component -->
-<app-audit-canvas 
-  *ngIf="form"
-  [isOpen]="auditOffcanvasOpen()"
-  [auditData]="getAuditData()"
-  (closeCanvas)="closeAuditOffcanvas()">
-</app-audit-canvas>

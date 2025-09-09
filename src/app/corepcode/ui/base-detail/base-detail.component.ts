@@ -7,6 +7,7 @@ import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { ToastService } from '../../toast/toast.service';
 import { DetailStrategy } from './detail-strategy.interface';
+import { AuditData } from '@pcodeshared/components/audit';
 
 export interface DetailState<TEntity> {
   entity: TEntity | null;
@@ -326,6 +327,36 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
       strategy.navigateToEdit(currentId);
     }
   }
+
+public getAuditData(): AuditData {
+    if (!this.form) {
+      return {
+        dataCadastro: undefined,
+        usuarioCadastro: undefined,
+        dataAtualizacao: undefined,
+        usuarioAtualizacao: undefined
+      };
+    }
+
+    try {
+      return {
+        dataCadastro: this.form.get('data_cadastro')?.value || undefined,
+        usuarioCadastro: this.form.get('usuario_cadastro')?.value || undefined,
+        dataAtualizacao: this.form.get('data_atualizacao')?.value || undefined,
+        usuarioAtualizacao: this.form.get('usuario_atualizacao')?.value || undefined
+      };
+    } catch (error) {
+      console.warn('Erro ao acessar auditData:', error);
+      return {
+        dataCadastro: undefined,
+        usuarioCadastro: undefined,
+        dataAtualizacao: undefined,
+        usuarioAtualizacao: undefined
+      };
+    }
+  }
+
+
 
   /**
    * Método abstrato que deve ser implementado pelas classes filhas

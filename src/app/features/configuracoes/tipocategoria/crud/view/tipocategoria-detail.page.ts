@@ -1,18 +1,22 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BaseDetailPage, DetailStrategy } from '@pcode/ui/base-detail';
-import { TipoCategoria } from '../../../../../corestradeo/domain/models/tipocategoria.model';
-import { TipoCategoriaService } from '../../../../../corestradeo/services/tipocategoria.service';
+import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
+import { FullScreenLoadingComponent } from '@pcodeshared/components/full-screen-loading/full-screen-loading.component';
+import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
+import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipocategoriaDetailStrategy } from './tipocategoria-detail.strategy';
-import { AuditCanvasComponent, AuditTriggerComponent, AuditData } from '../../../../../shared/components/audit';
-import { ToastService } from '../../../../../corepcode/toast/toast.service';
+import { CompactErrorComponent } from '@pcodeshared/components/compact-error/compact-error.component';
+import { AuditComponent } from '@pcodeshared/components/audit';
+ 
+
 
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-detail',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, AuditCanvasComponent, AuditTriggerComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, ValidationIndicatorComponent, FullScreenLoadingComponent, CompactErrorComponent, AuditComponent],
   templateUrl: './tipocategoria-detail.page.html',
   styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]
@@ -21,17 +25,16 @@ export class TipocategoriaDetailPage extends BaseDetailPage<TipoCategoria, numbe
 
   // Dependências específicas
   private readonly service = inject(TipoCategoriaService);
-  private readonly toastService = inject(ToastService);
 
-  // Estado adicional específico desta página
-  public readonly auditOffcanvasOpen = signal(false);
+
 
   // Estratégia específica
   private strategy = new TipocategoriaDetailStrategy(
     this.service,
-    this.router,
-    this.toastService
+    this.router
   );
+
+
 
   constructor() {
     super();
@@ -44,41 +47,12 @@ export class TipocategoriaDetailPage extends BaseDetailPage<TipoCategoria, numbe
     return this.strategy;
   }
 
-  // Métodos específicos da auditoria (funcionalidade extra desta página)
-  public openAuditOffcanvas(): void {
-    this.auditOffcanvasOpen.set(true);
+  public get fieldLabels(): { [key: string]: string } {
+    return this.strategy.getFieldLabels();
   }
 
-  public closeAuditOffcanvas(): void {
-    this.auditOffcanvasOpen.set(false);
-  }
+   
 
-  // Método para obter os dados de auditoria
-  public getAuditData(): AuditData {
-    if (!this.form) {
-      return {
-        dataCadastro: undefined,
-        usuarioCadastro: undefined,
-        dataAtualizacao: undefined,
-        usuarioAtualizacao: undefined
-      };
-    }
-    
-    try {
-      return {
-        dataCadastro: this.form.get('data_cadastro')?.value || undefined,
-        usuarioCadastro: this.form.get('usuario_cadastro')?.value || undefined,
-        dataAtualizacao: this.form.get('data_atualizacao')?.value || undefined,
-        usuarioAtualizacao: this.form.get('usuario_atualizacao')?.value || undefined
-      };
-    } catch (error) {
-      console.warn('Erro ao acessar auditData:', error);
-      return {
-        dataCadastro: undefined,
-        usuarioCadastro: undefined,
-        dataAtualizacao: undefined,
-        usuarioAtualizacao: undefined
-      };
-    }
-  }
+
+
 }
