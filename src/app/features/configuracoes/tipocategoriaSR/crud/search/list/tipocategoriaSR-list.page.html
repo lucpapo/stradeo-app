@@ -1,0 +1,103 @@
+<div class="container-fluid">
+
+  <!-- Loading de tela cheia -->
+  <app-full-screen-loading [show]="loading" message="Pesquisando dados...">
+  </app-full-screen-loading>
+
+  <!-- Filtro -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <app-tipocategoriaSR-filter [value]="filters" (apply)="onFilterApply($event)" (clear)="onFilterClear()">
+      </app-tipocategoriaSR-filter>
+    </div>
+  </div>
+
+  <!-- Tabela de dados -->
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover table-sm table-compact align-middle mb-0">
+        <thead class="table-header-custom position-sticky top-0" style="z-index:1">
+          <tr>
+            <th class="text-start" style="width:120px">
+              <div class="d-flex align-items-center gap-2 ps-1">
+                <button type="button" class="icon-action" title="Exportar Excel" aria-label="Exportar Excel">
+                  <i class="fa fa-file-excel-o"></i>
+                </button>
+                <button type="button" class="icon-action" title="Novo" aria-label="Novo" (click)="irParaNovo()">
+                  <i class="fa fa-plus-square-o"></i>
+                </button>
+              </div>
+            </th>
+            <th class="text-nowrap" style="width:80px">ID</th>
+            <th class="text-nowrap">Descrição</th>
+            <th class="text-nowrap" style="width:100px">Status</th>
+            <th class="text-nowrap" style="width:150px">Cadastro</th>
+            <th class="text-nowrap" style="width:150px">Atualização</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Dados da tabela -->
+          <tr *ngFor="let item of data">
+            <td class="text-start">
+              <div class="d-flex align-items-center gap-2 ps-1">
+                <button type="button" class="icon-action" title="Ver" (click)="irParaVer(item)">
+                  <i class="fa fa-eye"></i>
+                </button>
+                <button type="button" class="icon-action" title="Editar" (click)="irParaEditar(item)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" class="icon-action" title="Excluir">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </div>
+            </td>
+
+            <td><span class="text-muted">{{ item.id }}</span></td>
+            <td class="text-truncate">{{ item.descricao }}</td>
+            <td>
+              <span class="badge rounded-pill status-badge" [class.bg-success]="item.status_delecao === 0"
+                [class.bg-secondary]="item.status_delecao !== 0">
+                {{ item.status_delecao_descricao }}
+              </span>
+            </td>
+
+            <td class="text-nowrap">
+              <span class="datetime" [title]="item.data_cadastro">
+                {{ item.data_cadastro ? (item.data_cadastro | date:'dd/MM/yyyy HH:mm') : '—' }}
+              </span>
+            </td>
+            <td class="text-nowrap">
+              <span class="datetime" [title]="item.data_atualizacao">
+                {{ item.data_atualizacao ? (item.data_atualizacao | date:'dd/MM/yyyy HH:mm') : '—' }}
+              </span>
+            </td>
+          </tr>
+
+          <!-- Estado de erro - Erro ao carregar dados -->
+          <tr *ngIf="!loading && error">
+            <td colspan="100%" class="p-0">
+              <app-error-state 
+                [message]="error"
+                [showRetryButton]="true"
+                [onRetryCallback]="retryLoadData">
+              </app-error-state>
+            </td>
+          </tr>
+
+          <!-- Estado vazio - Nenhum dado encontrado -->
+          <tr *ngIf="!loading && !error && !data.length">
+            <td colspan="100%" class="p-0">
+              <app-empty-state></app-empty-state>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginação -->
+    <app-pagination-footer [currentPage]="currentPage" [pageSize]="pageSize" [total]="total"
+      [showingRange]="showingRange" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination-footer>
+  </div>
+</div>

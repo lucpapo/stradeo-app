@@ -1,18 +1,21 @@
 // src/app/features/configuracoes/routes.ts
 import { Routes } from '@angular/router';
-import { ConfiguracoesShellComponent } from './configuracoes-shell.component';
-    
+import { TipocategoriaShellComponent } from './tipocategoria/tipocategoria-shell.component';
+import { TipocategoriaSRShellComponent } from './tipocategoriaSR/tipocategoriaSR-shell.component';
+
 export const CONFIGURACOES_ROUTES: Routes = [
   {
-    path: '',
-    component: ConfiguracoesShellComponent, // contém <router-outlet/>
-    children: [
-      {
-        path: 'tipocategoria',
-        loadChildren: () =>
-          import('./tipocategoria/routes').then(m => m.TIPOCATEGORIA_ROUTES),
-      },
-      { path: '', pathMatch: 'full', redirectTo: 'tipocategoria' },
-    ],
+    path: 'tipocategoria',
+    component: TipocategoriaShellComponent, // contém <router-outlet/>
+    loadChildren: () =>
+      import('./tipocategoria/routes').then(m => m.TIPOCATEGORIA_ROUTES),
   },
+  {
+    path: 'tipocategoriaSR',
+    component: TipocategoriaSRShellComponent, // contém <router-outlet/>
+    loadChildren: () =>
+      import('./tipocategoriaSR/routes').then(m => m.TIPOCATEGORIASR_ROUTES),
+  },
+  // Redirect padrão
+  { path: '', pathMatch: 'full', redirectTo: 'tipocategoria' },
 ];

@@ -41,6 +41,7 @@ export class NavigationService {
         { path: "/dashboard/default", title: "Default", type: "link" },
         { path: "/dashboard/ecommerce", title: "Ecommerce", type: "link" },
         { path: "/configuracoes/tipocategoria", title: "Tipo Categoria", type: "link" },
+        { path: "/configuracoes/tipocategoriaSR", title: "TipoCategoria Sem Rota", type: "link" },
       ],
     },
     {
