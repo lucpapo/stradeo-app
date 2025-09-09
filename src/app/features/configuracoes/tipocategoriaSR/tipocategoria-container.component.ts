@@ -35,7 +35,11 @@ export interface TipocategoriaContainerState {
         </button>
       </div>
       
-      <app-tipocategoriaSR-detail #detailComponent>
+      <app-tipocategoriaSR-detail 
+        #detailComponent
+        (navigateToList)="onNavigateToList()"
+        (navigateToEdit)="onNavigateToEdit($event)"
+        (navigateToView)="onNavigateToView($event)">
       </app-tipocategoriaSR-detail>
     </div>
   `
@@ -260,5 +264,64 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
    */
   public goBackToList() {
     this.onCloseDetail();
+  }
+
+  /**
+   * Manipula evento de navegação para lista vindo do componente de detalhes
+   */
+  onNavigateToList() {
+    console.log('📥 Evento navigateToList recebido do componente de detalhes');
+    this.onCloseDetail();
+  }
+
+  /**
+   * Manipula evento de navegação para edição vindo do componente de detalhes
+   */
+  onNavigateToEdit(id: number) {
+    console.log('📥 Evento navigateToEdit recebido do componente de detalhes:', id);
+    
+    // Busca o item pelo ID no estado da lista ou carrega da API se necessário
+    if (this.listComponent) {
+      const item = this.findItemById(id);
+      if (item) {
+        this.abrirModalEditar(item);
+      } else {
+        console.warn('Item não encontrado para edição:', id);
+        // Poderia carregar da API aqui se necessário
+      }
+    }
+  }
+
+  /**
+   * Manipula evento de navegação para visualização vindo do componente de detalhes
+   */
+  onNavigateToView(id: number) {
+    console.log('📥 Evento navigateToView recebido do componente de detalhes:', id);
+    
+    // Busca o item pelo ID no estado da lista ou carrega da API se necessário
+    if (this.listComponent) {
+      const item = this.findItemById(id);
+      if (item) {
+        this.abrirModalVer(item);
+      } else {
+        console.warn('Item não encontrado para visualização:', id);
+        // Poderia carregar da API aqui se necessário
+      }
+    }
+  }
+
+  /**
+   * Busca um item pelo ID na lista atual
+   */
+  private findItemById(id: number): TipoCategoria | null {
+    if (!this.listComponent) return null;
+    
+    // Tenta obter os dados da lista
+    const listData = this.listComponent.data;
+    if (listData && Array.isArray(listData)) {
+      return listData.find(item => item.id === id) || null;
+    }
+    
+    return null;
   }
 }

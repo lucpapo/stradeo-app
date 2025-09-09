@@ -1,5 +1,5 @@
-import { inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { inject, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { AbstractDetailStrategy } from '@pcode/ui/base-detail';
@@ -8,6 +8,7 @@ import { StateProvider } from '@pcode/store/state-provider';
 import { StateRef } from '@pcode/store/state-ref';
 import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
+import { ToastService } from '@pcode/toast/toast.service';
 
 // Interface para o estado do item selecionado (deve coincidir com a lista)
 interface SelectedItemState {
@@ -28,15 +29,21 @@ interface ExtendedPaginationState {
  * Estratégia específica para detalhes de Tipo Categoria Sem Rota
  * Implementa as regras de negócio específicas desta entidade
  * Suporta obtenção do ID tanto via rota quanto via seleção de lista
+ * Para tipo "Sem Rota", usa emits em vez de navegação por router
  */
 export class TipocategoriaSRDetailStrategy extends AbstractDetailStrategy<TipoCategoria, number> {
 
   private readonly datePipe = inject(DatePipe);
   private readonly stateProvider = inject(StateProvider);
-  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly toast = inject(ToastService);
 
   // Desabilita o toast padrão da classe base
   public readonly showDefaultSuccessToast = false;
+
+  // EventEmitters para comunicação com o container (tipo "Sem Rota")
+  public onNavigateToList = new EventEmitter<void>();
+  public onNavigateToEdit = new EventEmitter<number>();
+  public onNavigateToView = new EventEmitter<number>();
 
   constructor(
     readonly service: TipoCategoriaService,
@@ -224,5 +231,44 @@ export class TipocategoriaSRDetailStrategy extends AbstractDetailStrategy<TipoCa
       detailKey: 'TipocategoriaSRDetailPage#main',
       paginationKey: 'TipocategoriaSRListPage#main' // Usa a mesma chave da lista
     };
+  }
+
+  /**
+   * Override: Navega para a lista usando emit em vez de router
+   * Para tipo "Sem Rota", emite evento para o container
+   */
+  override navigateToList(): void {
+    console.log('🔄 Navegando para lista via emit (Sem Rota)');
+    this.onNavigateToList.emit();
+  }
+
+  /**
+   * Override: Navega para edição usando emit em vez de router
+   * Para tipo "Sem Rota", emite evento para o container
+   */
+  override navigateToEdit(id: number): void {
+    console.log('🔄 Navegando para edição via emit (Sem Rota):', id);
+    this.onNavigateToEdit.emit(id);
+  }
+
+  /**
+   * Override: Navega para visualização usando emit em vez de router
+   * Para tipo "Sem Rota", emite evento para o container
+   */
+  override navigateToView(id: number): void {
+    console.log('🔄 Navegando para visualização via emit (Sem Rota):', id);
+    this.onNavigateToView.emit(id);
+  }
+
+  /**
+   * Override: Ações pós-salvamento customizadas para tipo "Sem Rota"
+   * Mostra toast de sucesso personalizado
+   */
+  override afterSave(savedEntity: TipoCategoria, mode: 'create' | 'edit'): void {
+    const action = mode === 'create' ? 'criado' : 'atualizado';
+    this.toast.success(
+      `Tipo de Categoria ${action} com sucesso!`,
+      { title: 'Sucesso' }
+    );
   }
 }

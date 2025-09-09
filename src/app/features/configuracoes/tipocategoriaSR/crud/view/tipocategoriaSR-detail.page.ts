@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { Component, inject, OnInit, Output, EventEmitter } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BaseDetailPage, DetailStrategy } from '@pcode/ui/base-detail';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
@@ -26,6 +26,11 @@ export class TipocategoriaSRDetailPage extends BaseDetailPage<TipoCategoria, num
   // Dependências específicas
   private readonly service = inject(TipoCategoriaService);
 
+  // Eventos para comunicação com o container (tipo "Sem Rota")
+  @Output() navigateToList = new EventEmitter<void>();
+  @Output() navigateToEdit = new EventEmitter<number>();
+  @Output() navigateToView = new EventEmitter<number>();
+
   // Estratégia específica
   private strategy = new TipocategoriaSRDetailStrategy(
     this.service,
@@ -39,8 +44,31 @@ export class TipocategoriaSRDetailPage extends BaseDetailPage<TipoCategoria, num
   override ngOnInit(): void {
     console.log('🔍 [DEBUG] TipocategoriaSRDetailPage ngOnInit chamado');
     
+    // Conecta os eventos da strategy com os outputs do componente
+    this.setupStrategyEvents();
+    
     // Para tipo "Sem Rota", usa lógica customizada em vez da classe base
     this.initializeCustom();
+  }
+
+  /**
+   * Conecta os eventos da strategy com os outputs do componente
+   */
+  private setupStrategyEvents(): void {
+    this.strategy.onNavigateToList.subscribe(() => {
+      console.log('📤 Emitindo evento navigateToList para o container');
+      this.navigateToList.emit();
+    });
+
+    this.strategy.onNavigateToEdit.subscribe((id: number) => {
+      console.log('📤 Emitindo evento navigateToEdit para o container:', id);
+      this.navigateToEdit.emit(id);
+    });
+
+    this.strategy.onNavigateToView.subscribe((id: number) => {
+      console.log('📤 Emitindo evento navigateToView para o container:', id);
+      this.navigateToView.emit(id);
+    });
   }
 
   /**
