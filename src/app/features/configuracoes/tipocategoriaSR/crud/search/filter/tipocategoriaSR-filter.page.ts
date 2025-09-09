@@ -7,9 +7,9 @@ import { ValidationIndicatorComponent } from '@pcodeshared/components/validation
 import { FilterState } from '@pcode/ui/base-list';
 import { BaseFilterPage } from '@pcode/ui/base-filter';
 import { TipocategoriaFilterValue, TipocategoriaFilterState } from '@stradeo/domain/types/tipocategoria-filter.types';
-// STRADEO
 import { TipocategoriaSRFilterStrategy } from './tipocategoriaSR-filter.strategy';
-
+// STRADEO
+ 
 @Component({
   standalone: true,
   selector: 'app-tipocategoriaSR-filter',
@@ -34,7 +34,7 @@ export class TipocategoriaSRFilterPage extends BaseFilterPage<TipocategoriaFilte
   protected initializeStateRef(): void {
     this.filterStateRef = new StateRef<FilterState<TipocategoriaFilterValue>>(
       this.stateProvider,
-      'ui-TipocategoriaSRShellComponent',
+       'ui-TipocategoriaShellComponent',
       'TipocategoriaSRFilterPage#main'
     );
   }

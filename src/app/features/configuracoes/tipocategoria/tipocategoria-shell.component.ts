@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../corepcode/store/state-provider';
 
+
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-shell',

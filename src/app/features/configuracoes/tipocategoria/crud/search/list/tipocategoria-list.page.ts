@@ -45,4 +45,15 @@ export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue
         return TIPOCATEGORIA_FILTER_INITIAL_VALUE;
     }
 
+    /**
+     * Configuração de navegação - usa rota por padrão
+     * Para usar eventos, mude useRouteNavigation para false
+     */
+    protected getNavigationConfig() {
+        return {
+            useRouteNavigation: true,
+            baseRoute: '/configuracoes/tipocategoria'
+        };
+    }
+
 }

@@ -23,7 +23,7 @@ export class TipocategoriaSRListStrategy extends AbstractListStrategy<Tipocatego
    */
   getStateKeys() {
     return {
-      shellKey: 'ui-TipocategoriaSRShellComponent',
+      shellKey: 'ui-TipocategoriaShellComponent',
       paginationKey: 'TipocategoriaSRListPage#main',
       filterKey: 'TipocategoriaSRFilterPage#main'
     };

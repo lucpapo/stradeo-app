@@ -10,6 +10,14 @@ export interface FilterState<T> {
 }
 
 /**
+ * Interface para eventos emitidos quando não usa navegação por rota
+ */
+export interface ListActionEvent<TEntity> {
+  action: 'novo' | 'ver' | 'editar';
+  item?: TEntity;
+}
+
+/**
  * Interface para estratégias de listagem específicas
  * Define os métodos que cada estratégia deve implementar
  */
@@ -70,17 +78,17 @@ export interface ListStrategy<TFilter extends object, TEntity> {
   getIdValue(item: TEntity): string | number;
 
   /**
-   * Navega para criar novo item
+   * Executa ação para criar novo item (navega ou emite evento)
    */
   irParaNovo(): void;
 
   /**
-   * Navega para visualizar um item
+   * Executa ação para visualizar um item (navega ou emite evento)
    */
   irParaVer(item: TEntity): void;
 
   /**
-   * Navega para editar um item
+   * Executa ação para editar um item (navega ou emite evento)
    */
   irParaEditar(item: TEntity): void;
 

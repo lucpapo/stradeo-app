@@ -1,9 +1,9 @@
-import { Directive, inject, OnInit } from '@angular/core';
+import { Directive, inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
 import { Observable } from 'rxjs';
-import { ListStrategy, FilterState  } from './list-strategy.interface';
+import { ListStrategy, FilterState, ListActionEvent } from './list-strategy.interface';
 
 export interface PaginationState {
   page: number;
@@ -29,6 +29,12 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   protected readonly router = inject(Router);
   protected readonly stateProvider = inject(StateProvider);
 
+  /**
+   * Evento emitido quando useRouteNavigation = false
+   * Contém a ação (novo/ver/editar) e o item (quando aplicável)
+   */
+  @Output() actionEvent = new EventEmitter<ListActionEvent<TEntity>>();
+
   // StateRefs
   protected paginationStateRef!: StateRef<PaginationState>;
   protected filterStateRef!: StateRef<FilterState<TFilter>>;
@@ -42,6 +48,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   constructor() {}
 
   ngOnInit(): void {
+    this.configureStrategy();
     this.initializeStateRefs();
     this.initializeState();
     this.initializeFromState();
@@ -298,11 +305,46 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   protected abstract getInitialFilters(): TFilter;
 
   /**
+   * Configuração de navegação - deve ser implementado pelas classes filhas
+   * Retorna se usa navegação por rota e qual a rota base
+   */
+  protected abstract getNavigationConfig(): {
+    useRouteNavigation: boolean;
+    baseRoute?: string;
+  };
+
+  /**
    * Carrega os dados do serviço usando a strategy
    * Implementação genérica que delega para strategy.loadDataFromService()
    */
   protected loadDataFromService(queryParams: any): Observable<any> {
     return this.getStrategy().loadDataFromService(queryParams);
+  }
+
+  /**
+   * Configura a strategy com as opções de navegação
+   */
+  private configureStrategy(): void {
+    const strategy = this.getStrategy() as any;
+    
+    // Obtém configurações do componente filho
+    const config = this.getNavigationConfig();
+    
+    // Configura o modo de navegação
+    strategy.useRouteNavigation = config.useRouteNavigation;
+    
+    if (config.useRouteNavigation) {
+      // Modo navegação por rota
+      strategy.router = this.router;
+      strategy.baseRoute = config.baseRoute;
+      
+      if (!config.baseRoute) {
+        console.warn('⚠️ baseRoute é obrigatório quando useRouteNavigation = true');
+      }
+    } else {
+      // Modo emissão de eventos
+      strategy.actionEmitter = this.actionEvent;
+    }
   }
 
   /**

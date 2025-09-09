@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { FilterState, ListStrategy } from './list-strategy.interface';
+import { FilterState, ListStrategy, ListActionEvent } from './list-strategy.interface';
 
 /**
  * Classe abstrata para estratégias de listagem
@@ -117,30 +117,59 @@ export abstract class AbstractListStrategy<TFilter extends object, TEntity> impl
 
 
   /**
-   * Navega para criar novo item
-   * Usa baseRoute da strategy
+   * Executa ação para criar novo item
+   * Se useRouteNavigation for true, navega por rota
+   * Caso contrário, emite evento via actionEmitter
    */
   irParaNovo(): void {
     const strategy = this as any;
-    strategy.router.navigate([strategy.baseRoute, 'novo']);
+    
+    if (strategy.useRouteNavigation) {
+      strategy.router.navigate([strategy.baseRoute, 'novo']);
+    } else if (strategy.actionEmitter) {
+      const event: ListActionEvent<TEntity> = {
+        action: 'novo'
+      };
+      strategy.actionEmitter.emit(event);
+    }
   }
 
   /**
-   * Navega para visualizar um item
-   * Usa getColunaId() e getIdValue() para acessar o ID dinamicamente
+   * Executa ação para visualizar um item
+   * Se useRouteNavigation for true, navega por rota
+   * Caso contrário, emite evento via actionEmitter
    */
   irParaVer(item: TEntity): void {
     const strategy = this as any;
-    strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'view']);
+    
+    if (strategy.useRouteNavigation) {
+      strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'view']);
+    } else if (strategy.actionEmitter) {
+      const event: ListActionEvent<TEntity> = {
+        action: 'ver',
+        item: item
+      };
+      strategy.actionEmitter.emit(event);
+    }
   }
 
   /**
-   * Navega para editar um item
-   * Usa getColunaId() e getIdValue() para acessar o ID dinamicamente
+   * Executa ação para editar um item
+   * Se useRouteNavigation for true, navega por rota
+   * Caso contrário, emite evento via actionEmitter
    */
   irParaEditar(item: TEntity): void {
     const strategy = this as any;
-    strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'edit']);
+    
+    if (strategy.useRouteNavigation) {
+      strategy.router.navigate([strategy.baseRoute, this.getIdValue(item).toString(), 'edit']);
+    } else if (strategy.actionEmitter) {
+      const event: ListActionEvent<TEntity> = {
+        action: 'editar',
+        item: item
+      };
+      strategy.actionEmitter.emit(event);
+    }
   }
 
   /**

@@ -44,4 +44,14 @@ export class TipocategoriaSRListPage extends BaseListPage<TipocategoriaFilterVal
     protected getInitialFilters(): TipocategoriaFilterValue {
         return TIPOCATEGORIA_FILTER_INITIAL_VALUE;
     }
+
+    /**
+     * Configuração de navegação - usa eventos em vez de rota
+     * Este componente emite eventos para o container pai
+     */
+    protected getNavigationConfig() {
+        return {
+            useRouteNavigation: false
+        };
+    }
 }
