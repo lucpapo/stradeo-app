@@ -46,7 +46,7 @@ export class TipocategoriaSRDetailStrategy extends AbstractDetailStrategy<TipoCa
    */
   getStateKeys(): { shellKey: string; detailKey: string; } {
     return {
-      shellKey: 'ui-TipocategoriaSRShellComponent',
+      shellKey: 'ui-TipocategoriaShellComponent',
       detailKey: 'TipocategoriaSRDetailPage#main'
     };
   }
