@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center gap-1">
+  <i class="fa fa-shield text-primary audit-icon-clickable" 
+     (click)="onOpenAudit()"
+     title="Ver dados de auditoria"></i>
+  <i class="fa fa-clock-o text-muted"></i>
+  <small class="text-muted">
+    Última atualização:
+    <span class="fw-medium text-dark">
+      {{ lastUpdateDate 
+        ? (lastUpdateDate | date:'dd/MM/yyyy, HH:mm')
+        : '09/07/2023, 23:54' }}
+    </span>
+  </small>
+</div>

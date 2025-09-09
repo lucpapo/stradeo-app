@@ -1,0 +1,9 @@
+.audit-icon-clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    color: #0056b3 !important;
+  }
+}

@@ -19,23 +19,28 @@ export class ToastService {
     return this.toasts;
   }
 
-  success(title: string, message: string, duration: number = 5000): void {
-    this.show('success', title, message, duration);
+  success(title: string, message: string, duration: number = 5000, clearPrevious: boolean = false): void {
+    this.show('success', title, message, duration, clearPrevious);
   }
 
-  error(title: string, message: string, duration: number = 8000): void {
-    this.show('error', title, message, duration);
+  error(title: string, message: string, duration: number = 8000, clearPrevious: boolean = false): void {
+    this.show('error', title, message, duration, clearPrevious);
   }
 
-  warning(title: string, message: string, duration: number = 6000): void {
-    this.show('warning', title, message, duration);
+  warning(title: string, message: string, duration: number = 6000, clearPrevious: boolean = false): void {
+    this.show('warning', title, message, duration, clearPrevious);
   }
 
-  info(title: string, message: string, duration: number = 5000): void {
-    this.show('info', title, message, duration);
+  info(title: string, message: string, duration: number = 5000, clearPrevious: boolean = false): void {
+    this.show('info', title, message, duration, clearPrevious);
   }
 
-  private show(type: ToastMessage['type'], title: string, message: string, duration: number): void {
+  private show(type: ToastMessage['type'], title: string, message: string, duration: number, clearPrevious: boolean = false): void {
+    // Limpa toasts anteriores se solicitado
+    if (clearPrevious) {
+      this.clear();
+    }
+
     const id = `toast-${++this.idCounter}`;
     const toast: ToastMessage = {
       id,

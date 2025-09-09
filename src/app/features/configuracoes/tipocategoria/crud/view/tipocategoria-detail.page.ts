@@ -1,56 +1,50 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BaseStradeoDetailPage } from '../../../../../corestradeo/framework/base/BaseStradeoDetailPage';
-import { IServiceBase } from '../../../../../corepcode/api/IServiceBase';
+import { BaseDetailPage, DetailStrategy } from '@pcode/ui/base-detail';
 import { TipoCategoria } from '../../../../../corestradeo/domain/models/tipocategoria.model';
 import { TipoCategoriaService } from '../../../../../corestradeo/services/tipocategoria.service';
-import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
- 
+import { TipocategoriaDetailStrategy } from './tipocategoria-detail.strategy';
+import { AuditCanvasComponent, AuditTriggerComponent, AuditData } from '../../../../../shared/components/audit';
+import { ToastService } from '../../../../../corepcode/toast/toast.service';
+
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-detail',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, AuditCanvasComponent, AuditTriggerComponent],
   templateUrl: './tipocategoria-detail.page.html',
   styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]
 })
-export class TipocategoriaDetailPage extends BaseStradeoDetailPage<
-  TipoCategoria,
-  TipocategoriaFilterValue,
-  number
-> {
+export class TipocategoriaDetailPage extends BaseDetailPage<TipoCategoria, number> {
+
+  // Dependências específicas
   private readonly service = inject(TipoCategoriaService);
+  private readonly toastService = inject(ToastService);
 
   // Estado adicional específico desta página
-  public readonly auditOpen = signal(false);
   public readonly auditOffcanvasOpen = signal(false);
 
-  protected obterServico(): IServiceBase<TipoCategoria, TipocategoriaFilterValue, number> {
-    return this.service;
+  // Estratégia específica
+  private strategy = new TipocategoriaDetailStrategy(
+    this.service,
+    this.router,
+    this.toastService
+  );
+
+  constructor() {
+    super();
   }
 
-  protected construirFormulario(): FormGroup {
-    return this.fb.group({
-      id: [{ value: null, disabled: true }],
-      descricao: ['', [Validators.required, Validators.maxLength(100)]],
-      status_delecao: [0, Validators.required],
-      data_cadastro: [{ value: '', disabled: true }],
-      usuario_cadastro: [{ value: '', disabled: true }],
-      data_atualizacao: [{ value: '', disabled: true }],
-      usuario_atualizacao: [{ value: '', disabled: true }],
-    });
+  /**
+   * Retorna a estratégia específica para TipoCategoria
+   */
+  protected getStrategy(): DetailStrategy<TipoCategoria, number> {
+    return this.strategy;
   }
 
-  protected obterRotaBase(): string {
-    return '/configuracoes/tipocategoria';
-  }
-
-  public toggleAudit(): void {
-    this.auditOpen.set(!this.auditOpen());
-  }
-
+  // Métodos específicos da auditoria (funcionalidade extra desta página)
   public openAuditOffcanvas(): void {
     this.auditOffcanvasOpen.set(true);
   }
@@ -59,7 +53,32 @@ export class TipocategoriaDetailPage extends BaseStradeoDetailPage<
     this.auditOffcanvasOpen.set(false);
   }
 
-  // Métodos de salvamento herdados da classe base
-  // save() - Salva e volta para lista
-  // saveAndContinue() - Salva e continua editando
+  // Método para obter os dados de auditoria
+  public getAuditData(): AuditData {
+    if (!this.form) {
+      return {
+        dataCadastro: undefined,
+        usuarioCadastro: undefined,
+        dataAtualizacao: undefined,
+        usuarioAtualizacao: undefined
+      };
+    }
+    
+    try {
+      return {
+        dataCadastro: this.form.get('data_cadastro')?.value || undefined,
+        usuarioCadastro: this.form.get('usuario_cadastro')?.value || undefined,
+        dataAtualizacao: this.form.get('data_atualizacao')?.value || undefined,
+        usuarioAtualizacao: this.form.get('usuario_atualizacao')?.value || undefined
+      };
+    } catch (error) {
+      console.warn('Erro ao acessar auditData:', error);
+      return {
+        dataCadastro: undefined,
+        usuarioCadastro: undefined,
+        dataAtualizacao: undefined,
+        usuarioAtualizacao: undefined
+      };
+    }
+  }
 }
