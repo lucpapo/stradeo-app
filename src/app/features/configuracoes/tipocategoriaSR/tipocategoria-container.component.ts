@@ -1,14 +1,14 @@
 // tipocategoria-container.component.ts
-import { Component, ViewChild, AfterViewInit, inject, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { TipocategoriaSRListPage } from './crud/search/list/tipocategoriaSR-list.page';
 import { TipocategoriaSRDetailPage } from './crud/view/tipocategoriaSR-detail.page';
-import { ListActionEvent } from '@pcode/ui/base-list/list-strategy.interface';
-import { StateProvider } from '@pcode/store/state-provider';
-import { StateRef } from '@pcode/store/state-ref';
-import { TipoCategoria } from '@stradeo/domain/models/tipocategoria.model';
+import { ListActionEvent } from '../../../corepcode/ui/base-list/list-strategy.interface';
+import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../corepcode/store/state-provider';
+import { StateRef } from '../../../corepcode/store/state-ref';
+import { TipoCategoria } from '../../../corestradeo/domain/models/tipocategoria.model';
 
 export interface TipocategoriaContainerState {
   selectedItem: TipoCategoria | null;
@@ -48,11 +48,20 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
   @ViewChild('detailComponent') detailComponent?: TipocategoriaSRDetailPage;
   @ViewChild(TipocategoriaSRListPage) listComponent?: TipocategoriaSRListPage;
 
+  // Input para personalizar a key do container
+  // Exemplo de uso: <app-tipocategoria-container containerKey="modal"></app-tipocategoria-container>
+  // Isso gerará a key: TipocategoriaContainer#modal
+  @Input() containerKey: string = 'main';
+
   // Dependências
-  private readonly stateProvider = inject(StateProvider);
+  private readonly stateProvider: StateProvider;
 
   // State management
   private containerStateRef!: StateRef<TipocategoriaContainerState>;
+
+  constructor(stateProvider: StateProvider) {
+    this.stateProvider = stateProvider;
+  }
 
   // Estado local
   showDetail = false;
@@ -60,7 +69,10 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
   detailMode: 'view' | 'edit' | 'new' = 'view';
 
   ngOnInit() {
+    console.log('🏗️ TipocategoriaContainer ngOnInit executado');
+    // Inicializa o estado imediatamente
     this.initializeState();
+    this.ensureInitialState();
     this.loadStateFromStorage();
   }
 
@@ -72,11 +84,37 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
    * Inicializa o gerenciamento de estado
    */
   private initializeState() {
+    // Usa a chave do shell como pai, tornando o container um componente filho
+    const shellKey = 'ui-TipocategoriaShellComponent';
+    const componentKey = `TipocategoriaContainer#${this.containerKey}`;
+
+    console.log('🔑 Inicializando container como filho do shell:', shellKey, 'componentKey:', componentKey);
+
+    // O shell já garante que o root existe, então não precisamos criar um novo root
     this.containerStateRef = new StateRef<TipocategoriaContainerState>(
       this.stateProvider,
-      'ui-TipocategoriaShellComponent', // Usa a mesma chave da lista
-      'container'
+      shellKey,
+      componentKey
     );
+  }
+
+  /**
+   * Garante que o estado inicial seja criado no storage
+   */
+  private ensureInitialState() {
+    const savedState = this.containerStateRef.get();
+    if (!savedState) {
+      // Cria o estado inicial se não existir
+      const initialState: TipocategoriaContainerState = {
+        selectedItem: null,
+        detailMode: 'view',
+        showDetail: false
+      };
+
+      const componentKey = `TipocategoriaContainer#${this.containerKey}`;
+      console.log('🔑 Criando estado inicial como filho do shell:', componentKey, initialState);
+      this.containerStateRef.set(initialState);
+    }
   }
 
   /**
@@ -134,7 +172,8 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
       showDetail: this.showDetail
     };
 
-    console.log('💾 Salvando estado no storage:', currentState);
+    const componentKey = `TipocategoriaContainer#${this.containerKey}`;
+    console.log('💾 Salvando estado como filho do shell:', componentKey, currentState);
     this.containerStateRef.set(currentState);
   }
 
@@ -279,7 +318,7 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
    */
   onNavigateToEdit(id: number) {
     console.log('📥 Evento navigateToEdit recebido do componente de detalhes:', id);
-    
+
     // Busca o item pelo ID no estado da lista ou carrega da API se necessário
     if (this.listComponent) {
       const item = this.findItemById(id);
@@ -297,7 +336,7 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
    */
   onNavigateToView(id: number) {
     console.log('📥 Evento navigateToView recebido do componente de detalhes:', id);
-    
+
     // Busca o item pelo ID no estado da lista ou carrega da API se necessário
     if (this.listComponent) {
       const item = this.findItemById(id);
@@ -315,13 +354,13 @@ export class TipocategoriaContainer implements OnInit, AfterViewInit {
    */
   private findItemById(id: number): TipoCategoria | null {
     if (!this.listComponent) return null;
-    
+
     // Tenta obter os dados da lista
     const listData = this.listComponent.data;
     if (listData && Array.isArray(listData)) {
       return listData.find(item => item.id === id) || null;
     }
-    
+
     return null;
   }
 }

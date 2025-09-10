@@ -10,14 +10,11 @@ import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipocategoriaDetailStrategy } from './tipocategoria-detail.strategy';
 import { CompactErrorComponent } from '@pcodeshared/components/compact-error/compact-error.component';
 import { AuditComponent } from '@pcodeshared/components/audit';
-import { TipocategoriaContainer } from 'app/features/configuracoes/tipocategoriaSR/tipocategoria-container.component';
- 
-
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-detail',
   imports: [CommonModule, RouterModule, ReactiveFormsModule, ValidationIndicatorComponent,
-    TipocategoriaContainer,  FullScreenLoadingComponent, CompactErrorComponent, AuditComponent],
+    FullScreenLoadingComponent, CompactErrorComponent, AuditComponent],
   templateUrl: './tipocategoria-detail.page.html',
   styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]

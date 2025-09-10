@@ -18,35 +18,35 @@ export const routes: Routes = [
     },
     {
         path: 'offcanvas-test',
-        loadComponent: () => 
-          import('./shared/components/offcanvas-container/offcanvas-test-page.component')
-            .then(m => m.OffcanvasTestPageComponent)
-      },
+        loadComponent: () =>
+            import('./shared/components/offcanvas-container/offcanvas-test-page.component')
+                .then(m => m.OffcanvasTestPageComponent)
+    },
 
     { path: '', pathMatch: 'full', redirectTo: 'tipocategoria' },
-    
+
     {
         path: 'offcanvas-test',
-        loadComponent: () => 
+        loadComponent: () =>
             import('./shared/components/offcanvas-container/offcanvas-test-page.component')
                 .then(m => m.OffcanvasTestPageComponent)
     },
     {
         path: 'table-simulation',
-        loadComponent: () => 
+        loadComponent: () =>
             import('./shared/components/offcanvas-container/clean-table-page.component')
                 .then(m => m.CleanTablePageComponent)
     },
     {
         path: 'backdrop-test',
-        loadComponent: () => 
+        loadComponent: () =>
             import('./shared/components/offcanvas-container/backdrop-test.component')
                 .then(m => m.BackdropTestComponent)
     },
 
     {
         path: 'configuracoes',
-         component: ContentComponent,
+        component: ContentComponent,
         loadChildren: () =>
             import('./features/configuracoes/routes').then(m => m.CONFIGURACOES_ROUTES),
     },
@@ -67,13 +67,13 @@ export const routes: Routes = [
     {
         path: '',
         component: ContentComponent,
-      //canActivate: [AdminGuard],
+        //canActivate: [AdminGuard],
         children: content
     },
     {
         path: '',
         component: FullComponent,
-       // canActivate: [AdminGuard],
+        // canActivate: [AdminGuard],
         children: full
     },
     { path: '**', component: Error400Component }

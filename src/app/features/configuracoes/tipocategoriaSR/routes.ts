@@ -13,5 +13,5 @@ export const TIPOCATEGORIASR_ROUTES: Routes = [
       breadcrumb: 'Tipo de Categoria Sem Rota'
     }
   }
-  
+
 ];
