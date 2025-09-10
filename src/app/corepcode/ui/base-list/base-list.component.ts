@@ -38,6 +38,10 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   // StateRefs
   protected paginationStateRef!: StateRef<PaginationState>;
   protected filterStateRef!: StateRef<FilterState<TFilter>>;
+  protected extendedPaginationStateRef!: StateRef<{
+    pagination: { page: number; pageSize: number; total: number };
+    selected: { selectedItem: any; lastAction: 'novo' | 'ver' | 'editar' | null };
+  }>;
 
   // Estado da lista
   state!: ListState<TFilter, TEntity>;
@@ -50,8 +54,44 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   ngOnInit(): void {
     this.configureStrategy();
     this.initializeStateRefs();
+    this.initializeExtendedPaginationState();
     this.initializeState();
     this.initializeFromState();
+  }
+
+  /**
+   * Inicializa o state estendido de paginação com a nova estrutura
+   */
+  private initializeExtendedPaginationState(): void {
+    const strategy = this.getStrategy();
+    const stateKeys = strategy.getStateKeys();
+
+    this.extendedPaginationStateRef = new StateRef<{
+      pagination: { page: number; pageSize: number; total: number };
+      selected: { selectedItem: any; lastAction: 'novo' | 'ver' | 'editar' | null };
+    }>(
+      this.stateProvider,
+      stateKeys.shellKey,
+      stateKeys.paginationKey
+    );
+
+    // Verifica se já existe state salvo
+    const savedState = this.extendedPaginationStateRef.get();
+    if (!savedState) {
+      // Cria o state inicial com a nova estrutura
+      const initialState = {
+        pagination: {
+          page: 1,
+          pageSize: 5,
+          total: 0
+        },
+        selected: {
+          selectedItem: null,
+          lastAction: null
+        }
+      };
+      this.extendedPaginationStateRef.set(initialState);
+    }
   }
 
   /**

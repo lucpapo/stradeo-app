@@ -19,7 +19,7 @@ import { TipocategoriaListStrategy } from './tipocategoria-list.strategy';
     selector: 'app-tipocategoria-list',
     imports: [CommonModule, RouterModule, NgbPaginationModule, TipocategoriaFilterPage, EmptyStateComponent, FullScreenLoadingComponent, PaginationFooterComponent, ErrorStateComponent],
     templateUrl: './tipocategoria-list.page.html',
-    styleUrls: [ ],
+    styleUrls: [],
 })
 export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue, any> {
 

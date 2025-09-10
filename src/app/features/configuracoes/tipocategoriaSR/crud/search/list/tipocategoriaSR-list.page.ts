@@ -42,8 +42,7 @@ export class TipocategoriaSRListPage extends BaseListPage<TipocategoriaFilterVal
     private readonly service = inject(TipoCategoriaService);
     private strategy = new TipocategoriaSRListStrategy(this.service, this.router);
 
-    // StateRef para gerenciar paginação + item selecionado combinados
-    private extendedPaginationStateRef!: StateRef<ExtendedPaginationState>;
+
 
     constructor() {
         super();
@@ -51,7 +50,6 @@ export class TipocategoriaSRListPage extends BaseListPage<TipocategoriaFilterVal
 
     override ngOnInit(): void {
         super.ngOnInit();
-        this.initializeExtendedPaginationState();
         this.setupExtendedPaginationIntegration();
     }
 
@@ -111,21 +109,7 @@ export class TipocategoriaSRListPage extends BaseListPage<TipocategoriaFilterVal
         }, 0);
     }
 
-    /**
-     * Inicializa o gerenciamento de estado estendido (paginação + item selecionado)
-     */
-    private initializeExtendedPaginationState(): void {
-        const stateKeys = this.strategy.getStateKeys();
-        
-        this.extendedPaginationStateRef = new StateRef<ExtendedPaginationState>(
-            this.stateProvider,
-            stateKeys.shellKey,
-            stateKeys.paginationKey
-        );
 
-        // Migra dados antigos se existirem apenas na estrutura de paginação simples
-        this.migrateOldPaginationState();
-    }
 
     /**
      * Migra dados da estrutura antiga de paginação para a nova estrutura estendida
