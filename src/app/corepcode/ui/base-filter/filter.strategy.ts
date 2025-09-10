@@ -24,6 +24,12 @@ export abstract class AbstractFilterStrategy<T> implements FilterStrategy<T> {
    */
   abstract getFieldLabels(): { [key: string]: string };
 
+ /**
+   * Habilita por padrão o enriquecimento global do filtro.
+   * Sobrescreva na classe filha e defina como 'false' para desabilitar.
+   */
+  public readonly enableGlobalEnrichment: boolean = true;
+
   /**
    * Define campos obrigatórios para pesquisa (opcional)
    * Se definido, pelo menos um desses campos deve ter conteúdo válido

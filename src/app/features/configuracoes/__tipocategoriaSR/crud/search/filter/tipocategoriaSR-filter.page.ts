@@ -6,10 +6,10 @@ import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
 import { FilterState } from '@pcode/ui/base-list';
 import { BaseFilterPage } from '@pcode/ui/base-filter';
-import { TipocategoriaSRFilterStrategy } from 'app/features/configuracoes/__tipocategoriaSR/crud/search/filter/tipocategoriaSR-filter.strategy';
- // STRADEO
+import { TipocategoriaFilterValue, TipocategoriaFilterState } from '@stradeo/domain/types/tipocategoria-filter.types';
+import { TipocategoriaSRFilterStrategy } from './tipocategoriaSR-filter.strategy';
+// STRADEO
  
-
 @Component({
   standalone: true,
   selector: 'app-tipocategoriaSR-filter',
@@ -17,10 +17,9 @@ import { TipocategoriaSRFilterStrategy } from 'app/features/configuracoes/__tipo
   templateUrl: './tipocategoriaSR-filter.page.html',
   styleUrls: [ ],
 })
-export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any>> {
+export class TipocategoriaSRFilterPage extends BaseFilterPage<TipocategoriaFilterValue> {
 
-  // A anotação de tipo do @Input também deve ser atualizada para ser consistente
-  @Input() override value!: Record<string, any>;
+  @Input() override value!: TipocategoriaFilterValue;
 
   private strategy = new TipocategoriaSRFilterStrategy();
 
@@ -28,12 +27,14 @@ export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any
     super();
   }
 
-  // O resto da classe permanece igual...
+  /**
+   * Inicializa o StateRef específico para Tipo Categoria Sem Rota
+   * Agora usa FilterState para incluir validação
+   */
   protected initializeStateRef(): void {
-    // A tipagem do StateRef também é atualizada automaticamente
-    this.filterStateRef = new StateRef<FilterState<Record<string, any>>>(
+    this.filterStateRef = new StateRef<FilterState<TipocategoriaFilterValue>>(
       this.stateProvider,
-      'ui-TipocategoriaSRShellComponent',
+       'ui-TipocategoriaShellComponent',
       'TipocategoriaSRFilterPage#main'
     );
   }

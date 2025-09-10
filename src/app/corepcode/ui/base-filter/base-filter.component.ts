@@ -1,4 +1,4 @@
-import { EventEmitter, Input, OnChanges, OnInit, Output, inject, Directive } from '@angular/core';
+import { EventEmitter, Input, OnChanges, OnInit, Output, inject, Directive, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StateRef } from '@pcode/store/state-ref';
 import { StateProvider } from '@pcode/store/state-provider';
@@ -10,7 +10,14 @@ import { FilterState } from '@pcode/ui/base-list';
  * Contém toda a lógica comum de gerenciamento de formulário, estado e validação
  */
 @Directive()
-export abstract class BaseFilterPage<T extends Record<string, any>> implements OnInit, OnChanges {
+export abstract class BaseFilterPage<T extends Record<string, any>> implements OnInit, OnDestroy, OnChanges {
+
+  /**
+    * Se 'true', o estado deste componente no StateProvider será
+    * destruído quando o componente for fechado/destruído.
+    * Padrão: false (mantém o estado).
+    */
+  @Input() destroyStateOnClose = false;
 
   protected readonly fb = inject(FormBuilder);
   protected readonly stateProvider = inject(StateProvider);
@@ -25,13 +32,19 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
   // StateRef específico para os filtros - agora usa FilterState
   protected filterStateRef!: StateRef<FilterState<T>>;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.initializeStateRef();
     this.fieldLabels = this.getStrategy().getFieldLabels();
     this.createForm();
     this.loadSavedFilters();
+  }
+
+  ngOnDestroy(): void {
+    if (this.destroyStateOnClose && this.filterStateRef) {
+      this.filterStateRef.remove();
+    }
   }
 
   /**
@@ -55,10 +68,10 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
    */
   private createForm(): void {
     const strategy = this.getStrategy();
-    
+
     // Busca dados salvos no StateProvider
     let savedFilterState = this.filterStateRef.get();
-    
+
     // Se não há estado salvo, cria um estado inicial
     if (!savedFilterState) {
       const initialValue = strategy.getInitialValue();
@@ -69,7 +82,7 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
       console.log('🆕 Criando estado inicial no StateProvider:', savedFilterState);
       this.filterStateRef.set(savedFilterState);
     }
-    
+
     console.log('🏗️ Criando formulário com dados:', {
       savedFilterState,
       hasStateData: !!savedFilterState,
@@ -127,38 +140,72 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
    * Aplica o filtro
    */
   onApply(): void {
-    // Força a validação de todos os campos
     this.form.markAllAsTouched();
-
     const strategy = this.getStrategy();
     const isFormValid = strategy.validateForm ? strategy.validateForm(this.form) : this.form.valid;
 
     if (isFormValid) {
-      let filterValue: T = this.form.value;
-      
-      // Aplica transformação de dados se definida na estratégia
+      let filterValue: T = this.form.getRawValue();
+
       if (strategy.transformData) {
         filterValue = strategy.transformData(filterValue);
       }
 
-      // Verifica se tem dados válidos para pesquisa
+      // Agora ele apenas salva e emite o que veio do formulário
       const hasValidSearchData = strategy.hasValidSearchData(filterValue);
+      console.log('✅ Filtro (sem enriquecimento) válido - Aplicando:', { filterValue, hasValidSearchData });
 
-      console.log('✅ Filtro válido - Aplicando:', { filterValue, hasValidSearchData });
-
-      // Salva os filtros no estado com validação
       this.saveFiltersWithState(filterValue, hasValidSearchData);
-
-      // Emite para a lista
-      this.apply.emit(filterValue);
+      this.apply.emit(filterValue); // Emite o payload simples
     } else {
       console.log('❌ Filtro inválido - Não aplicando:', this.form.errors);
-      
+
       // Salva o estado como inválido
       this.saveFiltersWithState(this.form.value, false);
-      
+
       // Não emite o evento se o formulário for inválido
     }
+  }
+
+  // ====================================================================
+  // ADICIONAR ESTE NOVO MÉTODO PRIVADO
+  // ====================================================================
+  /**
+   * Enriquece o payload do filtro com o estado global da concessionária.
+   * Este comportamento pode ser desabilitado na strategy.
+   */
+  // Substitua o método inteiro por este:
+  private enrichWithGlobalState(payload: T): T {
+    const strategy = this.getStrategy();
+
+    if (strategy.enableGlobalEnrichment === false) {
+      return payload;
+    }
+
+    try {
+      // A tipagem aqui reflete a estrutura real do seu estado
+      const stateWrapper = this.stateProvider.getChild<{ value: { id: number; nome: string } }>(
+        'ui-MasterAppComponent',
+        'ConcessionariaSelector#main'
+      );
+
+      console.log('🌍 Estado da Concessionária obtido do StateProvider:', stateWrapper);
+      // Acessamos a propriedade aninhada .value para pegar os dados
+      const concessionariaState = stateWrapper?.value;
+
+      // Verificamos o .id dentro do objeto de valor
+      if (concessionariaState?.id) {
+        console.log(`✨ Enriquecendo filtro com Concessionária ID: ${concessionariaState.id}`);
+        return {
+          ...payload,
+          id_concessionaria: concessionariaState.id
+        };
+      }
+    } catch (error) {
+      console.warn('Não foi possível enriquecer o filtro com o estado da concessionária.', error);
+    }
+
+    return payload;
   }
 
   /**
@@ -167,7 +214,7 @@ export abstract class BaseFilterPage<T extends Record<string, any>> implements O
   onClear(): void {
     const strategy = this.getStrategy();
     const initialValue = strategy.getInitialValue();
-    
+
     this.form.patchValue(initialValue);
 
     // Mantém os campos como touched para mostrar validações

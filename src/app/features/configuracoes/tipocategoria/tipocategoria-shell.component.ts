@@ -11,7 +11,6 @@ import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../
   imports: [CommonModule, RouterModule],
   template: `<router-outlet></router-outlet>`,
   providers: [
-    StateProvider,
     { provide: LOCAL_STORAGE_KEY, useValue: 'ui-TipocategoriaShellComponent' },
     { provide: USE_BASE64_ENCODING, useValue: false } // desenvolvimento - dados legíveis
   ]

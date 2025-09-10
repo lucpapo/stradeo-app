@@ -1,10 +1,10 @@
-import { Directive, inject, OnInit, signal, computed } from '@angular/core';
+import { Directive, inject, OnInit, signal, computed, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { switchMap, of } from 'rxjs';
 import { StateRef } from '@pcode/store/state-ref';
-import { StateProvider } from '@pcode/store/state-provider';
+import { LOCAL_STORAGE_KEY, StateProvider } from '@pcode/store/state-provider';
 import { ToastService } from '../../toast/toast.service';
 import { DetailStrategy } from './detail-strategy.interface';
 import { AuditData } from '@pcodeshared/components/audit';
@@ -21,7 +21,15 @@ export interface DetailState<TEntity> {
  * Contém toda a lógica comum de gerenciamento de formulário, estado e navegação
  */
 @Directive()
-export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> implements OnInit {
+export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> implements OnInit, OnDestroy {
+
+ /**
+   * Se 'true', o estado deste componente no StateProvider será
+   * destruído quando o componente for fechado/destruído.
+   * Padrão: false (mantém o estado).
+   */
+  @Input() destroyStateOnClose = true;
+
 
   // Dependências
   protected readonly router = inject(Router);
@@ -55,6 +63,18 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
     this.initializeFromRoute();
   }
 
+  ngOnDestroy(): void {
+    if (this.destroyStateOnClose && this.detailStateRef) {
+      this.detailStateRef.remove();
+    }
+  }
+
+
+   // ====================================================================
+  // ADICIONAR ESTA LINHA: Injetamos a chave do shell atual
+  // ====================================================================
+  protected readonly shellKey = inject(LOCAL_STORAGE_KEY);
+
   /**
    * Inicializa o StateRef específico para esta entidade
    */
@@ -62,9 +82,13 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
     const strategy = this.getStrategy();
     const stateKeys = strategy.getStateKeys();
 
+    // ====================================================================
+    // MUDAR ESTA LINHA: Usamos a chave injetada
+    // ====================================================================
     this.detailStateRef = new StateRef<DetailState<TEntity>>(
       this.stateProvider,
-      stateKeys.shellKey,
+      // ANTES: stateKeys.shellKey (vinha da strategy, que tinha que 'adivinhar')
+      this.shellKey, // AGORA: Usa a chave fornecida pelo shell correto via DI
       stateKeys.detailKey
     );
   }

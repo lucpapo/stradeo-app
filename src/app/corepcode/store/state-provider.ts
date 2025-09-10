@@ -18,7 +18,10 @@ export interface ChildState {
   linkedTo?: string;    // ex: "TipocategoriaFilterPage.value.filter"
 }
 
-@Injectable({ providedIn: 'any' }) // instancia por shell (escopo de componente)
+//@Injectable({ providedIn: 'any' }) // instancia por shell (escopo de componente)
+@Injectable({
+  providedIn: 'root'
+})
 export class StateProvider {
   private states = new Map<string, RootState>();
 

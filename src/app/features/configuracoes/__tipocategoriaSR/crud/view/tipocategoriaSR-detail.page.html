@@ -6,7 +6,7 @@
 <!-- Main Card Container -->
 <div class="card m-3" *ngIf="!loading()">
   <div class="card-body">
-    <form id="tipo-categoria-form" [formGroup]="form" (ngSubmit)="save()" class="needs-validation">
+    <form id="tipo-categoria-sr-form" [formGroup]="form" (ngSubmit)="save()" class="needs-validation">
 
       <!-- Validation Indicator -->
       <app-validation-indicator *ngIf="!loading() && form" [form]="form" [fieldLabels]="fieldLabels">
@@ -85,8 +85,3 @@
     </form>
   </div>
 </div>
-
-
- 
-<!-- <app-tipocategoria-container></app-tipocategoria-container> -->
- 

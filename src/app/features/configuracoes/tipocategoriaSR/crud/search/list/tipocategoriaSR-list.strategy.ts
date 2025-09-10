@@ -2,28 +2,29 @@ import { Router } from '@angular/router';
 // PCODE
 import { AbstractListStrategy } from '@pcode/ui/base-list/list-strategy';
 // STRADEO
-import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
+// REMOVA a importação do TipocategoriaFilterValue
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 
 /**
- * Estratégia específica para listagem de Tipo Categoria Sem Rota
- * Implementa as regras de negócio específicas desta entidade
- * Usa 'any' para permitir propriedades dinâmicas como status_delecao_descricao
+ * Estratégia específica para listagem de Tipo Categoria
  */
-export class TipocategoriaSRListStrategy extends AbstractListStrategy<TipocategoriaFilterValue, any> {
+// ALTERE O TIPO GENÉRICO AQUI
+export class TipocategoriaSRListStrategy extends AbstractListStrategy<Record<string, any>, any> {
 
-  readonly baseRoute = '/configuracoes/tipocategoriaSR';
+  readonly baseRoute = '/configuracoes/tipocategoria';
 
   constructor(readonly service: TipoCategoriaService, readonly router: Router) {
     super();
   }
 
   /**
-   * Retorna as chaves do StateProvider para TipoCategoria Sem Rota
+   * Retorna as chaves do StateProvider para TipoCategoria
    */
   getStateKeys() {
     return {
-      shellKey: 'ui-TipocategoriaShellComponent',
+      // Esta chave está sendo lida via DI agora, podemos remover se quiser simplificar,
+      // mas por enquanto não prejudica.
+      shellKey: 'ui-TipocategoriaSRShellComponent',
       paginationKey: 'TipocategoriaSRListPage#main',
       filterKey: 'TipocategoriaSRFilterPage#main'
     };

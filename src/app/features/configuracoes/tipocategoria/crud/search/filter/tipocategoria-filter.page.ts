@@ -18,9 +18,10 @@ import { TipocategoriaFilterStrategy } from './tipocategoria-filter.strategy';
   templateUrl: './tipocategoria-filter.page.html',
   styleUrls: [ ],
 })
-export class TipocategoriaFilterPage extends BaseFilterPage<TipocategoriaFilterValue> {
+export class TipocategoriaFilterPage extends BaseFilterPage<Record<string, any>> {
 
-  @Input() override value!: TipocategoriaFilterValue;
+  // A anotação de tipo do @Input também deve ser atualizada para ser consistente
+  @Input() override value!: Record<string, any>;
 
   private strategy = new TipocategoriaFilterStrategy();
 
@@ -28,16 +29,13 @@ export class TipocategoriaFilterPage extends BaseFilterPage<TipocategoriaFilterV
     super();
   }
 
-  /**
-   * Inicializa o StateRef específico para Tipo Categoria
-   * Agora usa FilterState para incluir validação
-   */
+  // O resto da classe permanece igual...
   protected initializeStateRef(): void {
-    this.filterStateRef = new StateRef<FilterState<TipocategoriaFilterValue>>(
+    // A tipagem do StateRef também é atualizada automaticamente
+    this.filterStateRef = new StateRef<FilterState<Record<string, any>>>(
       this.stateProvider,
       'ui-TipocategoriaShellComponent',
       'TipocategoriaFilterPage#main'
     );
   }
-
 }

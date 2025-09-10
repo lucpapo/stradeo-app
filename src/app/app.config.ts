@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     provideCharts(withDefaultRegisterables()),
     // StateProvider global para toda a aplicação
-    StateProvider,
+    //StateProvider,
     { provide: LOCAL_STORAGE_KEY, useValue: 'ui-MasterAppComponent' },
     { provide: USE_BASE64_ENCODING, useValue: false },
     importProvidersFrom(

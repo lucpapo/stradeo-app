@@ -9,7 +9,6 @@ import { FullScreenLoadingComponent } from '@pcodeshared/components/full-screen-
 import { PaginationFooterComponent } from '@pcodeshared/components/pagination-footer/pagination-footer.component';
 import { ErrorStateComponent } from '@pcodeshared/components/error-state/error-state.component';
 // Stradeo
-import { TipocategoriaFilterValue, TIPOCATEGORIA_FILTER_INITIAL_VALUE } from '@stradeo/domain/types/tipocategoria-filter.types';
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipocategoriaFilterPage } from '../filter/tipocategoria-filter.page';
 import { TipocategoriaListStrategy } from './tipocategoria-list.strategy';
@@ -21,29 +20,31 @@ import { TipocategoriaListStrategy } from './tipocategoria-list.strategy';
     templateUrl: './tipocategoria-list.page.html',
     styleUrls: [],
 })
-export class TipocategoriaListPage extends BaseListPage<TipocategoriaFilterValue, any> {
+export class TipocategoriaListPage extends BaseListPage<Record<string, any>, any> {
 
-    private readonly service = inject(TipoCategoriaService);
-    private strategy = new TipocategoriaListStrategy(this.service, this.router);
+  private readonly service = inject(TipoCategoriaService);
+ 
+  private strategy = new TipocategoriaListStrategy(this.service, this.router);
 
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    /**
-     * Retorna a estratégia específica para TipoCategoria
-     * Usa 'any' para permitir propriedades dinâmicas como status_delecao_descricao
-     */
-    protected getStrategy(): ListStrategy<TipocategoriaFilterValue, any> {
-        return this.strategy;
-    }
+  protected getStrategy(): ListStrategy<Record<string, any>, any> {
+    return this.strategy;
+  }
 
-    /**
-     * Retorna os filtros iniciais para TipoCategoria
-     */
-    protected getInitialFilters(): TipocategoriaFilterValue {
-        return TIPOCATEGORIA_FILTER_INITIAL_VALUE;
-    }
+  /**
+   * Retorna os filtros iniciais usando o novo modelo de objeto JSON.
+   */
+  // ALTERAR este método
+  protected getInitialFilters(): Record<string, any> {
+    return {
+      descricao: '',
+      status_delecao: ''
+    };
+  }
+
 
     /**
      * Configuração de navegação - usa rota por padrão

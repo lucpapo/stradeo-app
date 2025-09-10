@@ -39,4 +39,11 @@ export interface FilterStrategy<T> {
    * Verifica se o formulário tem dados válidos para pesquisar
    */
   hasValidSearchData(formValue: any): boolean;
+   /**
+   * ADICIONAR ESTA PROPRIEDADE OPCIONAL
+   * Se true (padrão), permite que a BaseFilterPage enriqueça o payload do filtro
+   * com dados de estado globais (ex: concessionária).
+   * Defina como false na sua strategy para desabilitar este comportamento.
+   */
+  enableGlobalEnrichment?: boolean;
 }

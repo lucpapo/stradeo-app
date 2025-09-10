@@ -2,15 +2,14 @@ import { Router } from '@angular/router';
 // PCODE
 import { AbstractListStrategy } from '@pcode/ui/base-list/list-strategy';
 // STRADEO
-import { TipocategoriaFilterValue } from '@stradeo/domain/types/tipocategoria-filter.types';
+// REMOVA a importação do TipocategoriaFilterValue
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 
 /**
  * Estratégia específica para listagem de Tipo Categoria
- * Implementa as regras de negócio específicas desta entidade
- * Usa 'any' para permitir propriedades dinâmicas como status_delecao_descricao
  */
-export class TipocategoriaListStrategy extends AbstractListStrategy<TipocategoriaFilterValue, any> {
+// ALTERE O TIPO GENÉRICO AQUI
+export class TipocategoriaListStrategy extends AbstractListStrategy<Record<string, any>, any> {
 
   readonly baseRoute = '/configuracoes/tipocategoria';
 
@@ -23,10 +22,11 @@ export class TipocategoriaListStrategy extends AbstractListStrategy<Tipocategori
    */
   getStateKeys() {
     return {
+      // Esta chave está sendo lida via DI agora, podemos remover se quiser simplificar,
+      // mas por enquanto não prejudica.
       shellKey: 'ui-TipocategoriaShellComponent',
       paginationKey: 'TipocategoriaListPage#main',
       filterKey: 'TipocategoriaFilterPage#main'
     };
   }
-
 }
