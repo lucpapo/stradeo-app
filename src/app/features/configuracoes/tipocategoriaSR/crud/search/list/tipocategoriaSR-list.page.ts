@@ -11,8 +11,8 @@ import { ErrorStateComponent } from '@pcodeshared/components/error-state/error-s
 // Stradeo
 import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
  
-import { TipocategoriaSRListStrategy } from 'app/features/configuracoes/__tipocategoriaSR/crud/search/list/tipocategoriaSR-list.strategy';
-import { TipocategoriaSRFilterPage } from '../filter/tipocategoriaSR-filter.page';
+ import { TipocategoriaSRFilterPage } from '../filter/tipocategoriaSR-filter.page';
+import { TipocategoriaSRListStrategy } from './tipocategoriaSR-list.strategy';
  
 @Component({
     standalone: true,

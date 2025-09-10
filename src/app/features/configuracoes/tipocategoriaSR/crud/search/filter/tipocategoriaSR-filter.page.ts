@@ -6,8 +6,7 @@ import { StateRef } from '@pcode/store/state-ref';
 import { ValidationIndicatorComponent } from '@pcodeshared/components/validation-indicator/validation-indicator.component';
 import { FilterState } from '@pcode/ui/base-list';
 import { BaseFilterPage } from '@pcode/ui/base-filter';
-import { TipocategoriaSRFilterStrategy } from 'app/features/configuracoes/__tipocategoriaSR/crud/search/filter/tipocategoriaSR-filter.strategy';
- // STRADEO
+import { TipocategoriaSRFilterStrategy } from './tipocategoriaSR-filter.strategy';
  
 
 @Component({

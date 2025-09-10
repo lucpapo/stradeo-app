@@ -52,6 +52,12 @@ export class TipocategoriaSRDetailPage extends BaseDetailPage<TipoCategoria, num
     return this.strategy.getFieldLabels();
   }
 
+
+   public cancel(): void {
+        console.log('Operação cancelada.');
+        // AGORA: Passamos outra string para a ação de cancelar
+        this.onNavigateWithOutRoute('cancelled');
+    }
    
 
 

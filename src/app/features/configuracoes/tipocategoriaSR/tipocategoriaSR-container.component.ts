@@ -22,17 +22,11 @@ export interface TipocategoriaContainerState {
     </app-tipocategoriaSR-list>
 
     <div *ngIf="showDetail">
-      <div class="d-flex justify-content-start mb-2">
-        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onCloseDetail()">
-          <i class="fa fa-arrow-left me-1"></i>
-          Voltar para Lista
-        </button>
-      </div>
-      
+     
     <app-tipocategoriaSR-detail
             [initializationMode]="'state'"
             [stateSourceKey]="'TipocategoriaSRListPage#main'"
-            (navigateToList)="onCloseDetail()">
+            (navigateWithOutRoute)="onCloseDetail($event)">
         </app-tipocategoriaSR-detail>
 
       
@@ -80,8 +74,8 @@ export class TipocategoriaSRContainerComponent implements OnInit {
     this.saveState();
   }
 
-  onCloseDetail(): void {
-    console.log('[Container SR] Voltando para a lista.');
+  onCloseDetail(reason: string): void {
+    console.log('[Container SR] Voltando para a lista.', reason);
     this.showDetail = false;
     this.saveState();
   }

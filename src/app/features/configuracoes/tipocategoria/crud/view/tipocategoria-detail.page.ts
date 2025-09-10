@@ -11,6 +11,7 @@ import { TipocategoriaDetailStrategy } from './tipocategoria-detail.strategy';
 import { CompactErrorComponent } from '@pcodeshared/components/compact-error/compact-error.component';
 import { AuditComponent } from '@pcodeshared/components/audit';
 import { TipocategoriaSRContainerComponent } from 'app/features/configuracoes/tipocategoriaSR/tipocategoriaSR-container.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { TipocategoriaSRContainerComponent } from 'app/features/configuracoes/ti
   selector: 'app-tipocategoria-detail',
   imports: [CommonModule, RouterModule, ReactiveFormsModule, ValidationIndicatorComponent,
     FullScreenLoadingComponent, CompactErrorComponent, AuditComponent,
-    TipocategoriaSRContainerComponent],
+    TipocategoriaSRContainerComponent,NgbNavModule],
   templateUrl: './tipocategoria-detail.page.html',
   styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]

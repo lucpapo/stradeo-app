@@ -1,4 +1,4 @@
-import { Directive, inject, OnInit, signal, computed, Input, OnDestroy } from '@angular/core';
+import { Directive, inject, OnInit, signal, computed, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,6 +23,19 @@ export interface DetailState<TEntity> {
 @Directive()
 export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> implements OnInit, OnDestroy {
 
+/**
+     * Evento emitido para solicitar a volta para a visualização de lista.
+     * O componente pai deve escutar este evento.
+     */
+    @Output() navigateWithOutRoute = new EventEmitter<string>();
+
+    /**
+     * Método protegido que as classes filhas (componentes de detalhe) devem chamar
+     * para disparar o evento navigateToList.
+     */
+    protected onNavigateWithOutRoute(reason: string): void {
+        this.navigateWithOutRoute.emit(reason);
+    }
 
 // ====================================================================
     //      NOVOS INPUTS PARA PARAMETRIZAR A ORIGEM DOS DADOS
@@ -394,7 +407,16 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
     }
 
     if (navigateTo === 'list') {
-      strategy.navigateToList();
+      
+ if ( this.initializationMode === 'state' ) {
+      this.navigateWithOutRoute.emit('list');
+   } else {  
+    strategy.navigateToList();
+    }
+
+
+
+      //strategy.navigateToList();
     } else {
       // Para "Salvar e Continuar"
       if (this.isCreateMode()) {
@@ -443,7 +465,11 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
    */
   goBack(): void {
     const strategy = this.getStrategy();
+    if ( this.initializationMode === 'state' ) {
+      this.navigateWithOutRoute.emit('list');
+   } else {  
     strategy.navigateToList();
+    }
   }
 
   /**

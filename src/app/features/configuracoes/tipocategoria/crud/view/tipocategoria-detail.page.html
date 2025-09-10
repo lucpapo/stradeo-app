@@ -51,6 +51,25 @@
           </app-audit>
         </div>
       </div>
+      <div class="card-body">
+         <ul class="simple-wrapper nav nav-tabs" id=" myTab" ngbNav #nav="ngbNav"  >
+             <li class="nav-item" [ngbNavItem]="1">
+                 <a class="nav-link txt-primary" id="home-tab" ngbNavLink>Home</a>
+                 <ng-template ngbNavContent>
+                  <div class="card-body"> 
+                     <app-tipocategoriaSR-container></app-tipocategoriaSR-container>
+                     </div>
+                 </ng-template>
+             </li>
+             
+         </ul>
+         <div class="tab-content" id="myTabContent">
+             <div [ngbNavOutlet]="nav"></div>
+         </div>
+     </div>
+
+      
+ 
 
       <!-- Action Buttons -->
       <div class="row">
@@ -86,7 +105,4 @@
   </div>
 </div>
 
-<app-tipocategoriaSR-container></app-tipocategoriaSR-container>
- 
-<!-- <app-tipocategoria-container></app-tipocategoria-container> -->
  

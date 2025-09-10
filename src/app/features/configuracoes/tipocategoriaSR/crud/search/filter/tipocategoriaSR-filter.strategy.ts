@@ -28,7 +28,7 @@ export class TipocategoriaSRFilterStrategy extends AbstractFilterStrategy<Record
 
     return {
       // O campo 'descricao' continua obrigatório para a pesquisa
-      descricao: [data.descricao, [Validators.required, Validators.maxLength(100)]],
+      descricao: [data.descricao, [ Validators.maxLength(100)]],
       // O campo 'status' é opcional
       status_delecao: [data.status_delecao]
     };
