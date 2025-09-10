@@ -14,6 +14,7 @@ import { ConcessionariaStateService } from './shared/component/concessionaria-se
 })
 export class AppComponent implements OnInit, OnDestroy {
   private readonly rootKey = 'ui-MasterAppComponent';
+  
   private isInitialized = false;
   private readonly USE_HARD_RELOAD = true; // Mude para false se quiser reload suave
 

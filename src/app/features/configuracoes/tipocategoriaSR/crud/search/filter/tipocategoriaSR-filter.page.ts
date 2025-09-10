@@ -33,7 +33,7 @@ export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any
     // A tipagem do StateRef também é atualizada automaticamente
     this.filterStateRef = new StateRef<FilterState<Record<string, any>>>(
       this.stateProvider,
-      'ui-TipocategoriaSRShellComponent',
+      'ui-TipocategoriaShellComponent',
       'TipocategoriaSRFilterPage#main'
     );
   }

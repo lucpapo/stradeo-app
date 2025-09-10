@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideCharts(withDefaultRegisterables()),
     // StateProvider global para toda a aplicação
     //StateProvider,
-    { provide: LOCAL_STORAGE_KEY, useValue: 'ui-MasterAppComponent' },
+    { provide: LOCAL_STORAGE_KEY, useValue: 'app-stradeo' },
     { provide: USE_BASE64_ENCODING, useValue: false },
     importProvidersFrom(
       FlatpickrModule.forRoot(),

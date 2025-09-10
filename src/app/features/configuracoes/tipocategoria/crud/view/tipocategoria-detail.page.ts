@@ -10,13 +10,15 @@ import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 import { TipocategoriaDetailStrategy } from './tipocategoria-detail.strategy';
 import { CompactErrorComponent } from '@pcodeshared/components/compact-error/compact-error.component';
 import { AuditComponent } from '@pcodeshared/components/audit';
- 
+import { TipocategoriaSRContainerComponent } from 'app/features/configuracoes/tipocategoriaSR/tipocategoriaSR-container.component';
+
 
 @Component({
   standalone: true,
   selector: 'app-tipocategoria-detail',
   imports: [CommonModule, RouterModule, ReactiveFormsModule, ValidationIndicatorComponent,
-    FullScreenLoadingComponent, CompactErrorComponent, AuditComponent],
+    FullScreenLoadingComponent, CompactErrorComponent, AuditComponent,
+    TipocategoriaSRContainerComponent],
   templateUrl: './tipocategoria-detail.page.html',
   styleUrls: ['./tipocategoria-detail.page.scss'],
   providers: [DatePipe]
@@ -51,7 +53,7 @@ export class TipocategoriaDetailPage extends BaseDetailPage<TipoCategoria, numbe
     return this.strategy.getFieldLabels();
   }
 
-   
+
 
 
 

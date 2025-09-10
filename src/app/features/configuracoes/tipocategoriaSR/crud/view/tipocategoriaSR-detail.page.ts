@@ -10,7 +10,7 @@ import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
  
 import { CompactErrorComponent } from '@pcodeshared/components/compact-error/compact-error.component';
 import { AuditComponent } from '@pcodeshared/components/audit';
-import { TipocategoriaSRDetailStrategy } from 'app/features/configuracoes/__tipocategoriaSR/crud/view/tipocategoriaSR-detail.strategy';
+import { TipocategoriaSRDetailStrategy } from './tipocategoriaSR-detail.strategy';
  
 
 @Component({

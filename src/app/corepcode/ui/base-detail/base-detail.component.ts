@@ -2,7 +2,7 @@ import { Directive, inject, OnInit, signal, computed, Input, OnDestroy } from '@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { switchMap, of } from 'rxjs';
+import { switchMap, of, Observable, map } from 'rxjs';
 import { StateRef } from '@pcode/store/state-ref';
 import { LOCAL_STORAGE_KEY, StateProvider } from '@pcode/store/state-provider';
 import { ToastService } from '../../toast/toast.service';
@@ -22,6 +22,25 @@ export interface DetailState<TEntity> {
  */
 @Directive()
 export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> implements OnInit, OnDestroy {
+
+
+// ====================================================================
+    //      NOVOS INPUTS PARA PARAMETRIZAR A ORIGEM DOS DADOS
+    // ====================================================================
+    /**
+     * Define como o componente deve ser inicializado.
+     * 'route': Padrão. Pega o ID da URL.
+     * 'state': Modo "Sem Rota". Pega a entidade do StateProvider.
+     */
+    @Input() initializationMode: 'route' | 'state' = 'route';
+
+    /**
+     * Se initializationMode for 'state', esta é a chave do StateProvider
+     * onde a lista salvou o item selecionado.
+     * Ex: 'TipocategoriaSRListPage#main'
+     */
+    @Input() stateSourceKey?: string;
+    // ====================================================================
 
  /**
    * Se 'true', o estado deste componente no StateProvider será
@@ -55,13 +74,20 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
 
   // StateRef para persistir estado
   protected detailStateRef!: StateRef<DetailState<TEntity>>;
+   protected readonly shellKey = inject(LOCAL_STORAGE_KEY);
+
 
   constructor() { }
 
   ngOnInit(): void {
-    this.initializeStateRef();
-    this.initializeFromRoute();
-  }
+        this.initializeStateRef();
+ this.initializeDetail();
+        // if (this.initializationMode === 'route') {
+        //     this.initializeFromRoute();
+        // } else {
+        //     this.initializeFromState();
+        // }
+    }
 
   ngOnDestroy(): void {
     if (this.destroyStateOnClose && this.detailStateRef) {
@@ -70,28 +96,105 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
   }
 
 
-   // ====================================================================
-  // ADICIONAR ESTA LINHA: Injetamos a chave do shell atual
-  // ====================================================================
-  protected readonly shellKey = inject(LOCAL_STORAGE_KEY);
+   private getInitializationData(): Observable<{ id: TKey | null; mode: 'create' | 'view' | 'edit'; entity?: TEntity | null }> {
+        const strategy = this.getStrategy();
 
+        
+        if (this.initializationMode === 'route') {
+            // Se o modo for 'route', retornamos o Observable do roteador
+            return this.route.paramMap.pipe(
+                map(params => {
+                    const idParam = params.get('id');
+                    const urlSegments = this.route.snapshot.url;
+                    const id = idParam ? this.convertId(idParam) : null;
+                    const mode = strategy.determineModeFromUrl
+                        ? strategy.determineModeFromUrl(urlSegments, idParam)
+                        : this.defaultDetermineModeFromUrl(urlSegments, idParam);
+                    return { id, mode };
+                })
+            );
+        } else {
+            // Se o modo for 'state', buscamos os dados de forma síncrona
+            // e os embrulhamos em um Observable com 'of()' para unificar a API.
+         //   console.log('🔄 Inicializando do StateProvider com chave:', this.stateSourceKey, 'e shellKey:', this.shellKey);
+        //    console.log('DetalheStateRef atual:', strategy.getEntityFromState,strategy.getModeFromState );
+            if (!this.stateSourceKey || !strategy.getEntityFromState || !strategy.getModeFromState) {
+                console.error("Modo 'state' mal configurado. Verifique stateSourceKey e a implementação da Strategy.");
+                return of({ id: null, mode: 'create', entity: null });
+            }
+            
+            const entity = strategy.getEntityFromState(this.stateSourceKey, this.shellKey);
+            if (entity) {
+                const id = (entity as any).id ?? null;
+                const mode = strategy.getModeFromState(this.stateSourceKey, this.shellKey) ?? 'edit';
+                return of({ id, mode, entity });
+            } else {
+                return of({ id: null, mode: 'create', entity: null });
+            }
+        }
+    }
+
+
+     private initializeDetail(): void {
+        const strategy = this.getStrategy();
+
+        this.getInitializationData().pipe(
+            switchMap(initData => {
+                this.id.set(initData.id);
+                this.mode.set(initData.mode);
+                
+                // Otimização: Se a entidade já veio do modo 'state', não precisamos buscá-la novamente.
+                if (initData.entity) {
+                    return of(initData.entity);
+                }
+
+                // Se temos um ID mas não a entidade, buscamos na API.
+                if (initData.id && initData.mode !== 'create') {
+                    this.loading.set(true);
+                    return strategy.loadEntity(initData.id);
+                }
+                
+                // Se não há ID (modo 'create'), retornamos um Observable com null.
+                return of(null);
+            })
+        ).subscribe({
+            next: (data) => {
+                this.handleLoadedData(data); // Reutiliza o handler de dados existente
+            },
+            error: (err: HttpErrorResponse) => {
+                this.handleLoadError(err); // Reutiliza o handler de erro existente
+            }
+        });
+    }
+
+ 
   /**
    * Inicializa o StateRef específico para esta entidade
    */
-  private initializeStateRef(): void {
-    const strategy = this.getStrategy();
-    const stateKeys = strategy.getStateKeys();
+   private initializeStateRef(): void {
+        const strategy = this.getStrategy();
+        const stateKeys = strategy.getStateKeys();
+        this.detailStateRef = new StateRef<DetailState<TEntity>>(
+            this.stateProvider,
+            this.shellKey,
+            stateKeys.detailKey
+        );
+    }
+    
+  // private initializeStateRef(): void {
+  //   const strategy = this.getStrategy();
+  //   const stateKeys = strategy.getStateKeys();
 
-    // ====================================================================
-    // MUDAR ESTA LINHA: Usamos a chave injetada
-    // ====================================================================
-    this.detailStateRef = new StateRef<DetailState<TEntity>>(
-      this.stateProvider,
-      // ANTES: stateKeys.shellKey (vinha da strategy, que tinha que 'adivinhar')
-      this.shellKey, // AGORA: Usa a chave fornecida pelo shell correto via DI
-      stateKeys.detailKey
-    );
-  }
+  //   // ====================================================================
+  //   // MUDAR ESTA LINHA: Usamos a chave injetada
+  //   // ====================================================================
+  //   this.detailStateRef = new StateRef<DetailState<TEntity>>(
+  //     this.stateProvider,
+  //     // ANTES: stateKeys.shellKey (vinha da strategy, que tinha que 'adivinhar')
+  //     this.shellKey, // AGORA: Usa a chave fornecida pelo shell correto via DI
+  //     stateKeys.detailKey
+  //   );
+  // }
 
   /**
    * Inicializa o componente baseado na rota
@@ -129,6 +232,8 @@ export abstract class BaseDetailPage<TEntity extends Record<string, any>, TKey> 
       }
     });
   }
+
+  
 
   /**
    * Lida com os dados carregados

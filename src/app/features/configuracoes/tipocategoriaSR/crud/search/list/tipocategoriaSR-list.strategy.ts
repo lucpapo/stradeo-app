@@ -24,7 +24,7 @@ export class TipocategoriaSRListStrategy extends AbstractListStrategy<Record<str
     return {
       // Esta chave está sendo lida via DI agora, podemos remover se quiser simplificar,
       // mas por enquanto não prejudica.
-      shellKey: 'ui-TipocategoriaSRShellComponent',
+      shellKey: 'ui-TipocategoriaShellComponent',
       paginationKey: 'TipocategoriaSRListPage#main',
       filterKey: 'TipocategoriaSRFilterPage#main'
     };

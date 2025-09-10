@@ -54,7 +54,7 @@ export class TipocategoriaListSRPage extends BaseListPage<Record<string, any>, a
      */
     protected getNavigationConfig() {
         return {
-            useRouteNavigation: true,
+            useRouteNavigation: false,
             baseRoute: '/configuracoes/tipocategoria'
         };
     }

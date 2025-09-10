@@ -82,4 +82,24 @@ export interface DetailStrategy<TEntity extends Record<string, any>, TKey> {
    * Navega para visualização de um item
    */
   navigateToView(id: TKey): void;
+
+     // ====================================================================
+    //      NOVOS MÉTODOS OPCIONAIS PARA O MODO "STATE"
+    // ====================================================================
+    /**
+     * (Opcional) Busca a entidade a partir do StateProvider.
+     * Necessário quando BaseDetailPage.initializationMode = 'state'.
+     * @param sourceKey A chave do componente de lista (ex: 'MyListPage#main')
+     * @param shellKey A chave do módulo (ex: 'ui-MyShellComponent')
+     */
+    getEntityFromState?(sourceKey: string, shellKey: string): TEntity | null;
+
+    /**
+     * (Opcional) Determina o modo ('view' ou 'edit') a partir do StateProvider.
+     * Necessário quando BaseDetailPage.initializationMode = 'state'.
+     * @param sourceKey A chave do componente de lista
+     * @param shellKey A chave do módulo
+     */
+    getModeFromState?(sourceKey: string, shellKey: string): 'view' | 'edit' | null;
+
 }

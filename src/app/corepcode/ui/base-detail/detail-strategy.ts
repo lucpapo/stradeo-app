@@ -1,6 +1,9 @@
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DetailStrategy } from './detail-strategy.interface';
+import { StateProvider } from '@pcode/store/state-provider';
+import { inject } from '@angular/core';
+import { StateRef } from '@pcode/store/state-ref';
 
 /**
  * Classe abstrata que implementa a lógica comum para estratégias de detalhes
@@ -8,6 +11,10 @@ import { DetailStrategy } from './detail-strategy.interface';
  */
 export abstract class AbstractDetailStrategy<TEntity extends Record<string, any>, TKey>
     implements DetailStrategy<TEntity, TKey> {
+
+
+  protected readonly stateProvider = inject(StateProvider);
+   
 
     /**
      * Define os controles do formulário específicos para esta entidade
@@ -156,4 +163,43 @@ export abstract class AbstractDetailStrategy<TEntity extends Record<string, any>
         const strategy = this as any;
         strategy.router.navigate([this.getBaseRoute(), id, 'view']);
     }
-}
+
+     /**
+     * Implementação base para buscar a entidade a partir do StateProvider.
+     */
+    getEntityFromState(sourceKey: string, shellKey: string): TEntity | null {
+        try {
+            // Agora usamos a propriedade 'this.stateProvider' que já foi injetada.
+            const listStateRef = new StateRef<{ selected: { selectedItem: TEntity | null } }>(
+                this.stateProvider,
+                shellKey,
+                sourceKey
+            );
+            return listStateRef.get()?.selected?.selectedItem || null;
+        } catch (error) {
+            console.error(`[AbstractDetailStrategy] Erro ao ler 'selectedItem' do estado:`, error);
+            return null;
+        }
+    }
+
+    /**
+     * Implementação base para determinar o modo a partir do StateProvider.
+     */
+    getModeFromState(sourceKey: string, shellKey: string): 'view' | 'edit' | null {
+        try {
+            // E aqui também usamos 'this.stateProvider'.
+            const listStateRef = new StateRef<{ selected: { lastAction: 'view' | 'edit' | 'novo' | null } }>(
+                this.stateProvider,
+                shellKey,
+                sourceKey
+            );
+            const action = listStateRef.get()?.selected?.lastAction;
+            if (action === 'view') return 'view';
+            if (action === 'edit') return 'edit';
+            return null;
+        } catch (error) {
+            console.error(`[AbstractDetailStrategy] Erro ao ler 'lastAction' do estado:`, error);
+            return null;
+        }
+    }
+}       
