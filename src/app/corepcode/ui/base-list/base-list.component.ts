@@ -1,3 +1,5 @@
+// src\app\corepcode\ui\base-list\base-list.component.ts
+
 import { Directive, inject, OnInit, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { StateRef } from '@pcode/store/state-ref';
@@ -31,6 +33,15 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
   protected readonly shellKey = inject(LOCAL_STORAGE_KEY); // Injeção da chave para o StateProvider
 
   @Input() destroyStateOnClose = false;
+
+  // ALTERAÇÃO: Adicionado novo Input para controlar o carregamento inicial.
+  /**
+   * Se 'true' (padrão), a lista tentará carregar os dados na inicialização
+   * se houver um estado de filtro válido salvo.
+   * Se 'false', a lista aguardará uma ação explícita do usuário (ex: clicar em "Pesquisar").
+   */
+  @Input() loadDataOnStart = true;
+
   @Output() actionEvent = new EventEmitter<ListActionEvent<TEntity>>();
 
   // StateRefs
@@ -47,22 +58,46 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
 
   constructor() { }
 
+  // ngOnInit(): void {
+  //   this.configureStrategy();
+  //   this.initializeStateRefs();
+  //   this.initializeExtendedPaginationState();
+  //   this.initializeState();
+  //   this.initializeFromState();
+
+  //   const currentState = this.extendedPaginationStateRef.get();
+  //   if (currentState && (currentState.selected.selectedItem !== null || currentState.selected.lastAction !== null)) {
+  //     console.log('🧹 Limpando estado de seleção anterior ao entrar na lista.', currentState.selected);
+  //     currentState.selected = {
+  //       selectedItem: null,
+  //       lastAction: null
+  //     };
+  //     this.extendedPaginationStateRef.set(currentState);
+  //   }
+  // }
   ngOnInit(): void {
     this.configureStrategy();
     this.initializeStateRefs();
     this.initializeExtendedPaginationState();
     this.initializeState();
-    this.initializeFromState();
+    // ALTERAÇÃO: A chamada para initializeFromState foi MOVIDA daqui...
 
+    // A lógica de limpeza de seleção continua aqui, pois não depende dos filhos.
     const currentState = this.extendedPaginationStateRef.get();
     if (currentState && (currentState.selected.selectedItem !== null || currentState.selected.lastAction !== null)) {
       console.log('🧹 Limpando estado de seleção anterior ao entrar na lista.', currentState.selected);
-      currentState.selected = {
-        selectedItem: null,
-        lastAction: null
-      };
+      currentState.selected = { selectedItem: null, lastAction: null };
       this.extendedPaginationStateRef.set(currentState);
     }
+  }
+
+   ngAfterViewInit(): void {
+    // Usamos um setTimeout para evitar o erro ExpressionChangedAfterItHasBeenChecked
+    // que pode ocorrer se a chamada de dados alterar o estado de 'loading' de forma síncrona
+    // dentro deste hook do ciclo de vida.
+    setTimeout(() => {
+        this.initializeFromState();
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -83,15 +118,11 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
       );
       console.log(`✨ [>>>>BaseListPage] Enriquecendo filtro com objeto Concessionária:`, stateWrapper);
 
-      // 2. CORREÇÃO: Acessamos a propriedade .value para pegar o objeto de dados real
-      const concessionariaData :any = stateWrapper;
+      const concessionariaData: any = stateWrapper;
 
-      // 3. Verificamos se o objeto de dados da concessionária foi encontrado
       if (concessionariaData) {
-
-        // 4. TRANSFORMAÇÃO: Criamos o novo payload achatado
         const enrichedPayload = {
-          ...filters, // Mantém os filtros originais (ex: { descricao: 'e' })
+          ...filters,
           idConcessionaria: concessionariaData.id,
           cnpjConcessionaria: concessionariaData.cnpj
         };
@@ -106,7 +137,7 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
       console.warn('[BaseListPage] Não foi possível enriquecer o filtro com o estado da concessionária.', error);
     }
 
-    return filters; // Retorna o filtro original se não conseguir enriquecer
+    return filters;
   }
 
   /**
@@ -117,19 +148,15 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     console.log('[BaseListPage] 1. Recebeu filtros simples do formulário:', filters);
     this.isPesquisar = true;
 
-    // 2. Chama a lógica de enriquecimento
     const enrichedFilters = this.enrichFiltersWithGlobalState(filters);
-
-    // 3. Atualiza o estado interno com o filtro completo
     this.state.filters.data = enrichedFilters;
-
-    // 4. Continua o fluxo normal
     this.resetExtendedState();
 
     if (this.hasValidFilters()) {
       this.loadData();
     } else {
       this.state.data = [];
+      this.state.pagination.total = 0; // Garante que a paginação seja zerada
     }
   }
 
@@ -144,7 +171,6 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
 
   private initializeExtendedPaginationState(): void {
     const strategy = this.getStrategy();
-    // A chave agora vem do DI, então não precisamos mais de stateKeys.shellKey
     const stateKeys = strategy.getStateKeys();
 
     this.extendedPaginationStateRef = new StateRef(
@@ -185,51 +211,54 @@ export abstract class BaseListPage<TFilter extends object, TEntity> implements O
     };
   }
 
-  // private initializeFromState(): void {
-  //   const savedState = this.extendedPaginationStateRef.get();
-  //   if (savedState?.pagination) {
-  //     this.state.pagination = savedState.pagination;
-  //   }
+  // ALTERAÇÃO: Lógica de inicialização completamente reescrita para ser mais robusta.
+  /**
+   * Inicializa o estado da lista a partir do StateProvider.
+   * Esta é a lógica central para carregar dados na inicialização.
+   */
+  private initializeFromState(): void {
+    // 1. Carrega a paginação salva, se houver.
+    const savedPaginationState = this.extendedPaginationStateRef.get();
+    if (savedPaginationState?.pagination) {
+      this.state.pagination = savedPaginationState.pagination;
+    }
 
-  //   const savedFilters = this.filterStateRef.get();
-  //   if (savedFilters) {
-  //     this.state.filters = savedFilters;
-  //     if (this.hasValidFilters()) {
-  //       this.loadData();
-  //     }
-  //   }
-  // }
+    // 2. Tenta carregar o estado do filtro salvo.
+    const savedFilterState = this.filterStateRef.get();
 
-private initializeFromState(): void {
-  // Parte 1: Lógica de paginação (permanece igual)
-  const savedState = this.extendedPaginationStateRef.get();
-  if (savedState?.pagination) {
-    this.state.pagination = savedState.pagination;
-  }
+    // 3. Só procede se um estado de filtro JÁ EXISTIR.
+    // Se `savedFilterState` for nulo, significa que é a primeira vez que o usuário
+    // entra nesta tela. O componente BaseFilterPage será responsável por criar
+    // e salvar o estado inicial. A lista aguardará a ação do usuário.
+    if (savedFilterState) {
+      console.log('🔄 Estado de filtro encontrado. Restaurando:', savedFilterState);
 
-  // Parte 2: Lógica de filtros (agora com enriquecimento)
-  const savedFilters = this.filterStateRef.get();
-  if (savedFilters) {
-    console.log('🔄 Filtros restaurados (antes do enriquecimento):', savedFilters);
-    
-    // 1. ENRIQUECE os filtros que acabaram de ser restaurados
-    const enrichedFiltersData = this.enrichFiltersWithGlobalState(savedFilters.data);
+      // 4. Enriquece os filtros restaurados com o estado global (ex: concessionária).
+      const enrichedFiltersData = this.enrichFiltersWithGlobalState(savedFilterState.data);
 
-    // 2. ATUALIZA o estado interno com os filtros JÁ ENRIQUECIDOS
-    this.state.filters = {
-      data: enrichedFiltersData,
-      valid: savedFilters.valid // Mantemos o status de validade original
-    };
-    
-    console.log('✨ Filtros restaurados e JÁ ENRIQUECIDOS:', this.state.filters);
+      // 5. Atualiza o estado interno da lista com os filtros completos.
+      this.state.filters = {
+        data: enrichedFiltersData,
+        valid: savedFilterState.valid // Mantém o status de validade original.
+      };
+      console.log('✨ Filtros restaurados e JÁ ENRIQUECIDOS:', this.state.filters);
 
-    // 3. CONTINUA o fluxo normal com os dados completos
-    if (this.hasValidFilters()) {
-      this.loadData();
+      // 6. CONDIÇÃO FINAL: Carrega os dados somente se:
+      //    a) Os filtros forem considerados válidos pela strategy.
+      //    b) A flag `loadDataOnStart` permitir o carregamento inicial.
+      if (this.hasValidFilters() && this.loadDataOnStart) {
+        console.log('🚀 Filtros válidos e `loadDataOnStart` é true. Carregando dados iniciais.');
+        this.loadData();
+      } else {
+        console.log('⏳ Dados não serão carregados na inicialização.', {
+          hasValidFilters: this.hasValidFilters(),
+          loadDataOnStart: this.loadDataOnStart
+        });
+      }
+    } else {
+      console.log('🆕 Nenhum estado de filtro encontrado. Aguardando BaseFilterPage inicializar o estado.');
     }
   }
-}
-
 
   private hasValidFilters(): boolean {
     const strategy = this.getStrategy();
@@ -239,12 +268,19 @@ private initializeFromState(): void {
   private loadFromCurrentState(): void {
     const currentFilterState = this.filterStateRef.get();
     if (currentFilterState) {
-      this.state.filters = currentFilterState;
+      // ALTERAÇÃO: Garante o enriquecimento também ao limpar.
+      const enrichedFiltersData = this.enrichFiltersWithGlobalState(currentFilterState.data);
+      this.state.filters = {
+        data: enrichedFiltersData,
+        valid: currentFilterState.valid
+      };
+
       this.resetExtendedState();
       if (this.hasValidFilters()) {
         this.loadData();
       } else {
         this.state.data = [];
+        this.state.pagination.total = 0;
       }
     }
   }

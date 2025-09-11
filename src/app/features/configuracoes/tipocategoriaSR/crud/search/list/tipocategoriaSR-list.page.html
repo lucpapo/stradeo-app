@@ -4,10 +4,12 @@
   <app-full-screen-loading [show]="loading" message="Pesquisando dados...">
   </app-full-screen-loading>
 
-  <!-- Filtro -->
+  <!-- Filtro    [hidden]="true"  -->
   <div class="row mb-3">
     <div class="col-12">
-      <app-tipocategoriaSR-filter [value]="filters" (apply)="onFilterApply($event)" (clear)="onFilterClear()">
+      <app-tipocategoriaSR-filter 
+        
+      [value]="filters" (apply)="onFilterApply($event)" (clear)="onFilterClear()">
       </app-tipocategoriaSR-filter>
     </div>
   </div>

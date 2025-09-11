@@ -28,7 +28,7 @@ export class TipocategoriaFilterStrategy extends AbstractFilterStrategy<Record<s
 
     return {
       // O campo 'descricao' continua obrigatório para a pesquisa
-      descricao: [data.descricao, [Validators.required, Validators.maxLength(100)]],
+      descricao: [data.descricao, [ Validators.maxLength(30)]],
       // O campo 'status' é opcional
       status_delecao: [data.status_delecao]
     };
@@ -49,17 +49,17 @@ export class TipocategoriaFilterStrategy extends AbstractFilterStrategy<Record<s
    * Adiciona um dado de contexto ao filtro antes de enviá-lo.
    * Mesmo que não seja usado agora, serve como template.
    */
-  // override transformData(formValue: Record<string, any>): Record<string, any> {
-  //   const cleanedData = super.transformData(formValue); // Mantém o trim()
+    override transformData(formValue: Record<string, any>): Record<string, any> {
+      const cleanedData = super.transformData(formValue); // Mantém o trim()
 
-  //   // Simulando a adição de um ID de contexto (ex: tenant, empresa, etc.)
-  //   const contextualPayload = {
-  //     ...cleanedData,
-  //     tenant_id: 'empresa-principal-xpto'
-  //   };
-    
-  //   console.log('[TipoCategoriaFilterStrategy] Payload enriquecido:', contextualPayload);
+      // Simulando a adição de um ID de contexto (ex: tenant, empresa, etc.)
+      const contextualPayload = {
+        ...cleanedData,
+        tenant_id: 'empresa-principal-xpto'
+      };
+      
+      console.log('[TipoCategoriaFilterStrategy] Payload enriquecido:', contextualPayload);
 
-  //   return contextualPayload;
-  // }
+      return contextualPayload;
+    }
 }

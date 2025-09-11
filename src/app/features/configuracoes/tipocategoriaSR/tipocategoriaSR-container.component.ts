@@ -1,11 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
- import { TipocategoriaSRDetailPage } from './crud/view/tipocategoriaSR-detail.page';
+import { TipocategoriaSRDetailPage } from './crud/view/tipocategoriaSR-detail.page';
 import { ListActionEvent } from '@pcode/ui/base-list/list-strategy.interface';
-import { StateProvider } from '@pcode/store/state-provider';
+import { LOCAL_STORAGE_KEY, StateProvider } from '@pcode/store/state-provider';
 import { StateRef } from '@pcode/store/state-ref';
 import { TipocategoriaListSRPage } from './crud/search/list/tipocategoriaSR-list.page';
-
+ 
 // Interface para o estado de visibilidade do container
 export interface TipocategoriaContainerState {
   showDetail: boolean;
@@ -34,14 +34,17 @@ export interface TipocategoriaContainerState {
   `
 })
 export class TipocategoriaSRContainerComponent implements OnInit {
-
+ 
   private readonly stateProvider = inject(StateProvider);
+  private readonly shellKey = inject(LOCAL_STORAGE_KEY);
   private containerStateRef!: StateRef<TipocategoriaContainerState>;
   public showDetail = false;
 
   ngOnInit() {
+     this.limparEstadoDosFilhos();
     this.initializeState();
     this.loadState();
+    
   }
 
   private initializeState(): void {
@@ -78,5 +81,28 @@ export class TipocategoriaSRContainerComponent implements OnInit {
     console.log('[Container SR] Voltando para a lista.', reason);
     this.showDetail = false;
     this.saveState();
+  }
+
+
+  private limparEstadoDosFilhos(): void {
+    console.log(`[Container] Iniciando limpeza de estado para componentes filhos...`);
+
+    // 3. Criamos uma referência para o estado da LISTA e o removemos.
+    //    (A chave 'TipocategoriaListSRPage#main' deve ser a mesma usada no componente da lista)
+    const listState = new StateRef(
+      this.stateProvider,
+      this.shellKey,
+      'TipocategoriaListSRPage#main' // Altere se a chave da sua lista for diferente
+    );
+    listState.remove();
+
+    // 4. Criamos uma referência para o estado do FILTRO e o removemos.
+    //    (A chave 'TipocategoriaSRFilterPage#main' deve ser a mesma usada no componente de filtro)
+    const filterState = new StateRef(
+      this.stateProvider,
+      this.shellKey,
+      'TipocategoriaSRFilterPage#main' // Altere se a chave do seu filtro for diferente
+    );
+    filterState.remove();
   }
 }

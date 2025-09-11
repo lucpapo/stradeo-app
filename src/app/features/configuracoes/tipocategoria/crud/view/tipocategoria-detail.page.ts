@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BaseDetailPage, DetailStrategy } from '@pcode/ui/base-detail';
@@ -12,7 +12,7 @@ import { CompactErrorComponent } from '@pcodeshared/components/compact-error/com
 import { AuditComponent } from '@pcodeshared/components/audit';
 import { TipocategoriaSRContainerComponent } from 'app/features/configuracoes/tipocategoriaSR/tipocategoriaSR-container.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-
+ 
 
 @Component({
   standalone: true,
@@ -56,6 +56,7 @@ export class TipocategoriaDetailPage extends BaseDetailPage<TipoCategoria, numbe
 
 
 
+   
 
 
 }

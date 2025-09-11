@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 // PCODE
 import { StateRef } from '@pcode/store/state-ref';
@@ -18,6 +18,8 @@ import { TipocategoriaSRFilterStrategy } from './tipocategoriaSR-filter.strategy
 })
 export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any>> {
 
+ 
+  
   // A anotação de tipo do @Input também deve ser atualizada para ser consistente
   @Input() override value!: Record<string, any>;
 
@@ -36,4 +38,6 @@ export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any
       'TipocategoriaSRFilterPage#main'
     );
   }
+
+ 
 }
