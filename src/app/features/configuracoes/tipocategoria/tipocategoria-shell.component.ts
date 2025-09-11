@@ -1,8 +1,9 @@
-// tipocategoria-shell.component.ts
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../corepcode/store/state-provider';
+
+import { LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../corepcode/store/state-provider';
+import { BaseShellDirective } from '@pcode/ui/base-shell/base-shell.components';
 
 
 @Component({
@@ -12,23 +13,11 @@ import { StateProvider, LOCAL_STORAGE_KEY, USE_BASE64_ENCODING } from '../../../
   template: `<router-outlet></router-outlet>`,
   providers: [
     { provide: LOCAL_STORAGE_KEY, useValue: 'ui-TipocategoriaShellComponent' },
-    { provide: USE_BASE64_ENCODING, useValue: false } // desenvolvimento - dados legíveis
+    { provide: USE_BASE64_ENCODING, useValue: false } 
   ]
 })
-export class TipocategoriaShellComponent implements OnInit, OnDestroy {
-  private readonly rootKey = 'ui-TipocategoriaShellComponent';
+ 
+export class TipocategoriaShellComponent extends BaseShellDirective {
+  readonly rootKey = 'ui-TipocategoriaShellComponent';
 
-  constructor(private stateProvider: StateProvider) { }
-
-  ngOnInit() {
-    // Garante que o root state existe
-    this.stateProvider.ensureRoot(this.rootKey);
-    console.log(`[TipocategoriaShell] Root state inicializado: ${this.rootKey}`);
-  }
-
-  ngOnDestroy() {
-    // Fecha todos os child roots (popups/overlays) quando o shell é destruído
-    this.stateProvider.closeAllChildRoots(this.rootKey);
-    console.log(`[TipocategoriaShell] Child roots fechados para: ${this.rootKey}`);
-  }
 }

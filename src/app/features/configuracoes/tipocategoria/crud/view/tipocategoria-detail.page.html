@@ -19,8 +19,7 @@
           <label class="form-label fw-medium" for="descricao">
             Descrição <span class="text-danger">*</span>
           </label>
-          <input class="form-control form-control-sm" id="descricao" type="text" formControlName="descricao"
-            [style.border-left]="form.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
+          <input class="form-control form-control-sm" id="descricao" type="text" formControlName="descricao" [style.border-left]="form.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
             placeholder="Digite a descrição" maxlength="100">
         </div>
 
@@ -35,8 +34,7 @@
             </select>
           </div>
           <ng-template #editStatus>
-            <select id="status" class="form-select form-select-sm" formControlName="status_delecao"
-              [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+            <select id="status" class="form-select form-select-sm" formControlName="status_delecao" [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
               <option [ngValue]="0">Ativo</option>
               <option [ngValue]="1">Inativo</option>
             </select>
@@ -45,31 +43,36 @@
       </div>
 
       <!-- Audit Info Row -->
-      <div class="row align-items-center mb-4" *ngIf="id()">
+      <div class="row align-items-center mb-2" *ngIf="id()">
         <div class="col-12">
           <app-audit [lastUpdateDate]="form.get('data_atualizacao')?.value" [auditData]="getAuditData()">
           </app-audit>
         </div>
       </div>
-      <div class="card-body">
-         <ul class="simple-wrapper nav nav-tabs" id=" myTab" ngbNav #nav="ngbNav"  >
-             <li class="nav-item" [ngbNavItem]="1">
-                 <a class="nav-link txt-primary" id="home-tab" ngbNavLink>Home</a>
-                 <ng-template ngbNavContent>
-                  <div class="card-body"> 
-                     <app-tipocategoriaSR-container  ></app-tipocategoriaSR-container>
-                     </div>
-                 </ng-template>
-             </li>
-             
-         </ul>
-         <div class="tab-content" id="myTabContent">
-             <div [ngbNavOutlet]="nav"></div>
-         </div>
-     </div>
+      <div class="row align-items-center mb-2">
+        <div class="card-body">
+          <ul class="simple-wrapper nav nav-tabs" id=" myTab" ngbNav #nav="ngbNav">
+            <li class="nav-item" [ngbNavItem]="1">
+              <a class="nav-link txt-primary" id="home-tab" ngbNavLink>Home</a>
+              <ng-template ngbNavContent>
+                <div class="card-body">
+                  <app-tipocategoriaSR-container></app-tipocategoriaSR-container>
+                </div>
+              </ng-template>
+            </li>
 
-      
- 
+          </ul>
+          <div class="tab-content" id="myTabContent" style="background-color: gainsboro!important; padding: 1px; border-radius: 5px;">
+
+            <div [ngbNavOutlet]="nav"></div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
 
       <!-- Action Buttons -->
       <div class="row">
@@ -84,8 +87,7 @@
                 <i class="fa fa-check me-1"></i>
                 Salvar e fechar
               </button>
-              <button type="button" class="btn btn-primary btn-sm px-2 py-1" [disabled]="form.invalid || loading()"
-                (click)="saveAndContinue()">
+              <button type="button" class="btn btn-primary btn-sm px-2 py-1" [disabled]="form.invalid || loading()" (click)="saveAndContinue()">
                 <i class="fa fa-edit me-1"></i>
                 Salvar
               </button>
@@ -104,5 +106,3 @@
     </form>
   </div>
 </div>
-
- 
