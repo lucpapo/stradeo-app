@@ -1,0 +1,141 @@
+<!-- Loading and Error States -->
+<app-full-screen-loading [show]="loading()" message="Carregando dados...">
+</app-full-screen-loading>
+<app-compact-error *ngIf="error()" [message]="error() || ''"></app-compact-error>
+<!-- Main Card Container -->
+<div class="card m-3" *ngIf="!loading()">
+<div class="card-body">
+<form id="categoriatarifa-form" [formGroup]="form" (ngSubmit)="save()" class="needs-validation">
+  <!-- Validation Indicator -->
+  <app-validation-indicator *ngIf="!loading() && form" [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  <!-- Dynamic Form Fields Row -->
+  <div class="row align-items-start mb-3">
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="id">
+        Id 
+      </label>
+      <input class="form-control form-control-sm" id="id" type="text" formControlName="id"
+        [style.border-left]="form.get('id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="tarifa_id">
+        Tarifa_id <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="tarifa_id" type="text" formControlName="tarifa_id"
+        [style.border-left]="form.get('tarifa_id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a tarifa_id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="categoria_id">
+        Categoria_id <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="categoria_id" type="text" formControlName="categoria_id"
+        [style.border-left]="form.get('categoria_id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a categoria_id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="valor">
+        Valor <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="valor" type="text" formControlName="valor"
+        [style.border-left]="form.get('valor')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a valor"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="data_cadastro">
+        Data_cadastro <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="data_cadastro" type="text" formControlName="data_cadastro"
+        [style.border-left]="form.get('data_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a data_cadastro"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="usuario_cadastro">
+        Usuario_cadastro <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="usuario_cadastro" type="text" formControlName="usuario_cadastro"
+        [style.border-left]="form.get('usuario_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a usuario_cadastro"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="data_atualizacao">
+        Data_atualizacao <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="data_atualizacao" type="text" formControlName="data_atualizacao"
+        [style.border-left]="form.get('data_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a data_atualizacao"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="usuario_atualizacao">
+        Usuario_atualizacao <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="usuario_atualizacao" type="text" formControlName="usuario_atualizacao"
+        [style.border-left]="form.get('usuario_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a usuario_atualizacao"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="status_delecao">
+        Status_delecao <span class="text-danger">*</span>
+      </label>
+      <div *ngIf="isViewMode(); else editStatus">
+        <select class="form-select form-select-sm" disabled title="Status">
+          <option>{{ form.get('status_delecao')?.value === 0 ? 'Ativo' : 'Inativo' }}</option>
+        </select>
+      </div>
+      <ng-template #editStatus>
+        <select id="status_delecao" class="form-select form-select-sm" formControlName="status_delecao" [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+          <option [ngValue]="0">Ativo</option>
+          <option [ngValue]="1">Inativo</option>
+        </select>
+      </ng-template>
+    </div>
+  </div>
+  <!-- Audit Info Row (Mostrado apenas em modo de edição/visualização) -->
+  <div class="row align-items-center mb-2" *ngIf="id()">
+    <div class="col-12">
+      <app-audit [lastUpdateDate]="form.get('data_atualizacao')?.value" [auditData]="getAuditData()">
+      </app-audit>
+    </div>
+  </div>
+  <!-- Dynamic Detail Tabs -->
+  <!-- Action Buttons -->
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-end gap-1">
+        <!-- Botões para modo de edição -->
+        <ng-container *ngIf="!isViewMode()">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-2 py-1" (click)="goBack()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-success btn-sm px-2 py-1" [disabled]="form.invalid || loading()">
+            <i class="fa fa-check me-1"></i>
+            Salvar e fechar
+          </button>
+          <button type="button" class="btn btn-primary btn-sm px-2 py-1" [disabled]="form.invalid || loading()" (click)="saveAndContinue()">
+            <i class="fa fa-edit me-1"></i>
+            Salvar
+          </button>
+        </ng-container>
+        <!-- Botão para modo de visualização -->
+        <ng-container *ngIf="isViewMode()">
+          <button type="button" class="btn btn-outline-primary btn-sm px-2 py-1" (click)="goBack()">
+            <i class="fa fa-arrow-left me-1"></i>
+            Voltar
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>

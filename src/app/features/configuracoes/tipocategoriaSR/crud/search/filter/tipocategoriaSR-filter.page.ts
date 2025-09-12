@@ -18,7 +18,7 @@ import { TipocategoriaSRFilterStrategy } from './tipocategoriaSR-filter.strategy
 })
 export class TipocategoriaSRFilterPage extends BaseFilterPage<Record<string, any>> {
 
- 
+  
   
   // A anotação de tipo do @Input também deve ser atualizada para ser consistente
   @Input() override value!: Record<string, any>;

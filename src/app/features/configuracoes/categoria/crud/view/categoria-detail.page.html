@@ -1,0 +1,250 @@
+<!-- Loading and Error States -->
+<app-full-screen-loading [show]="loading()" message="Carregando dados...">
+</app-full-screen-loading>
+<app-compact-error *ngIf="error()" [message]="error() || ''"></app-compact-error>
+<!-- Main Card Container -->
+<div class="card m-3" *ngIf="!loading()">
+<div class="card-body">
+<form id="categoria-form" [formGroup]="form" (ngSubmit)="save()" class="needs-validation">
+  <!-- Validation Indicator -->
+  <app-validation-indicator *ngIf="!loading() && form" [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  <!-- Dynamic Form Fields Row -->
+  <div class="row align-items-start mb-3">
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="id">
+        Id 
+      </label>
+      <input class="form-control form-control-sm" id="id" type="text" formControlName="id"
+        [style.border-left]="form.get('id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="concessao_id">
+        Concessao_id <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="concessao_id" type="text" formControlName="concessao_id"
+        [style.border-left]="form.get('concessao_id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a concessao_id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="descricao">
+        Descricao <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="descricao" type="text" formControlName="descricao"
+        [style.border-left]="form.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a descricao"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="numero_eixos">
+        Numero_eixos <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="numero_eixos" type="text" formControlName="numero_eixos"
+        [style.border-left]="form.get('numero_eixos')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a numero_eixos"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="tipo_categoria_id">
+        Tipo_categoria_id <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="tipo_categoria_id" type="text" formControlName="tipo_categoria_id"
+        [style.border-left]="form.get('tipo_categoria_id')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a tipo_categoria_id"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="codigo_tarifa_basica">
+        Codigo_tarifa_basica <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="codigo_tarifa_basica" type="text" formControlName="codigo_tarifa_basica"
+        [style.border-left]="form.get('codigo_tarifa_basica')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a codigo_tarifa_basica"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="codigo_categoria_adm">
+        Codigo_categoria_adm <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="codigo_categoria_adm" type="text" formControlName="codigo_categoria_adm"
+        [style.border-left]="form.get('codigo_categoria_adm')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a codigo_categoria_adm"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="codigo_poder_concedente">
+        Codigo_poder_concedente <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="codigo_poder_concedente" type="text" formControlName="codigo_poder_concedente"
+        [style.border-left]="form.get('codigo_poder_concedente')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a codigo_poder_concedente"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="considera_trafego">
+        Considera_trafego <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="considera_trafego" type="text" formControlName="considera_trafego"
+        [style.border-left]="form.get('considera_trafego')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a considera_trafego"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="ordem">
+        Ordem <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="ordem" type="text" formControlName="ordem"
+        [style.border-left]="form.get('ordem')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a ordem"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="tipo">
+        Tipo <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="tipo" type="text" formControlName="tipo"
+        [style.border-left]="form.get('tipo')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a tipo"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="maximo_eixos_suspenso">
+        Maximo_eixos_suspenso <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="maximo_eixos_suspenso" type="text" formControlName="maximo_eixos_suspenso"
+        [style.border-left]="form.get('maximo_eixos_suspenso')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a maximo_eixos_suspenso"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="eixos_equivalentes">
+        Eixos_equivalentes <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="eixos_equivalentes" type="text" formControlName="eixos_equivalentes"
+        [style.border-left]="form.get('eixos_equivalentes')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a eixos_equivalentes"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="data_cadastro">
+        Data_cadastro <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="data_cadastro" type="text" formControlName="data_cadastro"
+        [style.border-left]="form.get('data_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a data_cadastro"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="usuario_cadastro">
+        Usuario_cadastro <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="usuario_cadastro" type="text" formControlName="usuario_cadastro"
+        [style.border-left]="form.get('usuario_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a usuario_cadastro"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="data_atualizacao">
+        Data_atualizacao <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="data_atualizacao" type="text" formControlName="data_atualizacao"
+        [style.border-left]="form.get('data_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a data_atualizacao"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="usuario_atualizacao">
+        Usuario_atualizacao <span class="text-danger">*</span>
+      </label>
+      <input class="form-control form-control-sm" id="usuario_atualizacao" type="text" formControlName="usuario_atualizacao"
+        [style.border-left]="form.get('usuario_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+        placeholder="Digite a usuario_atualizacao"
+        [readOnly]="isViewMode()">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-medium" for="status_delecao">
+        Status_delecao <span class="text-danger">*</span>
+      </label>
+      <div *ngIf="isViewMode(); else editStatus">
+        <select class="form-select form-select-sm" disabled title="Status">
+          <option>{{ form.get('status_delecao')?.value === 0 ? 'Ativo' : 'Inativo' }}</option>
+        </select>
+      </div>
+      <ng-template #editStatus>
+        <select id="status_delecao" class="form-select form-select-sm" formControlName="status_delecao" [style.border-left]="form.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+          <option [ngValue]="0">Ativo</option>
+          <option [ngValue]="1">Inativo</option>
+        </select>
+      </ng-template>
+    </div>
+  </div>
+  <!-- Audit Info Row (Mostrado apenas em modo de edição/visualização) -->
+  <div class="row align-items-center mb-2" *ngIf="id()">
+    <div class="col-12">
+      <app-audit [lastUpdateDate]="form.get('data_atualizacao')?.value" [auditData]="getAuditData()">
+      </app-audit>
+    </div>
+  </div>
+
+    <div class="row align-items-center mb-2">
+        <div class="card-body">
+          <ul class="simple-wrapper nav nav-tabs" id=" myTab" ngbNav #nav="ngbNav">
+            <li class="nav-item" [ngbNavItem]="1">
+              <a class="nav-link txt-primary" id="home-tab" ngbNavLink>Categoria Especial</a>
+              <ng-template ngbNavContent>
+                <div class="card-body">
+                  <app-categoriaespecial-container></app-categoriaespecial-container>
+                </div>
+              </ng-template>
+            </li>
+
+          </ul>
+          <div class="tab-content" id="myTabContent" style="background-color: gainsboro!important; padding: 1px; border-radius: 5px;">
+
+            <div [ngbNavOutlet]="nav"></div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+
+  <!-- Dynamic Detail Tabs -->
+  <!-- Action Buttons -->
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-end gap-1">
+        <!-- Botões para modo de edição -->
+        <ng-container *ngIf="!isViewMode()">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-2 py-1" (click)="goBack()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-success btn-sm px-2 py-1" [disabled]="form.invalid || loading()">
+            <i class="fa fa-check me-1"></i>
+            Salvar e fechar
+          </button>
+          <button type="button" class="btn btn-primary btn-sm px-2 py-1" [disabled]="form.invalid || loading()" (click)="saveAndContinue()">
+            <i class="fa fa-edit me-1"></i>
+            Salvar
+          </button>
+        </ng-container>
+        <!-- Botão para modo de visualização -->
+        <ng-container *ngIf="isViewMode()">
+          <button type="button" class="btn btn-outline-primary btn-sm px-2 py-1" (click)="goBack()">
+            <i class="fa fa-arrow-left me-1"></i>
+            Voltar
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>

@@ -32,7 +32,7 @@ export abstract class BaseContainerDirective implements OnInit {
   public showDetail = false;
 
   // --- Propriedades Privadas ---
-  private containerStateRef!: StateRef<ContainerViewState>;
+  protected containerStateRef!: StateRef<ContainerViewState>;
 
   ngOnInit() {
     this.limparEstadoDosFilhos();
@@ -40,7 +40,7 @@ export abstract class BaseContainerDirective implements OnInit {
     this.loadState();
   }
 
-  private initializeState(): void {
+  protected initializeState(): void {
     this.containerStateRef = new StateRef<ContainerViewState>(
       this.stateProvider,
       'ui-shell-component',

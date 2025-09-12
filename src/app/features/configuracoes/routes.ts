@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { TipocategoriaShellComponent } from './tipocategoria/tipocategoria-shell.component';
 import { TipocategoriaSRShellComponent } from './tipocategoriaSR/tipocategoriaSR-shell.component';
+import { CategoriaShellComponent } from './categoria/categoria-shell.component';
  
 export const CONFIGURACOES_ROUTES: Routes = [
   {
@@ -9,6 +10,13 @@ export const CONFIGURACOES_ROUTES: Routes = [
     component: TipocategoriaShellComponent, // contém <router-outlet/>
     loadChildren: () =>
       import('./tipocategoria/routes').then(m => m.TIPOCATEGORIA_ROUTES),
+  },
+
+    {
+    path: 'categoria',
+    component: CategoriaShellComponent, // contém <router-outlet/>
+    loadChildren: () =>
+      import('./categoria/categoriaroutes').then(m => m.CATEGORIA_ROUTES),
   },
 
    {

@@ -1,0 +1,200 @@
+<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
+  <!-- Indicador de Validação (padrão) -->
+  <app-validation-indicator [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-end">
+          <div class="col-12 col-md-3">
+            <label for="id" class="form-label mb-1">
+              Id
+            </label>
+            <input id="id" type="text" formControlName="id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="concessao_id" class="form-label mb-1">
+              Concessao_id
+              <span class="text-danger">*</span>
+            </label>
+            <input id="concessao_id" type="text" formControlName="concessao_id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('concessao_id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por concessao_id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="descricao" class="form-label mb-1">
+              Descricao
+              <span class="text-danger">*</span>
+            </label>
+            <input id="descricao" type="text" formControlName="descricao" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('descricao')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por descricao..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="numero_eixos" class="form-label mb-1">
+              Numero_eixos
+              <span class="text-danger">*</span>
+            </label>
+            <input id="numero_eixos" type="text" formControlName="numero_eixos" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('numero_eixos')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por numero_eixos..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="tipo_categoria_id" class="form-label mb-1">
+              Tipo_categoria_id
+              <span class="text-danger">*</span>
+            </label>
+            <input id="tipo_categoria_id" type="text" formControlName="tipo_categoria_id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('tipo_categoria_id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por tipo_categoria_id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="codigo_tarifa_basica" class="form-label mb-1">
+              Codigo_tarifa_basica
+              <span class="text-danger">*</span>
+            </label>
+            <input id="codigo_tarifa_basica" type="text" formControlName="codigo_tarifa_basica" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('codigo_tarifa_basica')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por codigo_tarifa_basica..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="codigo_categoria_adm" class="form-label mb-1">
+              Codigo_categoria_adm
+              <span class="text-danger">*</span>
+            </label>
+            <input id="codigo_categoria_adm" type="text" formControlName="codigo_categoria_adm" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('codigo_categoria_adm')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por codigo_categoria_adm..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="codigo_poder_concedente" class="form-label mb-1">
+              Codigo_poder_concedente
+              <span class="text-danger">*</span>
+            </label>
+            <input id="codigo_poder_concedente" type="text" formControlName="codigo_poder_concedente" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('codigo_poder_concedente')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por codigo_poder_concedente..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="considera_trafego" class="form-label mb-1">
+              Considera_trafego
+              <span class="text-danger">*</span>
+            </label>
+            <input id="considera_trafego" type="text" formControlName="considera_trafego" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('considera_trafego')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por considera_trafego..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="ordem" class="form-label mb-1">
+              Ordem
+              <span class="text-danger">*</span>
+            </label>
+            <input id="ordem" type="text" formControlName="ordem" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('ordem')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por ordem..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="tipo" class="form-label mb-1">
+              Tipo
+              <span class="text-danger">*</span>
+            </label>
+            <input id="tipo" type="text" formControlName="tipo" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('tipo')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por tipo..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="maximo_eixos_suspenso" class="form-label mb-1">
+              Maximo_eixos_suspenso
+              <span class="text-danger">*</span>
+            </label>
+            <input id="maximo_eixos_suspenso" type="text" formControlName="maximo_eixos_suspenso" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('maximo_eixos_suspenso')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por maximo_eixos_suspenso..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="eixos_equivalentes" class="form-label mb-1">
+              Eixos_equivalentes
+              <span class="text-danger">*</span>
+            </label>
+            <input id="eixos_equivalentes" type="text" formControlName="eixos_equivalentes" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('eixos_equivalentes')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por eixos_equivalentes..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="data_cadastro" class="form-label mb-1">
+              Data_cadastro
+              <span class="text-danger">*</span>
+            </label>
+            <input id="data_cadastro" type="text" formControlName="data_cadastro" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('data_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por data_cadastro..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="usuario_cadastro" class="form-label mb-1">
+              Usuario_cadastro
+              <span class="text-danger">*</span>
+            </label>
+            <input id="usuario_cadastro" type="text" formControlName="usuario_cadastro" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('usuario_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por usuario_cadastro..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="data_atualizacao" class="form-label mb-1">
+              Data_atualizacao
+              <span class="text-danger">*</span>
+            </label>
+            <input id="data_atualizacao" type="text" formControlName="data_atualizacao" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('data_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por data_atualizacao..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="usuario_atualizacao" class="form-label mb-1">
+              Usuario_atualizacao
+              <span class="text-danger">*</span>
+            </label>
+            <input id="usuario_atualizacao" type="text" formControlName="usuario_atualizacao" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('usuario_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por usuario_atualizacao..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="status_delecao" class="form-label mb-1">Status_delecao</label>
+            <select id="status_delecao" formControlName="status_delecao" class="form-select form-select-sm"
+              [style.border-left]="formRef.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+              <option value="">Todos</option>
+              <option value="0">Ativo</option>
+              <option value="1">Inativo</option>
+            </select>
+          </div>
+      <!-- Ações (estático) -->
+      <div class="col-12 col-md-4 d-flex justify-content-end align-items-end gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+          (click)="onClear()">
+          <i class="fa fa-eraser"></i>
+          <span>Limpar</span>
+        </button>
+        <button type="submit" [disabled]="form.invalid"
+          class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
+          <i class="fa fa-search"></i>
+          <span>Pesquisar</span>
+        </button>
+      </div>
+   </div>
+  </div>
+</form>

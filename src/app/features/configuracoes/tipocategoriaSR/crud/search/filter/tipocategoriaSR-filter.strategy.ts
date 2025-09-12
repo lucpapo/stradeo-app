@@ -7,7 +7,7 @@ import { DetailState } from '@pcode/ui/base-detail';
 import { AbstractFilterStrategy } from '@pcode/ui/base-filter';
 // REMOVER as importações de '@stradeo/domain/types/tipocategoria-filter.types'
 
-/**
+/** 
  * Estratégia de filtro para Tipo Categoria, agora usando o modelo flexível.
  */
 // ALTERAR o tipo genérico aqui

@@ -31,7 +31,7 @@ export class TipocategoriaListSRPage extends BaseListPage<Record<string, any>, a
   constructor() {
     super();
   }
-
+ 
   protected getStrategy(): ListStrategy<Record<string, any>, any> {
     return this.strategy;
   }

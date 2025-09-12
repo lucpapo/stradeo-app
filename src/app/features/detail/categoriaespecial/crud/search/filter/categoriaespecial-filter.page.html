@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
+  <!-- Indicador de Validação (padrão) -->
+  <app-validation-indicator [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-end">
+          <div class="col-12 col-md-3">
+            <label for="id" class="form-label mb-1">
+              Id
+            </label>
+            <input id="id" type="text" formControlName="id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="categoria_id" class="form-label mb-1">
+              Categoria_id
+              <span class="text-danger">*</span>
+            </label>
+            <input id="categoria_id" type="text" formControlName="categoria_id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('categoria_id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por categoria_id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="quantidade_eixos" class="form-label mb-1">
+              Quantidade_eixos
+              <span class="text-danger">*</span>
+            </label>
+            <input id="quantidade_eixos" type="text" formControlName="quantidade_eixos" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('quantidade_eixos')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por quantidade_eixos..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="categoria_adm" class="form-label mb-1">
+              Categoria_adm
+              <span class="text-danger">*</span>
+            </label>
+            <input id="categoria_adm" type="text" formControlName="categoria_adm" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('categoria_adm')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por categoria_adm..."
+              >
+          </div>
+      <!-- Ações (estático) -->
+      <div class="col-12 col-md-4 d-flex justify-content-end align-items-end gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+          (click)="onClear()">
+          <i class="fa fa-eraser"></i>
+          <span>Limpar</span>
+        </button>
+        <button type="submit" [disabled]="form.invalid"
+          class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
+          <i class="fa fa-search"></i>
+          <span>Pesquisar</span>
+        </button>
+      </div>
+   </div>
+  </div>
+</form>

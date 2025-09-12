@@ -12,7 +12,7 @@ import { TipoCategoriaService } from '@stradeo/services/tipocategoria.service';
 export class TipocategoriaSRListStrategy extends AbstractListStrategy<Record<string, any>, any> {
 
   readonly baseRoute = '/configuracoes/tipocategoria';
-
+ 
   constructor(readonly service: TipoCategoriaService, readonly router: Router) {
     super();
   }

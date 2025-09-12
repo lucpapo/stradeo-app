@@ -1,0 +1,110 @@
+<form [formGroup]="form" (ngSubmit)="onApply()" class="card shadow-sm mb-3 filter-compact">
+  <!-- Indicador de Validação (padrão) -->
+  <app-validation-indicator [form]="form" [fieldLabels]="fieldLabels">
+  </app-validation-indicator>
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-end">
+          <div class="col-12 col-md-3">
+            <label for="id" class="form-label mb-1">
+              Id
+            </label>
+            <input id="id" type="text" formControlName="id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="tarifa_id" class="form-label mb-1">
+              Tarifa_id
+              <span class="text-danger">*</span>
+            </label>
+            <input id="tarifa_id" type="text" formControlName="tarifa_id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('tarifa_id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por tarifa_id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="categoria_id" class="form-label mb-1">
+              Categoria_id
+              <span class="text-danger">*</span>
+            </label>
+            <input id="categoria_id" type="text" formControlName="categoria_id" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('categoria_id')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por categoria_id..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="valor" class="form-label mb-1">
+              Valor
+              <span class="text-danger">*</span>
+            </label>
+            <input id="valor" type="text" formControlName="valor" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('valor')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por valor..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="data_cadastro" class="form-label mb-1">
+              Data_cadastro
+              <span class="text-danger">*</span>
+            </label>
+            <input id="data_cadastro" type="text" formControlName="data_cadastro" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('data_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por data_cadastro..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="usuario_cadastro" class="form-label mb-1">
+              Usuario_cadastro
+              <span class="text-danger">*</span>
+            </label>
+            <input id="usuario_cadastro" type="text" formControlName="usuario_cadastro" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('usuario_cadastro')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por usuario_cadastro..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="data_atualizacao" class="form-label mb-1">
+              Data_atualizacao
+              <span class="text-danger">*</span>
+            </label>
+            <input id="data_atualizacao" type="text" formControlName="data_atualizacao" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('data_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por data_atualizacao..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="usuario_atualizacao" class="form-label mb-1">
+              Usuario_atualizacao
+              <span class="text-danger">*</span>
+            </label>
+            <input id="usuario_atualizacao" type="text" formControlName="usuario_atualizacao" class="form-control form-control-sm"
+              [style.border-left]="formRef.get('usuario_atualizacao')?.invalid ? '3px solid #dc3545' : ''"
+              placeholder="Filtrar por usuario_atualizacao..."
+              >
+          </div>
+          <div class="col-12 col-md-3">
+            <label for="status_delecao" class="form-label mb-1">Status_delecao</label>
+            <select id="status_delecao" formControlName="status_delecao" class="form-select form-select-sm"
+              [style.border-left]="formRef.get('status_delecao')?.invalid ? '3px solid #dc3545' : ''">
+              <option value="">Todos</option>
+              <option value="0">Ativo</option>
+              <option value="1">Inativo</option>
+            </select>
+          </div>
+      <!-- Ações (estático) -->
+      <div class="col-12 col-md-4 d-flex justify-content-end align-items-end gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
+          (click)="onClear()">
+          <i class="fa fa-eraser"></i>
+          <span>Limpar</span>
+        </button>
+        <button type="submit" [disabled]="form.invalid"
+          class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2">
+          <i class="fa fa-search"></i>
+          <span>Pesquisar</span>
+        </button>
+      </div>
+   </div>
+  </div>
+</form>
